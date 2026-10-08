@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="2026 国庆：中山南朗→东莞篮球打卡→柳州→马山·星空洞→戈见山，自驾路书与高德导航" />
+  <title>国庆广西路书 · 2026.10.3–10.7</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <style>
+    :root {
+      --ink: #1a2421;
+      --muted: #5c6b66;
+      --paper: #f7f4ef;
+      --accent: #c45c26;
+      --accent-soft: rgba(196, 92, 38, 0.12);
+      --line: rgba(26, 36, 33, 0.1);
+      --nav: #00754a;
+      --nav-hover: #005a38;
+      --warn: #8b4513;
+      --radius: 6px;
+      --font-display: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+      --font-body: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 120% 80% at 10% -20%, rgba(196, 92, 38, 0.15), transparent 50%),
+        radial-gradient(ellipse 80% 60% at 100% 0%, rgba(0, 117, 74, 0.08), transparent 45%),
+        linear-gradient(180deg, #ebe6dc 0%, var(--paper) 35%, var(--paper) 100%);
+      min-height: 100vh;
+      line-height: 1.65;
+    }
+
+    .hero {
+      position: relative;
+      padding: clamp(2.5rem, 8vw, 4.5rem) 1.25rem 2.5rem;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 2.85rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin: 0 0 1rem;
+    }
+
+    .hero .lead {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 36em;
+      margin: 0 0 1.5rem;
+    }
+
+    .route-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.5rem;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .route-strip span {
+      padding: 0.25rem 0.55rem;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .route-strip .arrow {
+      color: var(--accent);
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+    }
+
+    nav.toc {
+      margin-bottom: 2rem;
+      padding: 1rem 1.15rem;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    nav.toc h2 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      margin: 0 0 0.65rem;
+    }
+
+    nav.toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    nav.toc a {
+      color: var(--nav);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    nav.toc a:hover {
+      text-decoration: underline;
+    }
+
+    .panel {
+      margin: 0 0 2rem;
+      padding: 1.25rem 1.35rem;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      scroll-margin-top: 1rem;
+    }
+
+    .panel h2 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      margin: 0 0 0.35rem;
+    }
+
+    .panel>.sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0 0 1.1rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.65rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .stat {
+      padding: 0.75rem 0.85rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .stat .num {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .stat .label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    #real-map {
+      height: 380px;
+      width: 100%;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      z-index: 1;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table.info {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    table.info th,
+    table.info td {
+      text-align: left;
+      padding: 0.55rem 0.65rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    table.info th {
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    table.info td.amount {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    table.info tr.total td {
+      border-top: 2px solid var(--ink);
+      font-weight: 700;
+      font-family: var(--font-display);
+    }
+
+    .pack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .pack-card h3 {
+      font-size: 0.92rem;
+      margin: 0 0 0.55rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .pack-card ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pack-card li {
+      position: relative;
+      padding: 0.28rem 0 0.28rem 1.45rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .pack-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+      width: 0.85rem;
+      height: 0.85rem;
+      border: 1.5px solid var(--line);
+      border-radius: 3px;
+      background: #fff;
+    }
+
+    .pack-card li.must {
+      color: var(--ink);
+    }
+
+    .pack-card li.must::after {
+      content: "必带";
+      margin-left: 0.35rem;
+      font-size: 0.65rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .pack-card li.miss {
+      color: var(--warn);
+    }
+
+    .pack-card li.miss::after {
+      content: "本次后悔没带";
+      margin-left: 0.35rem;
+      font-size: 0.65rem;
+      color: var(--warn);
+      font-weight: 600;
+    }
+
+    .pack-card li.tip {
+      color: var(--nav);
+    }
+
+    .checklist {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      padding: 0.4rem 0 0.4rem 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--muted);
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .ideal-vs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+    }
+
+    @media (max-width: 640px) {
+      .ideal-vs {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .ideal-vs .col {
+      padding: 0.85rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .ideal-vs .col h3 {
+      font-size: 0.85rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .ideal-vs .col.better h3 {
+      color: var(--nav);
+    }
+
+    .ideal-vs .col ol {
+      margin: 0;
+      padding-left: 1.15rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .choice-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.75rem;
+      align-items: stretch;
+      margin: 1rem 0 1.5rem;
+    }
+
+    @media (max-width: 700px) {
+      .choice-row {
+        grid-template-columns: 1fr;
+      }
+
+      .choice-row .vs {
+        justify-self: center;
+        transform: rotate(90deg);
+      }
+    }
+
+    .choice-card {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .choice-card.picked {
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 1px var(--accent-soft);
+    }
+
+    .choice-card.alt {
+      border-style: dashed;
+      opacity: 0.92;
+    }
+
+    .choice-card .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      margin-bottom: 0.45rem;
+      background: rgba(26, 36, 33, 0.06);
+      color: var(--muted);
+    }
+
+    .choice-card.picked .badge {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .choice-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      margin: 0 0 0.4rem;
+    }
+
+    .choice-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0 0 0.65rem;
+    }
+
+    .choice-row .vs {
+      align-self: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    section.day {
+      margin-bottom: 2.75rem;
+      scroll-margin-top: 1rem;
+    }
+
+    .day-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.5rem 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .day-header .date {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .day-header .theme {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .timeline {
+      margin: 0 0 1.25rem;
+      padding: 0.85rem 1rem;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .timeline h3 {
+      font-size: 0.82rem;
+      margin: 0 0 0.55rem;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .timeline ol {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .timeline li {
+      display: grid;
+      grid-template-columns: 5.5rem 1fr;
+      gap: 0.5rem;
+      font-size: 0.86rem;
+      padding: 0.28rem 0;
+      border-bottom: 1px dashed var(--line);
+      color: var(--muted);
+    }
+
+    .timeline li:last-child {
+      border-bottom: none;
+    }
+
+    .timeline .t {
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .timeline .drive {
+      color: var(--nav);
+    }
+
+    .leg {
+      margin-bottom: 1.25rem;
+    }
+
+    .leg-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    ol.stops {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      counter-reset: stop;
+    }
+
+    ol.stops>li {
+      position: relative;
+      padding-left: 2.25rem;
+      padding-bottom: 1.25rem;
+      counter-increment: stop;
+    }
+
+    ol.stops>li::before {
+      content: counter(stop);
+      position: absolute;
+      left: 0;
+      top: 0.1rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1.5rem;
+      text-align: center;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 50%;
+    }
+
+    ol.stops>li:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 0.72rem;
+      top: 1.85rem;
+      bottom: 0;
+      width: 2px;
+      background: var(--line);
+    }
+
+    .stop-name {
+      font-family: var(--font-display);
+      font-size: 1.12rem;
+      font-weight: 600;
+      margin: 0 0 0.35rem;
+    }
+
+    .note {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin: 0.35rem 0 0.65rem;
+    }
+
+    .note strong {
+      color: var(--warn);
+      font-weight: 600;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0.35rem 0 0.55rem;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      background: rgba(26, 36, 33, 0.06);
+      color: var(--muted);
+    }
+
+    .tag.skip {
+      background: rgba(139, 69, 19, 0.1);
+      color: var(--warn);
+    }
+
+    .tag.star {
+      background: rgba(0, 117, 74, 0.12);
+      color: var(--nav);
+    }
+
+    .nav-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.85rem;
+      font-family: inherit;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-nav {
+      background: var(--nav);
+      color: #fff;
+    }
+
+    .btn-nav:hover {
+      background: var(--nav-hover);
+    }
+
+    .btn-route {
+      background: transparent;
+      color: var(--nav);
+      border: 1px solid var(--nav);
+    }
+
+    .no-nav {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .segment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .segment {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.65rem 0.75rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .segment-label {
+      font-size: 0.88rem;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .tips {
+      padding: 1.25rem 1.35rem;
+      background: linear-gradient(135deg, rgba(196, 92, 38, 0.08), rgba(26, 36, 33, 0.04));
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-top: 2rem;
+      scroll-margin-top: 1rem;
+    }
+
+    .tips h2 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      margin: 0 0 0.75rem;
+    }
+
+    .tips ul {
+      margin: 0;
+      padding-left: 1.2rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .tips li {
+      margin-bottom: 0.4rem;
+    }
+
+    footer {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 2.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="hero">
+    <p class="eyebrow">自驾路书 · 亲测复盘 · 个人账</p>
+    <h1>国庆广西线<br />2026.10.3 – 10.7</h1>
+    <p class="lead">
+      中山南朗出发，东莞篮球 City Walk，再奔柳州吃玩（含万里江山），马山·星空洞探洞，戈见山徒步。
+      国庆全程<strong style="color:var(--ink)">几乎不堵车</strong>——给未来的自己，也给想抄作业的朋友。
+    </p>
+    <div class="route-strip" aria-label="总路线">
+      <span>中山南朗</span><span class="arrow">→</span>
+      <span>深圳桥头</span><span class="arrow">→</span>
+      <span>东莞</span><span class="arrow">→</span>
+      <span>象州</span><span class="arrow">→</span>
+      <span>柳州</span><span class="arrow">→</span>
+      <span>马山·星空洞</span><span class="arrow">→</span>
+      <span>戈见山</span><span class="arrow">→</span>
+      <span>柳州</span><span class="arrow">→</span>
+      <span>中山南朗</span>
+    </div>
+  </header>
+
+  <main>
+    <nav class="toc" aria-label="目录">
+      <h2>跳转</h2>
+      <ul>
+        <li><a href="#overview">行程概览</a></li>
+        <li><a href="#route-map">行程路线图</a></li>
+        <li><a href="#map">驾车导航段</a></li>
+        <li><a href="#d1003">10.3</a></li>
+        <li><a href="#d1003-xs">10.3 象州</a></li>
+        <li><a href="#d1004">10.4</a></li>
+        <li><a href="#d1005">10.5</a></li>
+        <li><a href="#d1006">10.6</a></li>
+        <li><a href="#d1007">10.7</a></li>
+        <li><a href="#packing">物品清单</a></li>
+        <li><a href="#booking">行前预约</a></li>
+        <li><a href="#stay">住宿速查</a></li>
+        <li><a href="#cost">费用明细</a></li>
+        <li><a href="#ideal">理想版 vs 实际</a></li>
+        <li><a href="#tips">注意事项</a></li>
+      </ul>
+    </nav>
+
+    <section class="panel" id="overview">
+      <h2>行程概览</h2>
+      <p class="sub">5 天 3 晚自驾 · 广东 ↔ 广西 · 2026 国庆亲测</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="num">5 天</div>
+          <div class="label">10.3 – 10.7</div>
+        </div>
+        <div class="stat">
+          <div class="num">¥2479</div>
+          <div class="label">个人账合计</div>
+        </div>
+        <div class="stat">
+          <div class="num">3 晚</div>
+          <div class="label">象州 / 柳州 / 大化</div>
+        </div>
+        <div class="stat">
+          <div class="num">不堵</div>
+          <div class="label">本年国庆路况惊喜</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>主线</th>
+              <th>过夜</th>
+              <th>强度</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10.3</td>
+              <td>接人 → 东莞篮球 → 夜驾象州</td>
+              <td>城市便捷 · 象州</td>
+              <td>车程长</td>
+            </tr>
+            <tr>
+              <td>10.4</td>
+              <td>洗头 · 万里江山 · 柳喜辣</td>
+              <td>柳州</td>
+              <td>轻松 / 排队苦</td>
+            </tr>
+            <tr>
+              <td>10.5</td>
+              <td>马山·星空洞全日 · 夜宿布努人家</td>
+              <td>布努人家（弄腾村桥圩屯）</td>
+              <td>洞内 ~6h</td>
+            </tr>
+            <tr>
+              <td>10.6</td>
+              <td>戈见山 · 五星步行街 · 连夜返程</td>
+              <td>无（连夜开回中山）</td>
+              <td>登山高 + 夜驾</td>
+            </tr>
+            <tr>
+              <td>10.7</td>
+              <td>清晨抵达中山南朗</td>
+              <td>—</td>
+              <td>收尾</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="route-map">
+      <h2>行程路线图（真实地理方位）</h2>
+      <p class="sub">OpenStreetMap 瓦片 + Leaflet。节点按实际经纬度标注；实线为行程前往，虚线为返程。地图仅作方位示意，导航请点下方「高德搜索」。</p>
+      <div id="real-map" role="img" aria-label="真实地图路线"></div>
+    </section>
+
+    <section class="panel" id="map">
+      <h2>驾车导航段</h2>
+      <p class="sub">有明确店名/地名的路段提供高德搜索链接；无明确终点的路段只列文字，不挂链接。</p>
+      <div class="segment-list" id="drive-segments"></div>
+    </section>
+
+    <!-- ========== 10.3 ========== -->
+    <section class="day" id="d1003">
+      <div class="day-header">
+        <span class="date">10.3</span>
+        <span class="theme">接人 · 东莞篮球打卡 · 夜奔象州</span>
+      </div>
+      <div class="timeline">
+        <h3>当日时间轴（约，亲测估算）</h3>
+        <ol>
+          <li><span class="t">约 08:00–09:30</span><span class="drive">自驾 中山南朗 → 深圳桥头地铁站（接人）</span></li>
+          <li><span class="t">约 09:30–10:30</span><span class="drive">自驾 桥头 → 东莞</span></li>
+          <li><span class="t">约 10:30–15:00</span><span>东莞：吃饭 + 篮球雕塑打卡 + 宏远（可压缩）</span></li>
+          <li><span class="t">约 15:00–21:00</span><span class="drive">自驾 东莞 → 象州城市便捷（约 5–6h，看路况）</span></li>
+          <li><span class="t">约 21:00 后</span><span>入住城市便捷；约 11 点多夜市（问保安 → 电单车 10 分钟）</span></li>
+        </ol>
+      </div>
+      <div class="leg">
+        <div class="leg-title">出发与汇合</div>
+        <ol class="stops">
+          <li>
+            <h3 class="stop-name">中山南朗（出发点）</h3>
+            <p class="no-nav">自行导航 · 不链</p>
+          </li>
+          <li data-poi='{"name":"深圳地铁桥头站","search":"桥头地铁站","city":"深圳"}'>
+            <h3 class="stop-name">深圳 · 地铁桥头站（接人）</h3>
+            <div class="nav-actions"></div>
+          </li>
+        </ol>
+      </div>
+      <div class="leg">
+        <div class="leg-title">东莞 · 篮球主题半日</div>
+        <ol class="stops">
+          <li data-poi='{"name":"宏兴烧鹅濑粉店","search":"宏兴烧鹅濑粉店","city":"东莞"}'>
+            <h3 class="stop-name">宏兴烧鹅濑粉店</h3>
+            <div class="tags"><span class="tag skip">不必专门打卡</span></div>
+            <p class="note">亲测<strong>不怎么好吃</strong>；本次个人账吃饭 190。</p>
+            <div class="nav-actions"></div>
+          </li>
+          <li data-poi='{"name":"中盛商务大厦","search":"中盛商务大厦","city":"东莞"}'>
+            <h3 class="stop-name">中盛商务大厦停车场</h3>
+            <p class="note">定位：东莞市南城<strong>鸿福路108号</strong>中盛商务大厦。停车后步行至北门，前方即签名篮球雕塑。</p>
+            <div class="nav-actions"></div>
+          </li>
+          <li data-poi='{"name":"签名篮球雕塑","search":"中盛商务大厦","city":"东莞"}'>
+            <h3 class="stop-name">签名篮球雕塑（中盛北门）</h3>
+            <p class="note">定位：南城鸿福路108号<strong>中盛商务大厦北门前方</strong>（球迷攻略常用导航词「中盛商务大厦」）。步行可达，认球员签名。</p>
+            <div class="nav-actions"></div>
+          </li>
+          <li data-poi='{"name":"LAURA篮球宝贝雕塑","search":"海德汇一城","city":"东莞"}'>
+            <h3 class="stop-name">LAURA 篮球宝贝雕塑</h3>
+            <p class="note">定位：东莞南城<strong>海德·汇一城 / 海德广场</strong>外广场（鸿福路与东莞大道交汇处，鸿福路200号一带；地铁鸿福路站），约 12
+              米高潮玩地标。高德搜「海德汇一城」。</p>
+            <div class="nav-actions"></div>
+          </li>
+          <li data-poi='{"name":"篮球之光广场","search":"篮球之光广场","city":"东莞"}'>
+            <h3 class="stop-name">篮球主题街心公园（篮球之光）</h3>
+            <div class="tags"><span class="tag">可选 · 步行</span><span class="tag skip">本次未去</span></div>
+            <p class="note">定位：南城<strong>鸿福路轴线</strong>街心公园「篮球之光」（鸿福路综合整治先行段：东莞大道至胜和路），靠近海德·汇一城一带。高德搜「篮球之光广场」；有时间可走路过去。
+            </p>
+            <div class="nav-actions"></div>
+          </li>
+          <li data-poi='{"name":"东莞宏远酒店","search":"宏远酒店","city":"东莞"}'>
+            <h3 class="stop-name">宏远篮球俱乐部（驻地一带）</h3>
+            <p class="note">定位：公开资料指向东莞南城<strong>宏远路1号宏远酒店</strong>附近（球队主场指定下榻；地图亦有「宏远路宏远酒店」一带标注）。需开车；勿蹲球员。高德搜「宏远酒店」。
+            </p>
+            <div class="nav-actions"></div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ========== 10.3 晚象州 ========== -->
+    <section class="day" id="d1003-xs">
+      <div class="day-header">
+        <span class="date">10.3 晚 – 10.4 早</span>
+        <span class="theme">改宿象州 · 城市便捷</span>
+      </div>
+      <ol class="stops">
+        <li>
+          <h3 class="stop-name">原计划直达柳州 → 满房改象州</h3>
+          <p class="note">担心堵车没提前订房；实际不堵，但国庆柳州几乎没房。</p>
+          <p class="no-nav">柳州当晚无店名 · 不链导航</p>
+        </li>
+        <li data-poi='{"name":"城市便捷酒店（象州中心城店）","search":"城市便捷酒店 象州中心城店","city":"来宾"}'>
+          <h3 class="stop-name">住宿 · 城市便捷酒店（象州中心城店）</h3>
+          <div class="tags"><span class="tag">个人账 534</span></div>
+          <p class="note">你明确告知的入住店。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li>
+          <h3 class="stop-name">象州温泉（可选项 · 本次未去）</h3>
+          <div class="tags"><span class="tag star">真温泉 · 团购约 50+ / 人</span></div>
+          <p class="note">需自备泳衣。未指定具体温泉店名，不链导航。</p>
+          <p class="no-nav">未告知具体店名 · 不链导航</p>
+        </li>
+        <li>
+          <h3 class="stop-name">夜市烧烤</h3>
+          <div class="tags"><span class="tag">问酒店保安大叔</span><span class="tag">共享电单车约 10 分钟</span></div>
+          <p class="note">离<strong>城市便捷酒店（象州中心城店）很近</strong>：问酒店<strong>保安大叔</strong>即可；开<strong>共享电单车约 10
+              分钟</strong>到。摊位基本都是<strong>果酱烧烤</strong>。<strong>年糕酸甜口</strong>很神奇，吃不惯。当晚约 <strong>11
+              点多</strong>去时<strong>生蚝已卖完</strong>——要吃生蚝得手快，手慢无。无正式夜市名，不硬编导航。</p>
+          <p class="no-nav">酒店问保安 → 共享电单车 10 分钟 · 不链导航</p>
+        </li>
+        <li data-poi='{"name":"老刁米粉","search":"老刁米粉 象州","city":"来宾"}'>
+          <h3 class="stop-name">老刁米粉（菜市场旁）</h3>
+          <div class="tags"><span class="tag star">推荐</span></div>
+          <p class="note">早上吃；亲测在<strong>象州菜市场旁</strong>。公开网页检索<strong>未查到精确门牌</strong>，不编地址——搜「老刁米粉
+            象州」。<strong>芋头糕</strong>菜单没有，可问老板（隐形菜）。</p>
+          <div class="nav-actions"></div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ========== 10.4 ========== -->
+    <section class="day" id="d1004">
+      <div class="day-header">
+        <span class="date">10.4</span>
+        <span class="theme">柳州 · 洗头 · 万里江山 · 柳喜辣</span>
+      </div>
+      <div class="timeline">
+        <h3>当日时间轴（约）</h3>
+        <ol>
+          <li><span class="t">约 08:00–09:30</span><span>象州早餐（老刁米粉等）</span></li>
+          <li><span class="t">约 09:30–11:00</span><span class="drive">自驾 象州 → 柳州</span></li>
+          <li><span class="t">约 11:00–14:00</span><span>入住 / 洗头（小区茶麸生姜，店名不详）</span></li>
+          <li><span class="t">约 14:00–17:30</span><span>下午 · 万里江山拍照</span></li>
+          <li><span class="t">约 18:00–次日 01:00</span><span>柳喜辣排队用餐（可排 3h+）</span></li>
+        </ol>
+      </div>
+      <ol class="stops">
+        <li>
+          <h3 class="stop-name">洗头 · 茶麸生姜</h3>
+          <p class="note">小区随便找的，非网红店；价格比小红书贵。无具体店名。</p>
+          <p class="no-nav">无精确地址 · 不链导航</p>
+        </li>
+        <li data-poi='{"name":"万里江山拍照点","search":"柳州万里江山拍照点","city":"柳州"}'>
+          <h3 class="stop-name">万里江山（10.4 下午）</h3>
+          <div class="tags"><span class="tag star">拍照 · 个人账 30（10元/人×3）</span></div>
+          <p class="note">定位：柳州市<strong>柳南区石头湾水库</strong>一带（公开资料亦写西鹅乡新房村西南附近）。高德搜「柳州万里江山拍照点」或「石头湾水库」。拍照费 <strong>10 元/人
+              × 3 人 = 30</strong>（个人账按此记）。山路自驾，到停车场后再走一小段坡。
+            <br />轿车亲测：路不太好开，很多<strong>石头路</strong>，小心<strong>底盘</strong>刮蹭。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li data-poi='{"name":"柳喜辣","search":"柳喜辣","city":"柳州"}'>
+          <h3 class="stop-name">柳喜辣</h3>
+          <div class="tags"><span class="tag star">招牌芥末鱼籽生牛肉</span><span class="tag">个人账 209</span></div>
+          <p class="note">
+            第一次排 <strong>3 小时+</strong>，近 1 点出齐菜；10.5 晚又二刷。
+            技巧：招牌 + 便宜版生牛肉 ≈ 加肉；另外两款生牛肉一般。
+            公开分店：跃进总店<strong>柳北区跃进路58号温馨阳光</strong>；窑埠古镇店<strong>鱼峰区蟠龙路7号窑埠古镇</strong>等。本次未记去哪一家，高德搜「柳喜辣」后选对分店再导航。
+          </p>
+          <div class="nav-actions"></div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ========== 10.5 ========== -->
+    <section class="day" id="d1005">
+      <div class="day-header">
+        <span class="date">10.5</span>
+        <span class="theme">马山·星空洞 · 夜宿布努人家</span>
+      </div>
+      <div class="timeline">
+        <h3>当日时间轴（约）</h3>
+        <ol>
+          <li><span class="t">约 07:00–09:30</span><span class="drive">自驾 柳州 → 星空洞洞口（集合约 09:30）</span></li>
+          <li><span class="t">约 09:30–15:30</span><span>洞内活动约 6 小时（拍照排队）</span></li>
+          <li><span class="t">约 15:30–18:30</span><span class="drive">自驾 → 大化布努人家农家乐（七百弄乡弄腾村桥圩屯）</span></li>
+          <li><span class="t">晚间</span><span>农家乐晚餐 · 看星空（信号差）</span></li>
+        </ol>
+      </div>
+      <div class="choice-row" aria-label="10.5 傍晚二选一">
+        <div class="choice-card alt">
+          <span class="badge">可选 · 本次未做</span>
+          <h3>弄耳山看日落 / 星空</h3>
+          <p>网上推荐洞前先去弄耳山；我们洞里太久，时间不够。</p>
+          <div class="nav-actions" data-poi='{"name":"弄耳山观景台","search":"弄耳山观景台","city":"河池"}'></div>
+          <p class="note" style="margin-top:0.5rem;font-size:0.82rem">
+            定位：河池<strong>大化七百弄国家地质公园</strong>内；高德搜「弄耳山观景台」或「弄耳山停车场」（山下可停车）。</p>
+        </div>
+        <div class="vs">VS</div>
+        <div class="choice-card picked">
+          <span class="badge">实际</span>
+          <h3>洞内玩满 · 直奔布努人家</h3>
+          <p>洞里约 6h；当晚住农家乐吃晚饭，可看星空。</p>
+        </div>
+      </div>
+
+      <ol class="stops">
+        <li data-poi='{"name":"马山·星空洞","search":"马山星空洞","city":"南宁"}'>
+          <h3 class="stop-name">马山 · 星空洞</h3>
+          <div class="tags"><span class="tag">集合约 09:30</span><span class="tag">净支出 149</span></div>
+          <p class="note">
+            定位：南宁市<strong>马山县 · 内感屯</strong>（洞原名内感洞；即马山·星空洞，古零镇一带）。
+            高德可导航：搜「马山星空洞」或「内感屯」。
+            <strong>备注：报团的话集合点也可让领队再确认</strong>。
+            <br />靠<strong>打光 + 镜像</strong>，没有想象中那种湖。报团更出片（需要可私聊推荐）。
+            洞里拍照排队；少喝水（没厕所）。
+            <br /><strong>穿衣：浅色/亮色，不要黑色</strong>（洞内背景黑，好区分主体）。
+            若有肌肉，可穿<strong>背心</strong>拍照，打光能照出线条。
+            头灯/手电报团提供，不必自备。
+          </p>
+          <div class="nav-actions"></div>
+        </li>
+        <li data-poi='{"name":"大化布努人家农家乐","search":"大化布努人家农家乐","city":"河池"}'>
+          <h3 class="stop-name">住宿 · 大化布努人家农家乐</h3>
+          <div class="tags"><span class="tag star">晚餐 + 次日早餐</span><span class="tag">住 126 · 餐 256</span></div>
+          <p class="note">完整地址：河池<strong>大化七百弄乡弄腾村桥圩屯</strong>。高德可导航：搜「大化布努人家农家乐」或「弄腾村桥圩屯」。附近基本没别的吃的；洞里山里信号很差。</p>
+          <div class="nav-actions"></div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ========== 10.6 ========== -->
+    <section class="day" id="d1006">
+      <div class="day-header">
+        <span class="date">10.6</span>
+        <span class="theme">徒步 · 五星步行街 · 连夜返中山</span>
+      </div>
+      <div class="timeline">
+        <h3>当日时间轴（约）</h3>
+        <ol>
+          <li><span class="t">约 07:30–08:30</span><span>布努人家早餐</span></li>
+          <li><span class="t">约 08:30–14:30</span><span>戈见山徒步（我们 6h+；正常约 4h）</span></li>
+          <li><span class="t">约 15:00–19:00</span><span class="drive">自驾 回柳州（原想去象州温泉，太晚改道）</span></li>
+          <li><span class="t">约 19:00 后</span><span>五星步行街：洗头 + 螺蛳粉 + 烤肉</span></li>
+          <li><span class="t">当晚夜驾</span><span class="drive">自驾 五星步行街 → 中山南朗（约 6–7h · 不住柳州）</span></li>
+        </ol>
+      </div>
+      <div class="choice-row" aria-label="爬山二选一">
+        <div class="choice-card alt">
+          <span class="badge">推荐新手</span>
+          <h3>弄耳山</h3>
+          <p>位于大化七百弄国家地质公园内，有栈道，耗时相对短，新手更友好。高德：「弄耳山观景台」/「弄耳山停车场」。</p>
+          <div class="nav-actions" data-poi='{"name":"弄耳山观景台","search":"弄耳山观景台","city":"河池"}'></div>
+        </div>
+        <div class="vs">VS</div>
+        <div class="choice-card picked">
+          <span class="badge">我们走的 · 较陡</span>
+          <h3>戈见山</h3>
+          <p>定位：河池<strong>大化七百弄戈见村</strong>一带野生徒步线。高德搜「戈见山」或「大化戈见」。正常约 4h；我们 6h+（拍照 + 恐高）。需登山杖、防滑鞋、防晒。不建议新手。
+            <br />亲测：路上<strong>每隔一段就有补给</strong>，不怎么缺水；户外会出汗、暴晒，和洞里不一样——洞内少喝，山上可正常补。每人约 <strong>2 支水</strong>差不多，补给点也能买（贵几块）；西瓜 <strong>5 块一片</strong>。
+            <br />轿车亲测：开过去也不太好开——多是<strong>盘山路</strong>，提前<strong>按喇叭</strong>防对面来车；另有一段<strong>甘蔗地土路</strong>。</p>
+          <div class="nav-actions" data-poi='{"name":"戈见山","search":"大化戈见","city":"河池"}'></div>
+        </div>
+      </div>
+
+      <div class="choice-row" aria-label="下山后二选一">
+        <div class="choice-card alt">
+          <span class="badge">原计划 · 未去</span>
+          <h3>象州泡温泉</h3>
+          <p>姨妈已结束，但下山太晚；未指定具体温泉店。</p>
+          <p class="no-nav">未告知具体店名 · 不链导航</p>
+        </div>
+        <div class="vs">VS</div>
+        <div class="choice-card picked">
+          <span class="badge">实际</span>
+          <h3>柳州五星步行街</h3>
+          <p>洗头 + 螺蛳粉 + 烤肉，全五星好评。</p>
+          <div class="nav-actions" data-poi='{"name":"五星步行街","search":"五星步行街","city":"柳州"}'></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========== 10.7 ========== -->
+    <section class="day" id="d1007">
+      <div class="day-header">
+        <span class="date">10.7</span>
+        <span class="theme">清晨抵达中山南朗 · 收尾</span>
+      </div>
+      <div class="timeline">
+        <h3>当日时间轴（约）</h3>
+        <ol>
+          <li><span class="t">清晨</span><span>抵达中山南朗（10.6 晚五星活动后连夜开回，全程不堵车）</span></li>
+          <li><span class="t">复盘</span><span>若 10.6 下山较早：可改住象州 → 次日早泡温泉再走</span></li>
+        </ol>
+      </div>
+      <ol class="stops">
+        <li>
+          <h3 class="stop-name">终点 · 中山南朗</h3>
+          <p class="no-nav">自行导航 · 不链</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="panel" id="packing">
+      <h2>物品清单</h2>
+      <p class="sub">按本线路定制。星空洞报团提供头灯/手电，不必自备。</p>
+      <div class="pack-grid">
+        <div class="pack-card">
+          <h3>证件 / 车</h3>
+          <ul>
+            <li class="must">身份证</li>
+            <li class="must">驾驶证、行驶证</li>
+            <li>ETC / 现金小额</li>
+            <li>车载充电器、手机支架</li>
+            <li>离线地图包（山里无信号）</li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h3>衣物</h3>
+          <ul>
+            <li class="must">外套 + 长裤（山里偏冷）</li>
+            <li class="must">防滑鞋 / 登山鞋</li>
+            <li class="miss">泳衣 / 泡温泉衣物</li>
+            <li class="tip">星空洞：浅色/亮色衣服，不要黑色（洞内背景黑，好出片）</li>
+            <li class="tip">有肌肉可穿背心拍照，打光显线条</li>
+            <li class="tip">防晒衣（有就带上，可选）</li>
+            <li>换洗衣物</li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h3>防晒 / 徒步</h3>
+          <ul>
+            <li class="must">墨镜</li>
+            <li class="must">面罩</li>
+            <li class="must">防晒霜</li>
+            <li class="must">登山杖（戈见山陡）</li>
+            <li>头灯/手电：报团会提供，自驾散客才需自备</li>
+            <li>洞内：少量饮水即可（没厕所，别喝太多）</li>
+            <li>戈见山：约 2 支水/人；路上有补给可买，也可买西瓜</li>
+            <li>能量零食、充电宝</li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h3>日用 / 药</h3>
+          <ul>
+            <li class="must">退烧药、小柴胡</li>
+            <li>创可贴、肠胃药、止痛药</li>
+            <li>生理期用品</li>
+            <li>驱蚊</li>
+            <li>湿巾、垃圾袋、雨具</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="booking">
+      <h2>行前预约清单</h2>
+      <ul class="checklist">
+        <li>柳州住宿（仅 10.4）— 别赌当天有房</li>
+        <li>大化布努人家农家乐（10.5，七百弄乡弄腾村桥圩屯）— 顺带订晚餐 + 次日早餐</li>
+        <li>星空洞向导 / 报团</li>
+        <li>柳州洗头（网红店务必预约）</li>
+        <li>象州温泉团购（若安排泡汤，带泳衣）</li>
+        <li>柳喜辣：错峰或接受 3h+ / 二刷</li>
+      </ul>
+    </section>
+
+    <section class="panel" id="stay">
+      <h2>住宿速查</h2>
+      <p class="sub">仅列你明确告知的店名；未告知的不编地址。</p>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>夜</th>
+              <th>酒店</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10.3</td>
+              <td>城市便捷酒店（象州中心城店）</td>
+              <td>个人账 534；温泉未泡</td>
+            </tr>
+            <tr>
+              <td>10.4</td>
+              <td>柳州（店名未告知）</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>10.5</td>
+              <td>大化布努人家农家乐<br /><span style="font-weight:400;color:var(--muted)">大化七百弄乡弄腾村桥圩屯</span></td>
+              <td>住宿 126；餐 256；信号差；高德可搜店名</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="cost">
+      <h2>费用明细（个人账）</h2>
+      <p class="sub">本人侧花销；合计已按实报金额计算。</p>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>项目</th>
+              <th>说明</th>
+              <th>金额（元）</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>加油</td>
+              <td>386 + 451</td>
+              <td class="amount">837.0</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>买水</td>
+              <td></td>
+              <td class="amount">9.9</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>停车</td>
+              <td>10+10+8+5.4+8+10+6+10+10</td>
+              <td class="amount">77.4</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>东莞烧鹅吃饭</td>
+              <td>宏兴烧鹅濑粉</td>
+              <td class="amount">190.0</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>万里江山</td>
+              <td>景点拍照</td>
+              <td class="amount">30.0</td>
+              <td>10元/人 × 3人 · 10.4 下午</td>
+            </tr>
+            <tr>
+              <td>象州酒店</td>
+              <td>城市便捷（象州中心城店）</td>
+              <td class="amount">534.0</td>
+              <td>10.3 夜</td>
+            </tr>
+            <tr>
+              <td>木薯糖水</td>
+              <td></td>
+              <td class="amount">24.0</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>面包零食</td>
+              <td>15 + 21.7（星空洞 + 爬山）</td>
+              <td class="amount">36.7</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>布努人家住宿</td>
+              <td>大化布努人家农家乐（弄腾村桥圩屯）</td>
+              <td class="amount">126.0</td>
+              <td>10.5 夜</td>
+            </tr>
+            <tr>
+              <td>布努人家吃饭</td>
+              <td>226 + 30</td>
+              <td class="amount">256.0</td>
+              <td>晚餐 / 早餐</td>
+            </tr>
+            <tr>
+              <td>柳喜辣</td>
+              <td></td>
+              <td class="amount">209.0</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>星空洞报团</td>
+              <td>原价 179，小红书发帖返现 −30</td>
+              <td class="amount">149.0</td>
+              <td>净支出</td>
+            </tr>
+            <tr class="total">
+              <td>合计</td>
+              <td>个人账</td>
+              <td class="amount">2479.0</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="ideal">
+      <h2>理想版 vs 实际版</h2>
+      <div class="ideal-vs">
+        <div class="col">
+          <h3>实际走过</h3>
+          <ol>
+            <li>10.3 东莞 → 象州住（柳州满房）</li>
+            <li>没泡温泉（没带泳衣 + 姨妈）</li>
+            <li>10.5 星空洞太久，错过弄耳山日落</li>
+            <li>10.6 爬戈见山（陡、6h+）</li>
+            <li>下山后回五星步行街（洗头 / 螺蛳粉 / 烤肉）</li>
+            <li>当晚连夜开回中山南朗（不住柳州）</li>
+            <li>10.7 清晨抵达 · 收尾</li>
+          </ol>
+        </div>
+        <div class="col better">
+          <h3>更完美的抄作业版</h3>
+          <ol>
+            <li>提前订柳州房（仅需 10.4 一晚）</li>
+            <li>泳衣带上；若 10.6 下山早可先泡象州温泉再走</li>
+            <li>星空洞控时，赶弄耳山日落星空</li>
+            <li>新手优先弄耳山</li>
+            <li>10.6 若不想夜驾：住象州 → 次日早泡汤再回中山</li>
+            <li>柳喜辣错峰或二刷</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="tips" id="tips">
+      <h2>注意事项（亲测）</h2>
+      <ul>
+        <li><strong>山里偏冷</strong>：外套 + 长裤。</li>
+        <li><strong>节假日</strong>：住宿、洗头提前订；柳喜辣可预留 3h+。</li>
+        <li><strong>星空洞穿衣</strong>：浅色/亮色，不要黑色；可穿背心显肌肉线条；报团带灯，自备可免。</li>
+        <li><strong>星空洞饮水</strong>：少喝，没厕所；每人半瓶够。</li>
+        <li><strong>戈见山</strong>：新手选弄耳山；带登山杖。路上有补给，不怎么缺水；出汗暴晒可正常喝，约 2 支水/人够（也可补给点买，贵几块）；西瓜 5 块/片。</li>
+        <li><strong>路况</strong>（轿车亲测）：万里江山石头路多，留心底盘；戈见山盘山路多，提前鸣笛，还有一段甘蔗地土路。</li>
+        <li><strong>布努人家</strong>：大化七百弄乡弄腾村桥圩屯；建议包早晚餐，附近没啥吃的。</li>
+        <li><strong>导航</strong>：仅有明确店名的点挂搜索按钮；无店名的点不挂链接。</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    路书 · <code>acknowledge/旅游</code> · 2026.10.3–10.7 · 个人账合计 ¥2479
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    /* 仅用于概览地图方位示意；导航按钮一律走高德 keyword 搜索，不用此坐标 */
+    const MAP_POINTS = [
+      { name: "中山南朗", lat: 22.430, lon: 113.550 },
+      { name: "深圳桥头", lat: 22.690, lon: 113.828 },
+      { name: "东莞", lat: 23.021, lon: 113.752 },
+      { name: "象州城市便捷", lat: 23.974, lon: 109.691 },
+      { name: "柳州·万里江山/石头湾", lat: 24.290, lon: 109.360 },
+      { name: "马山·星空洞（内感屯）", lat: 23.698, lon: 108.270 },
+      { name: "大化·布努人家（弄腾村桥圩屯）", lat: 24.120, lon: 107.780 },
+      { name: "柳州五星", lat: 24.314, lon: 109.411 },
+      { name: "中山南朗(返)", lat: 22.430, lon: 113.550 },
+    ];
+
+    const DRIVE_SEGMENTS = [
+      { label: "中山南朗 → 深圳桥头地铁站（约 1–1.5h）", search: "桥头地铁站", city: "深圳" },
+      { label: "桥头 → 中盛商务大厦（约 40–60min）", search: "中盛商务大厦", city: "东莞" },
+      { label: "东莞 → 城市便捷酒店象州中心城店（约 5–6h）", search: "城市便捷酒店 象州中心城店", city: "来宾" },
+      { label: "象州酒店 → 柳州市区（约 1–1.5h）", search: null, note: "柳州当晚酒店名未告知，自行规划" },
+      { label: "柳州 → 万里江山拍照点（石头湾）", search: "柳州万里江山拍照点", city: "柳州" },
+      { label: "柳州 → 马山·星空洞 / 内感屯（约 2–2.5h）", search: "马山星空洞", city: "南宁" },
+      { label: "星空洞 → 大化布努人家农家乐·弄腾村桥圩屯（约 2–3h）", search: "大化布努人家农家乐", city: "河池" },
+      { label: "布努人家 / 戈见山 → 五星步行街（约 3–4h）", search: "五星步行街", city: "柳州" },
+      { label: "五星步行街 → 中山南朗 · 连夜返程（约 6–7h）", search: null, note: "返程自行导航" },
+    ];
+
+    function encodeName(name) {
+      return encodeURIComponent(name);
+    }
+
+    function searchUrl(poi) {
+      const keyword = poi.search || poi.name;
+      const city = poi.city ? "&city=" + encodeName(poi.city) : "";
+      return (
+        "https://uri.amap.com/search?keyword=" +
+        encodeName(keyword) +
+        city +
+        "&src=guangxi-roadbook-2026&callnative=1"
+      );
+    }
+
+    function renderNavButtons(container, poi) {
+      if (!container || !poi) return;
+      container.innerHTML = "";
+      const a = document.createElement("a");
+      a.className = "btn btn-nav";
+      a.href = searchUrl(poi);
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = "高德 · 搜索此地";
+      container.appendChild(a);
+    }
+
+    document.querySelectorAll("[data-poi]").forEach(function (el) {
+      const poi = JSON.parse(el.getAttribute("data-poi"));
+      if (el.classList.contains("nav-actions")) {
+        renderNavButtons(el, poi);
+        return;
+      }
+      const box = el.querySelector(".nav-actions");
+      if (box) renderNavButtons(box, poi);
+    });
+
+    const segRoot = document.getElementById("drive-segments");
+    DRIVE_SEGMENTS.forEach(function (seg) {
+      const row = document.createElement("div");
+      row.className = "segment";
+      const label = document.createElement("div");
+      label.className = "segment-label";
+      label.textContent = seg.label + (seg.note ? " · " + seg.note : "");
+      row.appendChild(label);
+      if (seg.search) {
+        const link = document.createElement("a");
+        link.className = "btn btn-nav";
+        link.href = searchUrl(seg);
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "高德搜索终点";
+        row.appendChild(link);
+      } else {
+        const skip = document.createElement("span");
+        skip.className = "no-nav";
+        skip.textContent = "无明确终点 · 不链导航";
+        row.appendChild(skip);
+      }
+      segRoot.appendChild(row);
+    });
+
+    (function initMap() {
+      if (typeof L === "undefined") return;
+      const map = L.map("real-map", { scrollWheelZoom: false });
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }).addTo(map);
+
+      const outbound = MAP_POINTS.slice(0, 7);
+      const ret = [MAP_POINTS[6], MAP_POINTS[7], MAP_POINTS[8]];
+      const outLatLngs = outbound.map(function (p) { return [p.lat, p.lon]; });
+      const retLatLngs = ret.map(function (p) { return [p.lat, p.lon]; });
+
+      L.polyline(outLatLngs, { color: "#c45c26", weight: 3.5, opacity: 0.9 }).addTo(map);
+      L.polyline(retLatLngs, {
+        color: "#00754a",
+        weight: 3,
+        opacity: 0.75,
+        dashArray: "8 8",
+      }).addTo(map);
+
+      outbound.forEach(function (p, i) {
+        L.circleMarker([p.lat, p.lon], {
+          radius: i === 0 || i === outbound.length - 1 ? 7 : 5,
+          color: "#1a2421",
+          weight: 1,
+          fillColor: i === 0 ? "#c45c26" : "#00754a",
+          fillOpacity: 0.95,
+        })
+          .bindPopup(p.name)
+          .addTo(map);
+      });
+
+      map.fitBounds(outLatLngs.concat(retLatLngs), { padding: [28, 28] });
+    })();
+  </script>
+</body>
+
+</html>
