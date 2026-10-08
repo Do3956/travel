@@ -86,10 +86,11 @@ Leaflet / 地图瓦片走 CDN，子目录相对路径无需额外调整。
 
 ---
 
-## 在线分享（Gitee Pages）
+## 在线分享（GitHub Pages）
 
-启用 Pages 后，直接分享单趟路径，例如：
+仓库：https://github.com/Do3956/travel
 
-https://do3956.gitee.io/travel/guides/2026-guangxi-national-day/
+启用 GitHub Pages（Settings → Pages → Deploy from a branch = `master`，folder = `/`）后分享：
 
-根路径 `/`（`https://do3956.gitee.io/travel/`）可能 404，属预期（仓库根目录不再放目录页）。
+- 目录页：https://do3956.github.io/travel/
+- 单趟示例：https://do3956.github.io/travel/guides/2026-guangxi-national-day/
