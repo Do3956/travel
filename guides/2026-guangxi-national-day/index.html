@@ -409,6 +409,10 @@
       font-family: var(--font-display);
       font-size: 1.05rem;
       margin: 0 0 0.4rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.3rem;
     }
 
     .choice-card p {
@@ -553,6 +557,10 @@
       font-size: 1.12rem;
       font-weight: 600;
       margin: 0 0 0.35rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.3rem;
     }
 
     .note {
@@ -591,11 +599,56 @@
       color: var(--nav);
     }
 
+    .nav-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 1.4rem;
+      height: 1.4rem;
+      margin-left: 0.1rem;
+      color: var(--nav);
+      text-decoration: none;
+      border-radius: 50%;
+      vertical-align: middle;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-icon:hover,
+    .nav-icon:focus-visible {
+      background: rgba(0, 117, 74, 0.12);
+      color: var(--nav-hover);
+      outline: none;
+    }
+
+    .nav-icon svg {
+      width: 0.95rem;
+      height: 0.95rem;
+      display: block;
+    }
+
     .nav-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.25rem 0.65rem;
       align-items: center;
+      margin: 0.15rem 0 0;
+    }
+
+    .nav-actions:empty {
+      display: none;
+    }
+
+    .nav-extra {
+      font-size: 0.78rem;
+      color: var(--nav);
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(0, 117, 74, 0.45);
+    }
+
+    .nav-extra:hover {
+      color: var(--nav-hover);
+      border-bottom-color: var(--nav-hover);
     }
 
     .btn {
@@ -642,9 +695,8 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      padding: 0.65rem 0.75rem;
+      gap: 0.4rem;
+      padding: 0.55rem 0.75rem;
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -653,7 +705,11 @@
     .segment-label {
       font-size: 0.88rem;
       flex: 1;
-      min-width: 200px;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.3rem;
     }
 
     .tips {
@@ -1004,12 +1060,12 @@
       </div>
 
       <ol class="stops">
-        <li data-poi='{"name":"马山·星空洞（内感屯）","search":"蒙记农家山庄","lon":108.268,"lat":23.698,"city":"南宁","extraSearches":[{"label":"马山新里屯","search":"马山新里屯"},{"label":"里民村","search":"马山县古零镇里民村"}]}'>
+        <li data-poi='{"name":"马山·星空洞（内感屯）","search":"马山县内感屯","city":"南宁"}'>
           <h3 class="stop-name">马山 · 星空洞</h3>
           <div class="tags"><span class="tag">集合约 09:30</span><span class="tag">净支出 149</span></div>
           <p class="note">
             地址：<strong>南宁市马山县古零镇里民村内感屯</strong>（洞原名内感洞；网红名「星空洞」——高德里通常没有这个 POI）。
-            <br /><strong>怎么导航：</strong>先开到「<strong>蒙记农家山庄</strong>」或「<strong>马山新里屯</strong>」（高德有点），到定位后再沿村道约 2 公里，右手指示牌进岔路，开到路尽头即洞口停车点。
+            <br /><strong>怎么导航：</strong>高德搜「<strong>马山县内感屯</strong>」，到村后再沿村道约 2 公里，右手指示牌进岔路，开到路尽头即洞口停车点。
             报团的话最终集合点以领队发送为准。
             <br />靠<strong>打光 + 镜像</strong>，没有想象中那种湖。报团更出片（需要可私聊推荐）。
             洞里拍照排队；少喝水（没厕所）。
@@ -1365,14 +1421,7 @@
       { label: "东莞 → 城市便捷酒店象州中心城店（约 5–6h）", search: "城市便捷酒店 象州中心城店", city: "来宾" },
       { label: "象州酒店 → 柳州市区（约 1–1.5h）", search: null, note: "柳州当晚酒店名未告知，自行规划" },
       { label: "柳州 → 万里江山拍照点（石头湾）", search: "柳州万里江山拍照点", city: "柳州" },
-      {
-        label: "柳州 → 马山县内感屯·星空洞（约 2–2.5h）",
-        name: "马山县内感屯·星空洞",
-        lon: 108.268,
-        lat: 23.698,
-        search: "马山县内感屯",
-        city: "南宁",
-      },
+      { label: "柳州 → 马山县内感屯·星空洞（约 2–2.5h）", search: "马山县内感屯", city: "南宁" },
       { label: "星空洞 → 大化布努人家农家乐·弄腾村桥圩屯（约 2–3h）", search: "大化布努人家农家乐", city: "河池" },
       { label: "布努人家 / 戈见山 → 五星步行街（约 3–4h）", search: "五星步行街", city: "柳州" },
       { label: "五星步行街 → 中山南朗 · 连夜返程（约 6–7h）", search: null, note: "返程自行导航" },
@@ -1416,54 +1465,82 @@
       );
     }
 
-    function addLink(container, href, text, className) {
+    const NAV_ICON_SVG =
+      '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<path fill="currentColor" d="M12 2.5L4.2 20.1c-.25.55.3 1.1.85.9L12 17.6l6.95 3.4c.55.2 1.1-.35.85-.9L12 2.5zm0 5.1l4.4 9.95-4.05-2-4.05 2L12 7.6z"/>' +
+      "</svg>";
+
+    function primaryNavUrl(poi) {
+      if (poi.lon != null && poi.lat != null) return navCoordUrl(poi);
+      if (poi.search) return searchUrl(poi.search, poi.city);
+      return searchUrl(poi.name, poi.city);
+    }
+
+    function createNavIcon(href) {
       const a = document.createElement("a");
-      a.className = className || "btn btn-nav";
+      a.className = "nav-icon";
       a.href = href;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
-      a.textContent = text;
+      a.title = "高德导航";
+      a.setAttribute("aria-label", "高德导航");
+      a.innerHTML = NAV_ICON_SVG;
+      return a;
+    }
+
+    function attachNavIcon(heading, poi) {
+      if (!heading || !poi || heading.querySelector(".nav-icon")) return;
+      heading.appendChild(createNavIcon(primaryNavUrl(poi)));
+    }
+
+    function appendExtraLink(container, keyword, label, city) {
+      const a = document.createElement("a");
+      a.className = "nav-extra";
+      a.href = searchUrl(keyword, city);
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.title = "高德搜索「" + label + "」";
+      a.textContent = "搜「" + label + "」";
       container.appendChild(a);
     }
 
-    function renderNavButtons(container, poi) {
+    function renderExtraSearches(container, poi) {
       if (!container || !poi) return;
+      const extras = poi.extraSearches || [];
+      const showPrimarySearch = poi.lon != null && poi.lat != null && poi.search;
+      if (!showPrimarySearch && !extras.length) {
+        container.remove();
+        return;
+      }
       container.innerHTML = "";
-      if (poi.lon != null && poi.lat != null) {
-        addLink(container, navCoordUrl(poi), "高德 · 导航到洞口附近");
-        addLink(container, markerUrl(poi), "高德 · 地图标注", "btn btn-route");
+      if (showPrimarySearch) {
+        appendExtraLink(container, poi.search, poi.search, poi.city);
       }
-      if (poi.search) {
-        addLink(
+      extras.forEach(function (item) {
+        appendExtraLink(
           container,
-          searchUrl(poi.search, poi.city),
-          "高德 · 搜「" + poi.search + "」",
-          poi.lon != null ? "btn btn-route" : "btn btn-nav"
+          item.search,
+          item.label || item.search,
+          poi.city
         );
+      });
+    }
+
+    function renderStopNav(el, poi) {
+      if (!poi) return;
+      if (el.classList.contains("nav-actions")) {
+        const heading =
+          (el.parentElement && el.parentElement.querySelector("h3")) || null;
+        attachNavIcon(heading, poi);
+        renderExtraSearches(el, poi);
+        return;
       }
-      if (poi.extraSearches && poi.extraSearches.length) {
-        poi.extraSearches.forEach(function (item) {
-          addLink(
-            container,
-            searchUrl(item.search, poi.city),
-            "高德 · 搜「" + (item.label || item.search) + "」",
-            "btn btn-route"
-          );
-        });
-      }
-      if (!poi.search && poi.lon == null) {
-        addLink(container, searchUrl(poi.name, poi.city), "高德 · 搜索此地");
-      }
+      attachNavIcon(el.querySelector(".stop-name, h3"), poi);
+      renderExtraSearches(el.querySelector(".nav-actions"), poi);
     }
 
     document.querySelectorAll("[data-poi]").forEach(function (el) {
-      const poi = JSON.parse(el.getAttribute("data-poi"));
-      if (el.classList.contains("nav-actions")) {
-        renderNavButtons(el, poi);
-        return;
-      }
-      const box = el.querySelector(".nav-actions");
-      if (box) renderNavButtons(box, poi);
+      renderStopNav(el, JSON.parse(el.getAttribute("data-poi")));
     });
 
     const segRoot = document.getElementById("drive-segments");
@@ -1472,34 +1549,28 @@
       row.className = "segment";
       const label = document.createElement("div");
       label.className = "segment-label";
-      label.textContent = seg.label + (seg.note ? " · " + seg.note : "");
-      row.appendChild(label);
+      const text = document.createElement("span");
+      text.textContent = seg.label + (seg.note ? " · " + seg.note : "");
+      label.appendChild(text);
       if (seg.lon != null && seg.lat != null) {
-        const link = document.createElement("a");
-        link.className = "btn btn-nav";
-        link.href = navCoordUrl({
-          lon: seg.lon,
-          lat: seg.lat,
-          name: seg.name || seg.search || seg.label,
-        });
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = "高德导航终点";
-        row.appendChild(link);
+        label.appendChild(
+          createNavIcon(
+            navCoordUrl({
+              lon: seg.lon,
+              lat: seg.lat,
+              name: seg.name || seg.search || seg.label,
+            })
+          )
+        );
       } else if (seg.search) {
-        const link = document.createElement("a");
-        link.className = "btn btn-nav";
-        link.href = searchUrl(seg.search, seg.city);
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = "高德搜索终点";
-        row.appendChild(link);
+        label.appendChild(createNavIcon(searchUrl(seg.search, seg.city)));
       } else {
         const skip = document.createElement("span");
         skip.className = "no-nav";
-        skip.textContent = "无明确终点 · 不链导航";
-        row.appendChild(skip);
+        skip.textContent = "无明确终点";
+        label.appendChild(skip);
       }
+      row.appendChild(label);
       segRoot.appendChild(row);
     });
 
