@@ -1,21 +1,21 @@
 # 旅游路书
 
-多趟行程共用本仓库：根目录是目录首页，每趟攻略各占一个子目录。
+多趟行程共用本仓库：每趟攻略各占 `guides/<slug>/`，入口是该目录下的 `index.html`。根目录不再放目录页。
 
 ## 目录约定
 
 ```
 travel/
-├── index.html                          # 攻略目录首页（列出所有行程）
 ├── README.md                           # 本说明
 └── guides/
     └── <slug>/                         # 英文 slug，如 2026-guangxi-national-day
-        └── index.html                  # 该趟完整路书单页
+        └── index.html                  # 该趟完整路书单页（入口）
 ```
 
-- **根 `index.html`**：标题「旅游路书」，每条链到 `guides/<slug>/`，并写清日期、标题、一句话摘要。
-- **`guides/<slug>/index.html`**：一趟行程的完整静态页（Leaflet CDN、高德关键词导航等）。
+- **入口**：`guides/<slug>/index.html`（一趟行程的完整静态页：Leaflet CDN、高德关键词导航等）。
+- **根目录**：只保留 README 等说明，不放目录首页。
 - **slug**：只用英文小写、数字、连字符（`YYYY-place-occasion`）。
+- **新攻略**：只新增 `guides/<slug>/` 子目录，无需改根目录。
 
 ---
 
@@ -23,8 +23,7 @@ travel/
 
 1. **建目录**：`guides/<slug>/`，复制现有某趟的 `index.html` 作模版（或从零按下方大纲写）。
 2. **改内容**：`<title>` / `<h1>`、日期、每日行程、地图点、住宿、费用等全部换成新行程。
-3. **登记首页**：在根 `index.html` 的行程列表里加一条（日期、标题、一句话 + 链接）。
-4. **本地打开**：`open index.html`，再点进新攻略确认相对路径与地图正常。
+3. **本地打开**：`open guides/<slug>/index.html`，确认相对路径与地图正常。
 
 ### POI / 导航规则（与现版脚本一致）
 
@@ -80,11 +79,17 @@ travel/
 ## 本地打开
 
 ```bash
-# 目录首页
-open index.html
-
-# 单趟攻略（示例）
 open guides/2026-guangxi-national-day/index.html
 ```
 
 Leaflet / 地图瓦片走 CDN，子目录相对路径无需额外调整。
+
+---
+
+## 在线分享（Gitee Pages）
+
+启用 Pages 后，直接分享单趟路径，例如：
+
+https://do3956.gitee.io/travel/guides/2026-guangxi-national-day/
+
+根路径 `/`（`https://do3956.gitee.io/travel/`）可能 404，属预期（仓库根目录不再放目录页）。
