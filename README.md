@@ -86,11 +86,26 @@ Leaflet / 地图瓦片走 CDN，子目录相对路径无需额外调整。
 
 ---
 
-## 在线分享（GitHub Pages）
+## 在线分享
 
 仓库：https://github.com/Do3956/travel
 
-启用 GitHub Pages（Settings → Pages → Deploy from a branch = `master`，folder = `/`）后分享：
+**推荐（Cloudflare Pages，国内相对稳）：**
 
-- 目录页：https://do3956.github.io/travel/
-- 单趟示例：https://do3956.github.io/travel/guides/2026-guangxi-national-day/
+- 目录页：https://travel-aft.pages.dev/
+- 单趟示例：https://travel-aft.pages.dev/guides/2026-guangxi-national-day/
+
+push 到 `master` 后由 GitHub Actions 自动部署（需配置一次 Secrets，见下）。
+
+**备用（GitHub Pages）：**
+
+- https://do3956.github.io/travel/
+- https://do3956.github.io/travel/guides/2026-guangxi-national-day/
+
+### 配置自动部署（只需一次）
+
+1. Cloudflare → [API Tokens](https://dash.cloudflare.com/profile/api-tokens) → Create Token → 用 **Edit Cloudflare Workers** 模板（含 Pages）→ Create  
+2. GitHub 仓库 → Settings → Secrets and variables → Actions → New repository secret：  
+   - `CLOUDFLARE_API_TOKEN` = 上一步生成的 token  
+   - `CLOUDFLARE_ACCOUNT_ID` = `a3310520f43804d618fbca58898b2b1d`  
+3. 以后本地改完 `git push origin master` 即可自动更新站点
