@@ -1004,13 +1004,13 @@
       </div>
 
       <ol class="stops">
-        <li data-poi='{"name":"马山·星空洞（里民村内感屯）","search":"南宁市马山县里民村内感屯","city":"南宁"}'>
+        <li data-poi='{"name":"马山·星空洞（内感屯）","search":"蒙记农家山庄","lon":108.268,"lat":23.698,"city":"南宁","extraSearches":[{"label":"马山新里屯","search":"马山新里屯"},{"label":"里民村","search":"马山县古零镇里民村"}]}'>
           <h3 class="stop-name">马山 · 星空洞</h3>
           <div class="tags"><span class="tag">集合约 09:30</span><span class="tag">净支出 149</span></div>
           <p class="note">
-            定位：<strong>南宁市马山县里民村内感屯</strong>（洞原名内感洞；网红名「星空洞」）。
-            「马山星空洞」在高德里常常搜不到，请直接搜<strong>里民村内感屯</strong>。
-            到屯后再按村道/指示进洞口；报团的话集合点也可让领队确认。
+            地址：<strong>南宁市马山县古零镇里民村内感屯</strong>（洞原名内感洞；网红名「星空洞」——高德里通常没有这个 POI）。
+            <br /><strong>怎么导航：</strong>先开到「<strong>蒙记农家山庄</strong>」或「<strong>马山新里屯</strong>」（高德有点），到定位后再沿村道约 2 公里，右手指示牌进岔路，开到路尽头即洞口停车点。
+            报团的话最终集合点以领队发送为准。
             <br />靠<strong>打光 + 镜像</strong>，没有想象中那种湖。报团更出片（需要可私聊推荐）。
             洞里拍照排队；少喝水（没厕所）。
             <br /><strong>穿衣：浅色/亮色，不要黑色</strong>（洞内背景黑，好区分主体）。
@@ -1365,7 +1365,7 @@
       { label: "东莞 → 城市便捷酒店象州中心城店（约 5–6h）", search: "城市便捷酒店 象州中心城店", city: "来宾" },
       { label: "象州酒店 → 柳州市区（约 1–1.5h）", search: null, note: "柳州当晚酒店名未告知，自行规划" },
       { label: "柳州 → 万里江山拍照点（石头湾）", search: "柳州万里江山拍照点", city: "柳州" },
-      { label: "柳州 → 马山县里民村内感屯 / 星空洞（约 2–2.5h）", search: "南宁市马山县里民村内感屯", city: "南宁" },
+      { label: "柳州 → 星空洞（先到蒙记农家山庄，约 2–2.5h）", search: "蒙记农家山庄", city: "南宁" },
       { label: "星空洞 → 大化布努人家农家乐·弄腾村桥圩屯（约 2–3h）", search: "大化布努人家农家乐", city: "河池" },
       { label: "布努人家 / 戈见山 → 五星步行街（约 3–4h）", search: "五星步行街", city: "柳州" },
       { label: "五星步行街 → 中山南朗 · 连夜返程（约 6–7h）", search: null, note: "返程自行导航" },
@@ -1375,27 +1375,78 @@
       return encodeURIComponent(name);
     }
 
-    function searchUrl(poi) {
-      const keyword = poi.search || poi.name;
-      const city = poi.city ? "&city=" + encodeName(poi.city) : "";
+    function searchUrl(keyword, city) {
+      const cityPart = city ? "&city=" + encodeName(city) : "";
       return (
         "https://uri.amap.com/search?keyword=" +
         encodeName(keyword) +
-        city +
+        cityPart +
         "&src=guangxi-roadbook-2026&callnative=1"
       );
+    }
+
+    function markerUrl(poi) {
+      return (
+        "https://uri.amap.com/marker?position=" +
+        poi.lon +
+        "," +
+        poi.lat +
+        "&name=" +
+        encodeName(poi.name) +
+        "&coordinate=gaode&src=guangxi-roadbook-2026&callnative=1"
+      );
+    }
+
+    function navCoordUrl(poi) {
+      return (
+        "https://uri.amap.com/navigation?to=" +
+        poi.lon +
+        "," +
+        poi.lat +
+        "," +
+        encodeName(poi.name) +
+        "&mode=car&src=guangxi-roadbook-2026&callnative=1"
+      );
+    }
+
+    function addLink(container, href, text, className) {
+      const a = document.createElement("a");
+      a.className = className || "btn btn-nav";
+      a.href = href;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = text;
+      container.appendChild(a);
     }
 
     function renderNavButtons(container, poi) {
       if (!container || !poi) return;
       container.innerHTML = "";
-      const a = document.createElement("a");
-      a.className = "btn btn-nav";
-      a.href = searchUrl(poi);
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-      a.textContent = "高德 · 搜索此地";
-      container.appendChild(a);
+      if (poi.lon != null && poi.lat != null) {
+        addLink(container, navCoordUrl(poi), "高德 · 导航到洞口附近");
+        addLink(container, markerUrl(poi), "高德 · 地图标注", "btn btn-route");
+      }
+      if (poi.search) {
+        addLink(
+          container,
+          searchUrl(poi.search, poi.city),
+          "高德 · 搜「" + poi.search + "」",
+          poi.lon != null ? "btn btn-route" : "btn btn-nav"
+        );
+      }
+      if (poi.extraSearches && poi.extraSearches.length) {
+        poi.extraSearches.forEach(function (item) {
+          addLink(
+            container,
+            searchUrl(item.search, poi.city),
+            "高德 · 搜「" + (item.label || item.search) + "」",
+            "btn btn-route"
+          );
+        });
+      }
+      if (!poi.search && poi.lon == null) {
+        addLink(container, searchUrl(poi.name, poi.city), "高德 · 搜索此地");
+      }
     }
 
     document.querySelectorAll("[data-poi]").forEach(function (el) {
@@ -1419,7 +1470,7 @@
       if (seg.search) {
         const link = document.createElement("a");
         link.className = "btn btn-nav";
-        link.href = searchUrl(seg);
+        link.href = searchUrl(seg.search, seg.city);
         link.target = "_blank";
         link.rel = "noopener noreferrer";
         link.textContent = "高德搜索终点";
