@@ -18,4 +18,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy . --project-name=travel
+          # Cloudflare Pages 生产分支是 main；仓库默认分支是 master，须显式指定
+          command: pages deploy . --project-name=travel --branch=main

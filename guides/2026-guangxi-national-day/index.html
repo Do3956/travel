@@ -980,7 +980,7 @@
       <div class="timeline">
         <h3>当日时间轴（约）</h3>
         <ol>
-          <li><span class="t">约 07:00–09:30</span><span class="drive">自驾 柳州 → 星空洞洞口（集合约 09:30）</span></li>
+          <li><span class="t">约 07:00–09:30</span><span class="drive">自驾 柳州 → 马山县内感屯·星空洞（集合约 09:30）</span></li>
           <li><span class="t">约 09:30–15:30</span><span>洞内活动约 6 小时（拍照排队）</span></li>
           <li><span class="t">约 15:30–18:30</span><span class="drive">自驾 → 大化布努人家农家乐（七百弄乡弄腾村桥圩屯）</span></li>
           <li><span class="t">晚间</span><span>农家乐晚餐 · 看星空（信号差）</span></li>
@@ -1365,7 +1365,14 @@
       { label: "东莞 → 城市便捷酒店象州中心城店（约 5–6h）", search: "城市便捷酒店 象州中心城店", city: "来宾" },
       { label: "象州酒店 → 柳州市区（约 1–1.5h）", search: null, note: "柳州当晚酒店名未告知，自行规划" },
       { label: "柳州 → 万里江山拍照点（石头湾）", search: "柳州万里江山拍照点", city: "柳州" },
-      { label: "柳州 → 星空洞（先到蒙记农家山庄，约 2–2.5h）", search: "蒙记农家山庄", city: "南宁" },
+      {
+        label: "柳州 → 马山县内感屯·星空洞（约 2–2.5h）",
+        name: "马山县内感屯·星空洞",
+        lon: 108.268,
+        lat: 23.698,
+        search: "马山县内感屯",
+        city: "南宁",
+      },
       { label: "星空洞 → 大化布努人家农家乐·弄腾村桥圩屯（约 2–3h）", search: "大化布努人家农家乐", city: "河池" },
       { label: "布努人家 / 戈见山 → 五星步行街（约 3–4h）", search: "五星步行街", city: "柳州" },
       { label: "五星步行街 → 中山南朗 · 连夜返程（约 6–7h）", search: null, note: "返程自行导航" },
@@ -1467,7 +1474,19 @@
       label.className = "segment-label";
       label.textContent = seg.label + (seg.note ? " · " + seg.note : "");
       row.appendChild(label);
-      if (seg.search) {
+      if (seg.lon != null && seg.lat != null) {
+        const link = document.createElement("a");
+        link.className = "btn btn-nav";
+        link.href = navCoordUrl({
+          lon: seg.lon,
+          lat: seg.lat,
+          name: seg.name || seg.search || seg.label,
+        });
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "高德导航终点";
+        row.appendChild(link);
+      } else if (seg.search) {
         const link = document.createElement("a");
         link.className = "btn btn-nav";
         link.href = searchUrl(seg.search, seg.city);
