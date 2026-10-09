@@ -41,8 +41,38 @@ jobs:
           ACCOUNT_TRIMMED="$(printf '%s' "$CLOUDFLARE_ACCOUNT_ID" | tr -d '\r\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
           TOKEN_TRIM_LEN=${#TOKEN_TRIMMED}
           ACCOUNT_TRIM_LEN=${#ACCOUNT_TRIMMED}
+          TOKEN_PREFIX4="$(printf '%s' "$TOKEN_TRIMMED" | cut -c1-4)"
+          TOKEN_CHARSET_OK=no
+          if printf '%s' "$TOKEN_TRIMMED" | grep -Eq '^[A-Za-z0-9_-]+$'; then
+            TOKEN_CHARSET_OK=yes
+          fi
+          TOKEN_HEX_ONLY=no
+          if printf '%s' "$TOKEN_TRIMMED" | grep -Eq '^[a-f0-9]+$'; then
+            TOKEN_HEX_ONLY=yes
+          fi
+          TOKEN_KIND=unknown
+          case "$TOKEN_TRIMMED" in
+            cfut_*) TOKEN_KIND=user_api_token_prefixed ;;
+            cfat_*) TOKEN_KIND=account_api_token_prefixed ;;
+            cfk_*) TOKEN_KIND=global_api_key_prefixed_WRONG_for_wrangler_bearer ;;
+            *)
+              if [ "$TOKEN_HEX_ONLY" = yes ] && [ "$TOKEN_TRIM_LEN" -ge 37 ] && [ "$TOKEN_TRIM_LEN" -le 45 ]; then
+                TOKEN_KIND=legacy_global_api_key_hex_WRONG_for_wrangler_bearer
+              elif [ "$TOKEN_CHARSET_OK" = yes ] && [ "$TOKEN_TRIM_LEN" -eq 40 ]; then
+                TOKEN_KIND=legacy_api_token_likely
+              elif [ "$TOKEN_TRIM_LEN" -eq 32 ] && [ "$TOKEN_HEX_ONLY" = yes ]; then
+                TOKEN_KIND=looks_like_account_id_not_token
+              elif [ "$TOKEN_TRIM_LEN" -eq 52 ] && [ "$TOKEN_PREFIX4" = "cfk_" ]; then
+                TOKEN_KIND=global_api_key_prefixed_WRONG_for_wrangler_bearer
+              elif [ "$TOKEN_TRIM_LEN" -eq 52 ]; then
+                TOKEN_KIND=len52_suspicious_often_cfk_global_key
+              elif [ "$TOKEN_TRIM_LEN" -eq 53 ] && { [ "$TOKEN_PREFIX4" = "cfut" ] || [ "$TOKEN_PREFIX4" = "cfat" ]; }; then
+                TOKEN_KIND=prefixed_api_token_likely
+              fi
+              ;;
+          esac
 
-          echo "::notice::CLOUDFLARE_API_TOKEN raw_len=${TOKEN_RAW_LEN} trim_len=${TOKEN_TRIM_LEN}"
+          echo "::notice::CLOUDFLARE_API_TOKEN raw_len=${TOKEN_RAW_LEN} trim_len=${TOKEN_TRIM_LEN} prefix4=${TOKEN_PREFIX4} charset_ok=${TOKEN_CHARSET_OK} hex_only=${TOKEN_HEX_ONLY} kind=${TOKEN_KIND}"
           echo "::notice::CLOUDFLARE_ACCOUNT_ID raw_len=${ACCOUNT_RAW_LEN} trim_len=${ACCOUNT_TRIM_LEN} value=${ACCOUNT_TRIMMED}"
 
           if [ "$TOKEN_RAW_LEN" -ne "$TOKEN_TRIM_LEN" ]; then
@@ -55,9 +85,19 @@ jobs:
             echo "::error::CLOUDFLARE_ACCOUNT_ID is '${ACCOUNT_TRIMMED}' but project travel lives on a3310520f43804d618fbca58898b2b1d. Token/account mismatch is a common deploy failure."
             exit 1
           fi
-          if [ "$TOKEN_TRIM_LEN" -lt 30 ] || [ "$TOKEN_TRIM_LEN" -gt 120 ]; then
-            echo "::warning::CLOUDFLARE_API_TOKEN length ${TOKEN_TRIM_LEN} looks unusual for an API Token (often ~40)."
+          if [ "$TOKEN_CHARSET_OK" != yes ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN contains characters outside [A-Za-z0-9_-] (quotes/spaces/special chars?). Wrangler Bearer expects an API Token string."
           fi
+          case "$TOKEN_KIND" in
+            *WRONG_for_wrangler_bearer*|*looks_like_account_id*|*len52_suspicious*)
+              echo "::error::Secret value looks like ${TOKEN_KIND} (len=${TOKEN_TRIM_LEN} prefix4=${TOKEN_PREFIX4}). Wrangler needs an API Token (Create Token → Edit Cloudflare Workers / Pages Edit), NOT Global API Key / Account ID. Global Key requires email+X-Auth-Key and will not work as CLOUDFLARE_API_TOKEN Bearer."
+              exit 1
+              ;;
+          esac
+          if [ "$TOKEN_TRIM_LEN" -lt 30 ] || [ "$TOKEN_TRIM_LEN" -gt 120 ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN length ${TOKEN_TRIM_LEN} looks unusual for an API Token (legacy ~40; new cfut_/cfat_ ~53)."
+          fi
+
 
       - name: Deploy to Cloudflare Pages
         env:
