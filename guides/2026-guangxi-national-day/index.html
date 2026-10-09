@@ -227,6 +227,23 @@
       font-family: var(--font-display);
     }
 
+    table.info tr.subtotal td {
+      border-top: 1px dashed var(--line);
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    #cost h3.cost-cat {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 1.35rem 0 0.45rem;
+    }
+
+    #cost h3.cost-cat:first-of-type {
+      margin-top: 0.85rem;
+    }
+
     .pack-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1256,7 +1273,9 @@
 
     <section class="panel" id="cost">
       <h2>费用明细（个人账）</h2>
-      <p class="sub">本人侧花销；合计已按实报金额计算。</p>
+      <p class="sub">账单暂只统计我这边，另一位朋友费用未计入；三人同行，下列金额约相当于两人份。合计已按实报金额计算。</p>
+
+      <h3 class="cost-cat">交通 / 油费停车</h3>
       <div class="table-wrap">
         <table class="info">
           <thead>
@@ -1275,15 +1294,71 @@
               <td></td>
             </tr>
             <tr>
-              <td>买水</td>
-              <td></td>
-              <td class="amount">9.9</td>
-              <td></td>
-            </tr>
-            <tr>
               <td>停车</td>
               <td>10+10+8+5.4+8+10+6+10+10</td>
               <td class="amount">77.4</td>
+              <td></td>
+            </tr>
+            <tr class="subtotal">
+              <td>小计</td>
+              <td></td>
+              <td class="amount">914.4</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="cost-cat">住宿</h3>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>项目</th>
+              <th>说明</th>
+              <th>金额（元）</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>象州酒店</td>
+              <td>城市便捷（象州中心城店）</td>
+              <td class="amount">534.0</td>
+              <td>10.3 夜</td>
+            </tr>
+            <tr>
+              <td>布努人家住宿</td>
+              <td>大化布努人家农家乐（弄腾村桥圩屯）</td>
+              <td class="amount">126.0</td>
+              <td>10.5 夜</td>
+            </tr>
+            <tr class="subtotal">
+              <td>小计</td>
+              <td></td>
+              <td class="amount">660.0</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="cost-cat">餐饮</h3>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>项目</th>
+              <th>说明</th>
+              <th>金额（元）</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>买水</td>
+              <td></td>
+              <td class="amount">9.9</td>
               <td></td>
             </tr>
             <tr>
@@ -1291,18 +1366,6 @@
               <td>宏兴烧鹅濑粉</td>
               <td class="amount">190.0</td>
               <td></td>
-            </tr>
-            <tr>
-              <td>万里江山</td>
-              <td>景点拍照</td>
-              <td class="amount">30.0</td>
-              <td>10元/人 × 3人 · 10.4 下午</td>
-            </tr>
-            <tr>
-              <td>象州酒店</td>
-              <td>城市便捷（象州中心城店）</td>
-              <td class="amount">534.0</td>
-              <td>10.3 夜</td>
             </tr>
             <tr>
               <td>木薯糖水</td>
@@ -1317,12 +1380,6 @@
               <td></td>
             </tr>
             <tr>
-              <td>布努人家住宿</td>
-              <td>大化布努人家农家乐（弄腾村桥圩屯）</td>
-              <td class="amount">126.0</td>
-              <td>10.5 夜</td>
-            </tr>
-            <tr>
               <td>布努人家吃饭</td>
               <td>226 + 30</td>
               <td class="amount">256.0</td>
@@ -1334,12 +1391,53 @@
               <td class="amount">209.0</td>
               <td></td>
             </tr>
+            <tr class="subtotal">
+              <td>小计</td>
+              <td></td>
+              <td class="amount">725.6</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="cost-cat">门票活动</h3>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>项目</th>
+              <th>说明</th>
+              <th>金额（元）</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>万里江山</td>
+              <td>景点拍照</td>
+              <td class="amount">30.0</td>
+              <td>10元/人 × 3人 · 10.4 下午</td>
+            </tr>
             <tr>
               <td>星空洞报团</td>
               <td>原价 179，小红书发帖返现 −30</td>
               <td class="amount">149.0</td>
               <td>净支出</td>
             </tr>
+            <tr class="subtotal">
+              <td>小计</td>
+              <td></td>
+              <td class="amount">179.0</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap" style="margin-top: 1.25rem;">
+        <table class="info">
+          <tbody>
             <tr class="total">
               <td>合计</td>
               <td>个人账</td>
