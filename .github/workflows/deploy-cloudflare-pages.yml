@@ -18,6 +18,8 @@ jobs:
       # wrangler-action@v3 often only shows "npx failed with exit code 1"
       # and hides the real wrangler stderr (see cloudflare/wrangler-action#360).
       # Use a direct wrangler invoke so auth / permission errors are readable.
+      # Also emit ::notice::/::error:: so diagnostics appear in public check annotations
+      # even when run logs require auth.
       - name: Check Cloudflare secrets
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -32,26 +34,88 @@ jobs:
             echo "::error::CLOUDFLARE_ACCOUNT_ID is empty. Expected a3310520f43804d618fbca58898b2b1d for this project."
             exit 1
           fi
-          # Length-only diagnostics (never print secret values)
-          echo "CLOUDFLARE_API_TOKEN length: ${#CLOUDFLARE_API_TOKEN}"
-          echo "CLOUDFLARE_ACCOUNT_ID length: ${#CLOUDFLARE_ACCOUNT_ID}"
-          echo "CLOUDFLARE_ACCOUNT_ID value: ${CLOUDFLARE_ACCOUNT_ID}"
+
+          TOKEN_RAW_LEN=${#CLOUDFLARE_API_TOKEN}
+          ACCOUNT_RAW_LEN=${#CLOUDFLARE_ACCOUNT_ID}
+          TOKEN_TRIMMED="$(printf '%s' "$CLOUDFLARE_API_TOKEN" | tr -d '\r\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+          ACCOUNT_TRIMMED="$(printf '%s' "$CLOUDFLARE_ACCOUNT_ID" | tr -d '\r\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+          TOKEN_TRIM_LEN=${#TOKEN_TRIMMED}
+          ACCOUNT_TRIM_LEN=${#ACCOUNT_TRIMMED}
+
+          echo "::notice::CLOUDFLARE_API_TOKEN raw_len=${TOKEN_RAW_LEN} trim_len=${TOKEN_TRIM_LEN}"
+          echo "::notice::CLOUDFLARE_ACCOUNT_ID raw_len=${ACCOUNT_RAW_LEN} trim_len=${ACCOUNT_TRIM_LEN} value=${ACCOUNT_TRIMMED}"
+
+          if [ "$TOKEN_RAW_LEN" -ne "$TOKEN_TRIM_LEN" ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN has leading/trailing whitespace or newline (raw=${TOKEN_RAW_LEN} trim=${TOKEN_TRIM_LEN}). Deploy step will trim it."
+          fi
+          if [ "$ACCOUNT_RAW_LEN" -ne "$ACCOUNT_TRIM_LEN" ]; then
+            echo "::warning::CLOUDFLARE_ACCOUNT_ID has leading/trailing whitespace or newline (raw=${ACCOUNT_RAW_LEN} trim=${ACCOUNT_TRIM_LEN}). Deploy step will trim it."
+          fi
+          if [ "$ACCOUNT_TRIMMED" != "a3310520f43804d618fbca58898b2b1d" ]; then
+            echo "::error::CLOUDFLARE_ACCOUNT_ID is '${ACCOUNT_TRIMMED}' but project travel lives on a3310520f43804d618fbca58898b2b1d. Token/account mismatch is a common deploy failure."
+            exit 1
+          fi
+          if [ "$TOKEN_TRIM_LEN" -lt 30 ] || [ "$TOKEN_TRIM_LEN" -gt 120 ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN length ${TOKEN_TRIM_LEN} looks unusual for an API Token (often ~40)."
+          fi
 
       - name: Deploy to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # Token must include Account → Cloudflare Pages → Edit.
-          # "Edit Cloudflare Workers" template does NOT include Pages Edit
-          # (see Cloudflare API token templates docs).
         run: |
           set -euo pipefail
+          # Trim whitespace/newlines that break Cloudflare auth
+          export CLOUDFLARE_API_TOKEN="$(printf '%s' "${CLOUDFLARE_API_TOKEN}" | tr -d '\r\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+          export CLOUDFLARE_ACCOUNT_ID="$(printf '%s' "${CLOUDFLARE_ACCOUNT_ID}" | tr -d '\r\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+
+          redact() {
+            python3 -c 'import os,sys; t=os.environ.get("CLOUDFLARE_API_TOKEN",""); d=sys.stdin.read(); sys.stdout.write(d.replace(t,"[REDACTED_TOKEN]") if t else d)'
+          }
+
           echo "== wrangler whoami =="
-          npx --yes wrangler@4 whoami 2>&1 || true
+          set +e
+          WHOAMI_OUT="$(npx --yes wrangler@4 whoami 2>&1)"
+          WHOAMI_RC=$?
+          set -e
+          printf '%s\n' "$WHOAMI_OUT" | redact
+          WHOAMI_ONE_LINE="$(printf '%s' "$WHOAMI_OUT" | redact | tr '\n' ' ' | sed 's/  */ /g' | cut -c1-350)"
+          echo "::notice::wrangler whoami rc=${WHOAMI_RC}: ${WHOAMI_ONE_LINE}"
+
           echo "== pages deploy =="
           # Git branch is master; CF production branch is main
-          npx --yes wrangler@4 pages deploy . \
+          set +e
+          DEPLOY_OUT="$(npx --yes wrangler@4 pages deploy . \
             --project-name=travel \
             --branch=main \
             --commit-dirty=true \
-            2>&1
+            2>&1)"
+          DEPLOY_RC=$?
+          set -e
+          printf '%s\n' "$DEPLOY_OUT" | redact
+          DEPLOY_ONE_LINE="$(printf '%s' "$DEPLOY_OUT" | redact | tr '\n' ' ' | sed 's/  */ /g' | cut -c1-450)"
+
+          {
+            echo "## Cloudflare Pages deploy diagnostics"
+            echo ""
+            echo "- whoami exit: \`${WHOAMI_RC}\`"
+            echo "- deploy exit: \`${DEPLOY_RC}\`"
+            echo "- account id: \`${CLOUDFLARE_ACCOUNT_ID}\`"
+            echo "- token length: \`${#CLOUDFLARE_API_TOKEN}\`"
+            echo ""
+            echo "### whoami"
+            echo '```'
+            printf '%s\n' "$WHOAMI_OUT" | redact | tail -n 40
+            echo '```'
+            echo ""
+            echo "### pages deploy"
+            echo '```'
+            printf '%s\n' "$DEPLOY_OUT" | redact | tail -n 60
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$DEPLOY_RC" -ne 0 ]; then
+            echo "::error::pages deploy failed rc=${DEPLOY_RC}: ${DEPLOY_ONE_LINE}"
+            exit "$DEPLOY_RC"
+          fi
+          echo "::notice::pages deploy ok: ${DEPLOY_ONE_LINE}"
