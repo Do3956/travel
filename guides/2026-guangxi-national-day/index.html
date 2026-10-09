@@ -495,7 +495,7 @@
 
     .timeline li {
       display: grid;
-      grid-template-columns: 5.5rem 1fr;
+      grid-template-columns: 9rem 1fr;
       gap: 0.5rem;
       font-size: 0.86rem;
       padding: 0.28rem 0;
@@ -509,6 +509,7 @@
 
     .timeline .t {
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
       color: var(--ink);
       font-weight: 600;
     }
@@ -878,7 +879,7 @@
 
     <section class="panel" id="route-map">
       <h2>行程路线图（真实地理方位）</h2>
-      <p class="sub">OpenStreetMap 瓦片 + Leaflet。节点按实际经纬度标注；实线为行程前往，虚线为返程。地图仅作方位示意，导航请点下方「高德搜索」。</p>
+      <p class="sub">高德底图 + Leaflet。节点按实际经纬度标注；实线为行程前往，虚线为返程。地图仅作方位示意，导航请点站点旁导航图标。</p>
       <div id="real-map" role="img" aria-label="真实地图路线"></div>
     </section>
 
@@ -974,14 +975,14 @@
         <li data-poi='{"name":"城市便捷酒店（象州中心城店）","search":"城市便捷酒店 象州中心城店","city":"来宾"}'>
           <h3 class="stop-name">住宿 · 城市便捷酒店（象州中心城店）</h3>
           <div class="tags"><span class="tag">个人账 534</span></div>
-          <p class="note">你明确告知的入住店。</p>
+          <p class="note">当晚住宿：城市便捷酒店（象州中心城店）。</p>
           <div class="nav-actions"></div>
         </li>
         <li>
           <h3 class="stop-name">象州温泉（可选项 · 本次未去）</h3>
           <div class="tags"><span class="tag star">真温泉 · 团购约 50+ / 人</span></div>
-          <p class="note">需自备泳衣。未指定具体温泉店名，不链导航。</p>
-          <p class="no-nav">未告知具体店名 · 不链导航</p>
+          <p class="note">需自备泳衣。具体温泉店待定，不链导航。</p>
+          <p class="no-nav">店名待定 · 不链导航</p>
         </li>
         <li>
           <h3 class="stop-name">夜市烧烤</h3>
@@ -1130,7 +1131,8 @@
           <h3>戈见山</h3>
           <p>定位：河池<strong>大化七百弄戈见村</strong>一带野生徒步线。高德搜「戈见山」或「大化戈见」。正常约 4h；我们 6h+（拍照 + 恐高）。需登山杖、防滑鞋、防晒。不建议新手。
             <br />亲测：路上<strong>每隔一段就有补给</strong>，不怎么缺水；户外会出汗、暴晒，和洞里不一样——洞内少喝，山上可正常补。每人约 <strong>2 支水</strong>差不多，补给点也能买（贵几块）；西瓜 <strong>5 块一片</strong>。
-            <br />轿车亲测：开过去也不太好开——多是<strong>盘山路</strong>，提前<strong>按喇叭</strong>防对面来车；另有一段<strong>甘蔗地土路</strong>。</p>
+            <br />轿车亲测：开过去也不太好开——多是<strong>盘山路</strong>，提前<strong>按喇叭</strong>防对面来车；另有一段<strong>甘蔗地土路</strong>。
+            <br /><strong>停车</strong>：可提前停在上面<strong>水库附近</strong>（车少好停）；再往下到登山口一带车很多，容易没位，且收 <strong>10 元</strong>停车费。</p>
           <div class="nav-actions" data-poi='{"name":"戈见山","search":"大化戈见","city":"河池"}'></div>
         </div>
       </div>
@@ -1139,8 +1141,8 @@
         <div class="choice-card alt">
           <span class="badge">原计划 · 未去</span>
           <h3>象州泡温泉</h3>
-          <p>姨妈已结束，但下山太晚；未指定具体温泉店。</p>
-          <p class="no-nav">未告知具体店名 · 不链导航</p>
+          <p>姨妈已结束，但下山太晚；具体温泉店待定。</p>
+          <p class="no-nav">店名待定 · 不链导航</p>
         </div>
         <div class="vs">VS</div>
         <div class="choice-card picked">
@@ -1192,7 +1194,9 @@
           <h3>衣物</h3>
           <ul>
             <li class="must">外套 + 长裤（山里偏冷）</li>
-            <li class="must">防滑鞋 / 登山鞋</li>
+            <li class="must">防滑鞋 / 登山鞋（鞋头偏硬；勿运动鞋，易撞石伤趾发黑）</li>
+            <li class="must">中长筒排汗袜（爬山穿；勿纯棉）</li>
+            <li class="tip">再带一双旧袜子，套在鞋外面：增阻力、鞋不易脏，尤其戈见山下山</li>
             <li class="miss">泳衣 / 泡温泉衣物</li>
             <li class="tip">星空洞：浅色/亮色衣服，不要黑色（洞内背景黑，好出片）</li>
             <li class="tip">有肌肉可穿背心拍照，打光显线条</li>
@@ -1207,6 +1211,7 @@
             <li class="must">面罩</li>
             <li class="must">防晒霜</li>
             <li class="must">登山杖（戈见山陡）</li>
+            <li class="tip">手套（抓攀 / 戈见山）</li>
             <li>头灯/手电：报团会提供，自驾散客才需自备</li>
             <li>洞内：少量饮水即可（没厕所，别喝太多）</li>
             <li>戈见山：约 2 支水/人；路上有补给可买，也可买西瓜</li>
@@ -1240,7 +1245,7 @@
 
     <section class="panel" id="stay">
       <h2>住宿速查</h2>
-      <p class="sub">仅列你明确告知的店名；未告知的不编地址。</p>
+      <p class="sub">仅列已知店名；待定酒店不编地址。</p>
       <div class="table-wrap">
         <table class="info">
           <thead>
@@ -1258,7 +1263,7 @@
             </tr>
             <tr>
               <td>10.4</td>
-              <td>柳州（店名未告知）</td>
+              <td>柳州（店名待定）</td>
               <td>—</td>
             </tr>
             <tr>
@@ -1488,7 +1493,6 @@
         <li><strong>戈见山</strong>：新手选弄耳山；带登山杖。路上有补给，不怎么缺水；出汗暴晒可正常喝，约 2 支水/人够（也可补给点买，贵几块）；西瓜 5 块/片。</li>
         <li><strong>路况</strong>（轿车亲测）：万里江山石头路多，留心底盘；戈见山盘山路多，提前鸣笛，还有一段甘蔗地土路。</li>
         <li><strong>布努人家</strong>：大化七百弄乡弄腾村桥圩屯；建议包早晚餐，附近没啥吃的。</li>
-        <li><strong>导航</strong>：仅有明确店名的点挂搜索按钮；无店名的点不挂链接。</li>
       </ul>
     </section>
   </main>
@@ -1517,7 +1521,7 @@
       { label: "中山南朗 → 深圳桥头地铁站（约 1–1.5h）", search: "桥头地铁站", city: "深圳" },
       { label: "桥头 → 中盛商务大厦（约 40–60min）", search: "中盛商务大厦", city: "东莞" },
       { label: "东莞 → 城市便捷酒店象州中心城店（约 5–6h）", search: "城市便捷酒店 象州中心城店", city: "来宾" },
-      { label: "象州酒店 → 柳州市区（约 1–1.5h）", search: null, note: "柳州当晚酒店名未告知，自行规划" },
+      { label: "象州酒店 → 柳州市区（约 1–1.5h）", search: null, note: "柳州当晚酒店待定，自行规划" },
       { label: "柳州 → 万里江山拍照点（石头湾）", search: "柳州万里江山拍照点", city: "柳州" },
       { label: "柳州 → 马山县内感屯·星空洞（约 2–2.5h）", search: "马山县内感屯", city: "南宁" },
       { label: "星空洞 → 大化布努人家农家乐·弄腾村桥圩屯（约 2–3h）", search: "大化布努人家农家乐", city: "河池" },
@@ -1637,6 +1641,51 @@
       renderExtraSearches(el.querySelector(".nav-actions"), poi);
     }
 
+    (function initMap() {
+      if (typeof L === "undefined") return;
+      const el = document.getElementById("real-map");
+      if (!el) return;
+      const map = L.map(el, { scrollWheelZoom: false });
+      /* OSM.org 在国内常不可用；高德底图可访问且中文标注清晰 */
+      L.tileLayer(
+        "https://wprd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}",
+        {
+          subdomains: "1234",
+          maxZoom: 18,
+          attribution:
+            '&copy; <a href="https://lbs.amap.com/" target="_blank" rel="noopener">高德地图</a>',
+        }
+      ).addTo(map);
+
+      const outbound = MAP_POINTS.slice(0, 7);
+      const ret = [MAP_POINTS[6], MAP_POINTS[7], MAP_POINTS[8]];
+      const outLatLngs = outbound.map(function (p) { return [p.lat, p.lon]; });
+      const retLatLngs = ret.map(function (p) { return [p.lat, p.lon]; });
+
+      L.polyline(outLatLngs, { color: "#c45c26", weight: 3.5, opacity: 0.9 }).addTo(map);
+      L.polyline(retLatLngs, {
+        color: "#00754a",
+        weight: 3,
+        opacity: 0.75,
+        dashArray: "8 8",
+      }).addTo(map);
+
+      outbound.forEach(function (p, i) {
+        L.circleMarker([p.lat, p.lon], {
+          radius: i === 0 || i === outbound.length - 1 ? 7 : 5,
+          color: "#1a2421",
+          weight: 1,
+          fillColor: i === 0 ? "#c45c26" : "#00754a",
+          fillOpacity: 0.95,
+        })
+          .bindPopup(p.name)
+          .bindTooltip(p.name, { direction: "top", offset: [0, -6] })
+          .addTo(map);
+      });
+
+      map.fitBounds(outLatLngs.concat(retLatLngs), { padding: [28, 28] });
+    })();
+
     document.querySelectorAll("[data-poi]").forEach(function (el) {
       renderStopNav(el, JSON.parse(el.getAttribute("data-poi")));
     });
@@ -1671,42 +1720,6 @@
       row.appendChild(label);
       segRoot.appendChild(row);
     });
-
-    (function initMap() {
-      if (typeof L === "undefined") return;
-      const map = L.map("real-map", { scrollWheelZoom: false });
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 18,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(map);
-
-      const outbound = MAP_POINTS.slice(0, 7);
-      const ret = [MAP_POINTS[6], MAP_POINTS[7], MAP_POINTS[8]];
-      const outLatLngs = outbound.map(function (p) { return [p.lat, p.lon]; });
-      const retLatLngs = ret.map(function (p) { return [p.lat, p.lon]; });
-
-      L.polyline(outLatLngs, { color: "#c45c26", weight: 3.5, opacity: 0.9 }).addTo(map);
-      L.polyline(retLatLngs, {
-        color: "#00754a",
-        weight: 3,
-        opacity: 0.75,
-        dashArray: "8 8",
-      }).addTo(map);
-
-      outbound.forEach(function (p, i) {
-        L.circleMarker([p.lat, p.lon], {
-          radius: i === 0 || i === outbound.length - 1 ? 7 : 5,
-          color: "#1a2421",
-          weight: 1,
-          fillColor: i === 0 ? "#c45c26" : "#00754a",
-          fillOpacity: 0.95,
-        })
-          .bindPopup(p.name)
-          .addTo(map);
-      });
-
-      map.fitBounds(outLatLngs.concat(retLatLngs), { padding: [28, 28] });
-    })();
   </script>
 </body>
 
