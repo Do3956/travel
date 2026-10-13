@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="2026.10.31–11.1：中山马鞍岛→惠州大南山拉胡线反穿，山上烂尾楼过夜路书与高德导航" />
+  <title>惠州大南山 · 拉胡线反穿过夜 · 2026.10.31–11.1</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <style>
+    :root {
+      --ink: #1a2421;
+      --muted: #5c6b66;
+      --paper: #f7f4ef;
+      --accent: #c45c26;
+      --accent-soft: rgba(196, 92, 38, 0.12);
+      --line: rgba(26, 36, 33, 0.1);
+      --nav: #00754a;
+      --nav-hover: #005a38;
+      --warn: #8b4513;
+      --radius: 6px;
+      --font-display: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+      --font-body: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 120% 80% at 10% -20%, rgba(196, 92, 38, 0.15), transparent 50%),
+        radial-gradient(ellipse 80% 60% at 100% 0%, rgba(0, 117, 74, 0.08), transparent 45%),
+        linear-gradient(180deg, #ebe6dc 0%, var(--paper) 35%, var(--paper) 100%);
+      min-height: 100vh;
+      line-height: 1.65;
+    }
+
+    .hero {
+      position: relative;
+      padding: clamp(2.5rem, 8vw, 4.5rem) 1.25rem 2.5rem;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 2.85rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin: 0 0 1rem;
+    }
+
+    .hero .lead {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 36em;
+      margin: 0 0 1.5rem;
+    }
+
+    .route-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.5rem;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .route-strip span {
+      padding: 0.25rem 0.55rem;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .route-strip .arrow {
+      color: var(--accent);
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+    }
+
+    nav.toc {
+      margin-bottom: 2rem;
+      padding: 1rem 1.15rem;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    nav.toc h2 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      margin: 0 0 0.65rem;
+    }
+
+    nav.toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    nav.toc a {
+      color: var(--nav);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    nav.toc a:hover {
+      text-decoration: underline;
+    }
+
+    .panel {
+      margin: 0 0 2rem;
+      padding: 1.25rem 1.35rem;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      scroll-margin-top: 1rem;
+    }
+
+    .panel h2 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      margin: 0 0 0.35rem;
+    }
+
+    .panel>.sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0 0 1.1rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.65rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .stat {
+      padding: 0.75rem 0.85rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .stat .num {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .stat .label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    #real-map {
+      height: 380px;
+      width: 100%;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      z-index: 1;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table.info {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    table.info th,
+    table.info td {
+      text-align: left;
+      padding: 0.55rem 0.65rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    table.info th {
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    table.info td.amount {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    table.info tr.total td {
+      border-top: 2px solid var(--ink);
+      font-weight: 700;
+      font-family: var(--font-display);
+    }
+
+    table.info tr.subtotal td {
+      border-top: 1px dashed var(--line);
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    #cost h3.cost-cat {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 1.35rem 0 0.45rem;
+    }
+
+    #cost h3.cost-cat:first-of-type {
+      margin-top: 0.85rem;
+    }
+
+    .pack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .pack-card h3 {
+      font-size: 0.92rem;
+      margin: 0 0 0.55rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .pack-card ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pack-card li {
+      position: relative;
+      padding: 0.28rem 0 0.28rem 1.45rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .pack-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+      width: 0.85rem;
+      height: 0.85rem;
+      border: 1.5px solid var(--line);
+      border-radius: 3px;
+      background: #fff;
+    }
+
+    .pack-card li.must {
+      color: var(--ink);
+    }
+
+    .pack-card li.must::after {
+      content: "必带";
+      margin-left: 0.35rem;
+      font-size: 0.65rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .pack-card li.miss {
+      color: var(--warn);
+    }
+
+    .pack-card li.miss::after {
+      content: "本次后悔没带";
+      margin-left: 0.35rem;
+      font-size: 0.65rem;
+      color: var(--warn);
+      font-weight: 600;
+    }
+
+    .pack-card li.tip {
+      color: var(--nav);
+    }
+
+    .pack-tip {
+      margin: 1.15rem 0 0;
+      padding: 0.85rem 1rem;
+      background: rgba(0, 117, 74, 0.06);
+      border: 1px solid rgba(0, 117, 74, 0.18);
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .pack-tip strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .pack-tip p {
+      margin: 0 0 0.55rem;
+    }
+
+    .pack-tip p:last-child {
+      margin-bottom: 0;
+    }
+
+    .checklist {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      padding: 0.4rem 0 0.4rem 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--muted);
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .ideal-vs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+    }
+
+    @media (max-width: 640px) {
+      .ideal-vs {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .ideal-vs .col {
+      padding: 0.85rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .ideal-vs .col h3 {
+      font-size: 0.85rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .ideal-vs .col.better h3 {
+      color: var(--nav);
+    }
+
+    .ideal-vs .col ol {
+      margin: 0;
+      padding-left: 1.15rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .choice-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.75rem;
+      align-items: stretch;
+      margin: 1rem 0 1.5rem;
+    }
+
+    @media (max-width: 700px) {
+      .choice-row {
+        grid-template-columns: 1fr;
+      }
+
+      .choice-row .vs {
+        justify-self: center;
+        transform: rotate(90deg);
+      }
+    }
+
+    .choice-card {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .choice-card.picked {
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 1px var(--accent-soft);
+    }
+
+    .choice-card.alt {
+      border-style: dashed;
+      opacity: 0.92;
+    }
+
+    .choice-card .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      margin-bottom: 0.45rem;
+      background: rgba(26, 36, 33, 0.06);
+      color: var(--muted);
+    }
+
+    .choice-card.picked .badge {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .choice-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      margin: 0 0 0.4rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .choice-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0 0 0.65rem;
+    }
+
+    .choice-row .vs {
+      align-self: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    section.day {
+      margin-bottom: 2.75rem;
+      scroll-margin-top: 1rem;
+    }
+
+    .day-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.5rem 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .day-header .date {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .day-header .theme {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .timeline {
+      margin: 0 0 1.25rem;
+      padding: 0.85rem 1rem;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .timeline h3 {
+      font-size: 0.82rem;
+      margin: 0 0 0.55rem;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .timeline ol {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .timeline li {
+      display: grid;
+      grid-template-columns: 9rem 1fr;
+      gap: 0.5rem;
+      font-size: 0.86rem;
+      padding: 0.28rem 0;
+      border-bottom: 1px dashed var(--line);
+      color: var(--muted);
+    }
+
+    .timeline li:last-child {
+      border-bottom: none;
+    }
+
+    .timeline .t {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .timeline .drive {
+      color: var(--nav);
+    }
+
+    .leg {
+      margin-bottom: 1.25rem;
+    }
+
+    .leg-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    ol.stops {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      counter-reset: stop;
+    }
+
+    ol.stops>li {
+      position: relative;
+      padding-left: 2.25rem;
+      padding-bottom: 1.25rem;
+      counter-increment: stop;
+    }
+
+    ol.stops>li::before {
+      content: counter(stop);
+      position: absolute;
+      left: 0;
+      top: 0.1rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1.5rem;
+      text-align: center;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 50%;
+    }
+
+    ol.stops>li:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 0.72rem;
+      top: 1.85rem;
+      bottom: 0;
+      width: 2px;
+      background: var(--line);
+    }
+
+    .stop-name {
+      font-family: var(--font-display);
+      font-size: 1.12rem;
+      font-weight: 600;
+      margin: 0 0 0.35rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .note {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin: 0.35rem 0 0.65rem;
+    }
+
+    .note strong {
+      color: var(--warn);
+      font-weight: 600;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0.35rem 0 0.55rem;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      background: rgba(26, 36, 33, 0.06);
+      color: var(--muted);
+    }
+
+    .tag.skip {
+      background: rgba(139, 69, 19, 0.1);
+      color: var(--warn);
+    }
+
+    .tag.star {
+      background: rgba(0, 117, 74, 0.12);
+      color: var(--nav);
+    }
+
+    .nav-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 1.4rem;
+      height: 1.4rem;
+      margin-left: 0.1rem;
+      color: var(--nav);
+      text-decoration: none;
+      border-radius: 50%;
+      vertical-align: middle;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-icon:hover,
+    .nav-icon:focus-visible {
+      background: rgba(0, 117, 74, 0.12);
+      color: var(--nav-hover);
+      outline: none;
+    }
+
+    .nav-icon svg {
+      width: 0.95rem;
+      height: 0.95rem;
+      display: block;
+    }
+
+    .nav-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 0.65rem;
+      align-items: center;
+      margin: 0.15rem 0 0;
+    }
+
+    .nav-actions:empty {
+      display: none;
+    }
+
+    .nav-extra {
+      font-size: 0.78rem;
+      color: var(--nav);
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(0, 117, 74, 0.45);
+    }
+
+    .nav-extra:hover {
+      color: var(--nav-hover);
+      border-bottom-color: var(--nav-hover);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.85rem;
+      font-family: inherit;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-nav {
+      background: var(--nav);
+      color: #fff;
+    }
+
+    .btn-nav:hover {
+      background: var(--nav-hover);
+    }
+
+    .btn-route {
+      background: transparent;
+      color: var(--nav);
+      border: 1px solid var(--nav);
+    }
+
+    .no-nav {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .segment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .segment {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 0.75rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .segment-label {
+      font-size: 0.88rem;
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .tips {
+      padding: 1.25rem 1.35rem;
+      background: linear-gradient(135deg, rgba(196, 92, 38, 0.08), rgba(26, 36, 33, 0.04));
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-top: 2rem;
+      scroll-margin-top: 1rem;
+    }
+
+    .tips h2 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      margin: 0 0 0.75rem;
+    }
+
+    .tips ul {
+      margin: 0;
+      padding-left: 1.2rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .tips li {
+      margin-bottom: 0.4rem;
+    }
+
+    footer {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 2.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="hero">
+    <p class="eyebrow">自驾路书 · 拉胡线反穿 · 山上过夜</p>
+    <h1>惠州大南山<br />2026.10.31 – 11.1</h1>
+    <p class="lead">
+      中山马鞍岛出发，自驾惠东大南山，走<strong style="color:var(--ink)">拉胡线反穿</strong>：
+      大榕树一带进山，经 A9 垭口、水底山，傍晚在山上<strong style="color:var(--ink)">烂尾楼（废弃房子）</strong>住一晚，次日下山至兴记农家乐取车回程。
+      十月底草甸转金黄，山脊风大、夜里偏凉——按过夜强度备装。
+    </p>
+    <div class="route-strip" aria-label="总路线">
+      <span>中山马鞍岛</span><span class="arrow">→</span>
+      <span>兴记农家乐（停车）</span><span class="arrow">→</span>
+      <span>大榕树 / 龙岩寺</span><span class="arrow">→</span>
+      <span>水底山</span><span class="arrow">→</span>
+      <span>烂尾楼过夜</span><span class="arrow">→</span>
+      <span>兴记农家乐</span><span class="arrow">→</span>
+      <span>中山马鞍岛</span>
+    </div>
+  </header>
+
+  <main>
+    <nav class="toc" aria-label="目录">
+      <h2>跳转</h2>
+      <ul>
+        <li><a href="#overview">行程概览</a></li>
+        <li><a href="#route-map">行程路线图</a></li>
+        <li><a href="#map">驾车导航段</a></li>
+        <li><a href="#d1031">10.31</a></li>
+        <li><a href="#d1101">11.1</a></li>
+        <li><a href="#packing">物品清单</a></li>
+        <li><a href="#booking">行前预约</a></li>
+        <li><a href="#stay">住宿速查</a></li>
+        <li><a href="#cost">费用明细</a></li>
+        <li><a href="#ideal">理想版 vs 备选</a></li>
+        <li><a href="#tips">注意事项</a></li>
+      </ul>
+    </nav>
+
+    <section class="panel" id="overview">
+      <h2>行程概览</h2>
+      <p class="sub">2 天 1 晚 · 中山 ↔ 惠东大南山 · 拉胡线反穿 + 山上过夜（计划稿）</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="num">2 天</div>
+          <div class="label">10.31 – 11.1</div>
+        </div>
+        <div class="stat">
+          <div class="num">~15–18 km</div>
+          <div class="label">徒步全程约（视切线）</div>
+        </div>
+        <div class="stat">
+          <div class="num">~1100 m</div>
+          <div class="label">累计爬升量级</div>
+        </div>
+        <div class="stat">
+          <div class="num">1 晚</div>
+          <div class="label">山上烂尾楼</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>主线</th>
+              <th>过夜</th>
+              <th>强度</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10.31</td>
+              <td>马鞍岛出发 → 停车兴记 → 接驳大榕树 → 反穿至水底山 / 烂尾楼</td>
+              <td>山上烂尾楼（废弃房子）</td>
+              <td>高 · 过夜</td>
+            </tr>
+            <tr>
+              <td>11.1</td>
+              <td>下山经峭壁 / 水渠出兴记 → 回中山马鞍岛</td>
+              <td>—</td>
+              <td>中高 · 下行陡</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-top:1rem">
+        <strong>路线一句话：</strong>拉胡线因拉胡村得名，现多从<strong>百木洋 · 兴记农家乐</strong>进出。
+        正穿常见为兴记 → 水渠 → 拉胡峭壁 → 水底山（约 1280 m）→ 下山；
+        <strong>反穿</strong>多从<strong>大榕树 / 龙岩寺盘山公路缺口</strong>进，经 A9 垭口、水底山，再经峭壁、树林、水渠出兴记。
+        驴友口中的<strong>烂尾楼</strong>在水底山附近下山岔路一带，是常见日落点与过夜点；岔路易走偏，见下文。
+      </p>
+    </section>
+
+    <section class="panel" id="route-map">
+      <h2>行程路线图（真实地理方位）</h2>
+      <p class="sub">高德底图 + Leaflet。节点为公开资料估算经纬度，仅作方位示意；导航请点站点旁搜索图标。</p>
+      <div id="real-map" role="img" aria-label="真实地图路线"></div>
+    </section>
+
+    <section class="panel" id="map">
+      <h2>驾车导航段</h2>
+      <p class="sub">有明确店名/地名的路段提供高德搜索链接；接驳与返程无固定终点的只列文字。</p>
+      <div class="segment-list" id="drive-segments"></div>
+    </section>
+
+    <!-- ========== 10.31 ========== -->
+    <section class="day" id="d1031">
+      <div class="day-header">
+        <span class="date">10.31</span>
+        <span class="theme">出发 · 拉胡线反穿进山 · 烂尾楼过夜</span>
+      </div>
+      <div class="timeline">
+        <h3>当日时间轴（约，计划估算）</h3>
+        <ol>
+          <li><span class="t">约 06:30–07:00</span><span>中山马鞍岛出发；最后检查水、头灯、离线轨迹</span></li>
+          <li><span class="t">约 07:00–09:30</span><span class="drive">自驾 马鞍岛 → 惠东兴记农家乐（约 2–2.5h，视路况）</span></li>
+          <li><span class="t">约 09:30–10:30</span><span>兴记停车休整；接驳至大榕树 / 龙岩寺登山口（包车或约车，约 20–40min）</span></li>
+          <li><span class="t">约 10:30–13:00</span><span>大榕树 → A9 垭口一带（前段机耕 / 山径，匀速热身）</span></li>
+          <li><span class="t">约 13:00–16:00</span><span>A9 → 水底山冲顶与草甸；补水、拍照，留意天气与风</span></li>
+          <li><span class="t">约 16:00–17:30</span><span>水底山侧切至烂尾楼；天黑前安顿过夜</span></li>
+          <li><span class="t">晚间</span><span>烂尾楼过夜；早睡，留电与头灯电量给次日下山</span></li>
+        </ol>
+      </div>
+
+      <div class="choice-row" aria-label="停车与接驳">
+        <div class="choice-card picked">
+          <span class="badge">推荐自驾</span>
+          <h3>车停兴记 · 接驳去起点</h3>
+          <p>车停反穿终点<strong>兴记农家乐</strong>，再打车 / 包车到<strong>大榕树 / 龙岩寺</strong>进山；次日下山直接取车，省得终点再倒腾。</p>
+        </div>
+        <div class="vs">VS</div>
+        <div class="choice-card alt">
+          <span class="badge">备选</span>
+          <h3>车停龙岩寺 · 终点包车回</h3>
+          <p>车停龙岩寺停车场进山，出兴记后再约车回取车。终点找车不如前者省心，人少时可考虑。</p>
+        </div>
+      </div>
+
+      <div class="leg">
+        <div class="leg-title">出发与停车</div>
+        <ol class="stops">
+          <li>
+            <h3 class="stop-name">中山马鞍岛（出发点）</h3>
+            <p class="no-nav">自行导航 · 不链</p>
+          </li>
+          <li data-poi='{"name":"兴记农家乐","search":"兴记农家乐","city":"惠州"}'>
+            <h3 class="stop-name">惠东 · 兴记农家乐（停车）</h3>
+            <div class="tags"><span class="tag star">高德好搜</span><span class="tag">百木洋一带</span></div>
+            <p class="note">
+              定位：惠东县多祝 / 百木洋一带，公开活动常用「兴记农家乐」「百木洋兴记农家乐」。
+              附近还有一亩三分地、强记等农家乐，认准停车后再进山。
+              <br /><strong>停车：</strong>尽量上午到，周末与节假日车位紧；农家乐是否收费以现场为准。
+              部分攻略写可问<strong>芳姐</strong>协助联系，过夜下山后也可在此简单吃饭冲凉（店名与服务以到店确认为准）。
+            </p>
+            <div class="nav-actions"></div>
+          </li>
+          <li data-poi='{"name":"许屋洋","search":"许屋洋","city":"惠州"}'>
+            <h3 class="stop-name">许屋洋（备用搜点）</h3>
+            <div class="tags"><span class="tag">兴记不好搜时</span></div>
+            <p class="note">部分攻略写导航「惠东县多祝镇许屋洋」可到登山口附近乡村路。优先仍搜兴记；此为备用关键词。</p>
+            <div class="nav-actions"></div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="leg">
+        <div class="leg-title">反穿进山</div>
+        <ol class="stops">
+          <li data-poi='{"name":"龙岩寺","search":"龙岩寺","city":"惠州"}'>
+            <h3 class="stop-name">大榕树 / 龙岩寺（反穿起点）</h3>
+            <div class="tags"><span class="tag star">反穿进山口</span></div>
+            <p class="note">
+              拉胡精华线反穿常见从<strong>龙岩寺下方盘山公路「大榕树缺口」</strong>进。
+              高德搜「<strong>龙岩寺</strong>」（惠东大南山）；大巴往往上不到真正缺口，还可能要再走一段水泥路。
+              自驾轿车盘山路窄、坡大，会车提前鸣笛。
+              <br />进山后大致：大榕树 → A9 垭口 → 水底山 →（切烂尾楼）→ 次日再经拉胡峭壁、树林、水渠出兴记。
+            </p>
+            <div class="nav-actions"></div>
+          </li>
+          <li>
+            <h3 class="stop-name">A9 垭口 · 水底山</h3>
+            <div class="tags"><span class="tag">最高点约 1280 m</span><span class="tag">草甸风大</span></div>
+            <p class="note">
+              水底山是拉胡线制高点，山脊草甸开阔，十月底草色偏金黄。冲顶前有较长陡坡，反穿时体能要留余量给过夜负重。
+              山脊段遮挡少，防晒 + 防风层都带上。沿途<strong>可靠水源少</strong>，按 2.5–3 L / 人备水更稳；季节性小溪勿依赖。
+            </p>
+            <p class="no-nav">山野点位 · 不链导航</p>
+          </li>
+          <li>
+            <h3 class="stop-name">住宿 · 烂尾楼（山上废弃房子）</h3>
+            <div class="tags"><span class="tag star">过夜点</span><span class="tag skip">非正规民宿</span></div>
+            <p class="note">
+              驴友俗称<strong>烂尾楼</strong>，在水底山附近下山岔路一带，也是常见日落观景点。
+              到此附近<strong>岔路往左切</strong>（勿沿石溪一直直下，易走进溯溪岔路）；天黑前务必确认轨迹与标记。
+              <br /><strong>过夜实话：</strong>不是正规住宿——墙体与楼板状态不明、可能漏风漏雨、夜里偏冷且<strong>手机信号常弱或无</strong>。
+              结伴为佳；带头灯备用电、应急毯 / 睡袋、足够饮水与干粮；地板潮湿时垫防潮垫。
+              不建议独行过夜；若预报大风大雨，改下山住农家乐更稳妥。
+            </p>
+            <p class="no-nav">山野点位 · 不链导航</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ========== 11.1 ========== -->
+    <section class="day" id="d1101">
+      <div class="day-header">
+        <span class="date">11.1</span>
+        <span class="theme">下山出兴记 · 回马鞍岛</span>
+      </div>
+      <div class="timeline">
+        <h3>当日时间轴（约）</h3>
+        <ol>
+          <li><span class="t">约 06:30–07:30</span><span>起床收装；简单早餐；检查头灯电量（林段可能偏暗）</span></li>
+          <li><span class="t">约 07:30–12:00</span><span>烂尾楼 → 拉胡峭壁 → 树林 / 水渠 → 兴记（视体能 4–6h）</span></li>
+          <li><span class="t">约 12:00–13:30</span><span>兴记休整、可选农家午饭；换干净衣服</span></li>
+          <li><span class="t">约 13:30–16:00</span><span class="drive">自驾 兴记 → 中山马鞍岛（约 2–2.5h）</span></li>
+        </ol>
+      </div>
+
+      <div class="choice-row" aria-label="下山线路">
+        <div class="choice-card picked">
+          <span class="badge">计划 · 走完反穿</span>
+          <h3>经拉胡峭壁出兴记</h3>
+          <p>反穿精华：下行经过拉胡峭壁（正穿是上行拉绳，反穿变下行，湿滑时更吃鞋底与手套）。出树林后接水渠平路回兴记。</p>
+        </div>
+        <div class="vs">VS</div>
+        <div class="choice-card alt">
+          <span class="badge">体力不支时</span>
+          <h3>烂尾楼 → 机耕路回兴记</h3>
+          <p>环线常见下撤：烂尾楼切机耕路回兴记，少走一段峭壁。夜里或疲劳时优先保安全，不必硬走满反穿。</p>
+        </div>
+      </div>
+
+      <ol class="stops">
+        <li>
+          <h3 class="stop-name">拉胡峭壁 · 树林 · 水渠</h3>
+          <div class="tags"><span class="tag">手套必带</span><span class="tag">绳段慢行</span></div>
+          <p class="note">
+            峭壁段有拉绳陡坡，反穿时重心放低、确认落脚点；恐高者可改机耕路下撤。
+            水渠段接近尾声，多为平路，但腿已经软——别赶时间在湿石上滑倒。
+            全程垃圾带走；山里无垃圾桶。
+          </p>
+          <p class="no-nav">山野路段 · 不链导航</p>
+        </li>
+        <li data-poi='{"name":"兴记农家乐","search":"兴记农家乐","city":"惠州"}'>
+          <h3 class="stop-name">兴记农家乐（取车 / 休整）</h3>
+          <p class="note">下山后可简单吃饭、冲凉（以店家当日服务为准）。取车回中山前补油、补水。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li>
+          <h3 class="stop-name">终点 · 中山马鞍岛</h3>
+          <p class="no-nav">自行导航 · 不链</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="panel" id="packing">
+      <h2>物品清单（新手采购向）</h2>
+      <p class="sub">按过夜反穿定制。价格带为国内常见网购 / 迪卡侬量级，够用即可，不必一次配齐重装顶配。</p>
+      <div class="pack-grid">
+        <div class="pack-card">
+          <h3>证件 / 车 / 导航</h3>
+          <ul>
+            <li class="must">身份证</li>
+            <li class="must">驾驶证、行驶证</li>
+            <li class="must">离线地图 + 轨迹（两步路 / 六只脚等，行前下好「拉胡线」「大榕树反穿」类轨迹）</li>
+            <li>ETC / 现金小额（接驳、农家停车）</li>
+            <li>车载充电器、手机支架</li>
+            <li class="tip">手机防水袋（出汗、露水、小雨都用得上；迪卡侬 / 淘宝几块到二十）</li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h3>鞋袜 · 衣物分层</h3>
+          <ul>
+            <li class="must">防滑登山鞋（鞋头偏硬，防磕石；勿普通运动鞋）</li>
+            <li class="must">美利奴羊毛袜或中长筒排汗袜（勿纯棉；再备一双过夜换）</li>
+            <li class="tip">旧袜子一双：鞋底抓地不够时套鞋外增阻，下山也少脏鞋</li>
+            <li class="must">速干内衣 + 薄抓绒 / 轻薄羽绒服（山脊风大，夜里更冷）</li>
+            <li class="must">防风软壳或冲锋衣外壳</li>
+            <li>速干长裤；换洗衣物放车里即可</li>
+            <li class="tip">薄手套（抓绳、防刮）；可选触屏款</li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h3>背包 / 水 / 灯电</h3>
+          <ul>
+            <li class="must">双肩包 25–35L（过夜负重；腰臀腰带要紧）</li>
+            <li class="must">饮水 2.5–3 L / 人（软壶 + 硬瓶组合方便）</li>
+            <li class="must">头灯 + 备用电池 / 第二光源</li>
+            <li class="must">充电宝（≥10000 mAh，冷天电掉得快）</li>
+            <li class="tip">登山杖一对：下山省膝；反穿下行更建议带</li>
+            <li>轻量雨衣 / 背包防雨罩</li>
+            <li>垃圾袋（全程垃圾带走）</li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h3>过夜 / 食物 / 药</h3>
+          <ul>
+            <li class="must">睡袋或厚应急毯 + 防潮垫（烂尾楼地面潮）</li>
+            <li class="must">高热量干粮：面包、牛肉干、能量棒、巧克力、电解质粉</li>
+            <li>热水壶可选；固体燃料灶非必须</li>
+            <li class="must">创可贴、水泡贴、止痛药、肠胃药、个人常备药</li>
+            <li>碘伏棉棒、绷带少量</li>
+            <li>湿巾、纸巾、头灯备用电</li>
+            <li class="tip">哨子 / 应急箔毯：体积小，过夜安心一点</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pack-tip">
+        <p>
+          <strong>鞋与袜（短途实测向）：</strong>
+          短途过夜线不必强上迪卡侬 MH100/MH500、凯乐石一类重装长线鞋——已买的鞋若防滑够用、鞋头偏硬能防磕石、透气尚可，就继续穿练。
+          尺码按日常脚长买即可，不必死守「大一码」；穿着厚袜时后跟大约一指空隙较舒服。
+          <strong>袜子比鞋更常被低估：</strong>优先美利奴羊毛袜（排汗、不起皱、少水泡）；抓地不够的湿滑段，可把旧袜套在鞋外增加摩擦力。
+        </p>
+        <p>
+          <strong>新手怎么买（够用档）：</strong>
+          背包选有腰带的 25–35L（迪卡侬 / 牧高笛等约百元级起）；
+          头灯买能调焦、续航标称 10h+ 的入门款即可；
+          杖选可折叠外锁，新手先体验再决定要不要碳杖；
+          睡袋按「极限温度」留余量，十月底山顶按 5–10℃ 体感备更稳。
+          整套新购控制在「能安全走完」比「品牌齐全」优先。
+        </p>
+      </div>
+    </section>
+
+    <section class="panel" id="booking">
+      <h2>行前预约清单</h2>
+      <ul class="checklist">
+        <li>看天气预报（风力、降雨）；大风大雨取消过夜，改当天环线或改期</li>
+        <li>下载离线地图 + 拉胡线 / 大榕树反穿轨迹；标记烂尾楼岔路</li>
+        <li>约伴（过夜不建议独行）；互留紧急联系人</li>
+        <li>确认兴记停车与接驳大榕树方式（包车价待定，可到村口再问）</li>
+        <li>充电宝、头灯满电；前一晚装包称重试背</li>
+        <li>告知家人大致进出时间与预计下山点（兴记）</li>
+      </ul>
+    </section>
+
+    <section class="panel" id="stay">
+      <h2>住宿速查</h2>
+      <p class="sub">仅列计划过夜点；正规酒店待定不编。</p>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>夜</th>
+              <th>住宿</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10.31</td>
+              <td>大南山 · 烂尾楼（废弃房子）</td>
+              <td>非民宿；信号差；自备睡袋/防潮垫；恶劣天气改兴记一带农家乐（店名待定）</td>
+            </tr>
+            <tr>
+              <td>备选</td>
+              <td>兴记农家乐 / 周边农家（店名待定）</td>
+              <td>不过夜山上时用；高德可先搜兴记再问附近住宿</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="cost">
+      <h2>费用明细（预估）</h2>
+      <p class="sub">账单按本人自驾过夜线预估；同行费用另计。金额多为待定占位，回来后按实报改。</p>
+
+      <h3 class="cost-cat">交通 / 油费停车</h3>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>项目</th>
+              <th>说明</th>
+              <th>金额（元）</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>往返油费 / 高速</td>
+              <td>马鞍岛 ↔ 惠东兴记</td>
+              <td class="amount">待定</td>
+              <td>约 2–2.5h / 单程</td>
+            </tr>
+            <tr>
+              <td>兴记停车</td>
+              <td>农家乐现场</td>
+              <td class="amount">待定</td>
+              <td>可能免费或小额</td>
+            </tr>
+            <tr>
+              <td>接驳车</td>
+              <td>兴记 → 大榕树 / 龙岩寺</td>
+              <td class="amount">待定</td>
+              <td>包车常见约几十到百元级 / 车</td>
+            </tr>
+            <tr class="subtotal">
+              <td>小计</td>
+              <td></td>
+              <td class="amount">待定</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="cost-cat">住宿</h3>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>项目</th>
+              <th>说明</th>
+              <th>金额（元）</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>山上烂尾楼</td>
+              <td>废弃房子过夜</td>
+              <td class="amount">0</td>
+              <td>非经营性住宿</td>
+            </tr>
+            <tr class="subtotal">
+              <td>小计</td>
+              <td></td>
+              <td class="amount">0</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="cost-cat">餐饮</h3>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>项目</th>
+              <th>说明</th>
+              <th>金额（元）</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>途中干粮 / 水</td>
+              <td>行前超市采购</td>
+              <td class="amount">待定</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>下山农家餐</td>
+              <td>兴记一带</td>
+              <td class="amount">待定</td>
+              <td>店名待定</td>
+            </tr>
+            <tr class="subtotal">
+              <td>小计</td>
+              <td></td>
+              <td class="amount">待定</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="cost-cat">门票活动</h3>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>项目</th>
+              <th>说明</th>
+              <th>金额（元）</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>登山门票</td>
+              <td>野生徒步线</td>
+              <td class="amount">0</td>
+              <td>一般无门票；以现场为准</td>
+            </tr>
+            <tr class="subtotal">
+              <td>小计</td>
+              <td></td>
+              <td class="amount">0</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap" style="margin-top: 1.25rem;">
+        <table class="info">
+          <tbody>
+            <tr class="total">
+              <td>合计</td>
+              <td>个人账（预估）</td>
+              <td class="amount">待定</td>
+              <td>回来按实报填</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="ideal">
+      <h2>理想版 vs 备选版</h2>
+      <div class="ideal-vs">
+        <div class="col">
+          <h3>计划走法</h3>
+          <ol>
+            <li>车停兴记，接驳大榕树反穿进山</li>
+            <li>经 A9、水底山，傍晚切烂尾楼过夜</li>
+            <li>次日经拉胡峭壁、水渠出兴记取车</li>
+            <li>下午回中山马鞍岛</li>
+          </ol>
+        </div>
+        <div class="col better">
+          <h3>更稳妥的备选</h3>
+          <ol>
+            <li>风力降雨偏大：取消过夜，改兴记环线当日往返</li>
+            <li>体力吃紧：烂尾楼走机耕路下撤，不强穿峭壁</li>
+            <li>新手结伴有经验者领路；独行优先日间环线</li>
+            <li>下山太晚：兴记农家简单吃住一晚再走（店名待定）</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="tips" id="tips">
+      <h2>注意事项</h2>
+      <ul>
+        <li><strong>难度：</strong>拉胡线整体偏高强度（约 15–18 km、爬升千米级）。反穿时峭壁变下行，比正穿更吃鞋底与心理；纯新手建议先日间环线，再考虑过夜反穿。</li>
+        <li><strong>十月底天气：</strong>山脊风大、昼夜温差明显；带防风层与过夜保暖。有雨雾时石面湿滑，绳段更慢。</li>
+        <li><strong>信号与导航：</strong>山里常无信号，离线轨迹必开；烂尾楼附近岔路认清左切，勿沿石溪直下误入溯溪。</li>
+        <li><strong>过夜：</strong>废弃建筑结构与卫生条件未知，结伴、留足电量与饮水；身体不适或天气转坏果断下撤。</li>
+        <li><strong>停车：</strong>兴记尽量早到；盘山接驳路窄，包车沟通好等候点。</li>
+        <li><strong>环保：</strong>无垃圾桶，垃圾全部带走。</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    路书 · 惠州大南山拉胡线反穿 · 2026.10.31–11.1 · 费用待定
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    /* 仅用于概览地图方位示意；导航按钮一律走高德 keyword 搜索，不用此坐标 */
+    const MAP_POINTS = [
+      { name: "中山马鞍岛", lat: 22.575, lon: 113.615 },
+      { name: "兴记农家乐（停车）", lat: 23.055, lon: 115.055 },
+      { name: "龙岩寺 / 大榕树", lat: 23.025, lon: 115.125 },
+      { name: "水底山一带", lat: 23.040, lon: 115.095 },
+      { name: "烂尾楼（过夜）", lat: 23.048, lon: 115.080 },
+      { name: "兴记农家乐（下山）", lat: 23.055, lon: 115.055 },
+      { name: "中山马鞍岛(返)", lat: 22.575, lon: 113.615 },
+    ];
+
+    const DRIVE_SEGMENTS = [
+      { label: "中山马鞍岛 → 兴记农家乐（约 2–2.5h）", search: "兴记农家乐", city: "惠州" },
+      { label: "兴记农家乐 → 龙岩寺 / 大榕树登山口（接驳约 20–40min）", search: "龙岩寺", city: "惠州" },
+      { label: "兴记农家乐 → 中山马鞍岛 · 返程（约 2–2.5h）", search: null, note: "返程自行导航" },
+    ];
+
+    function encodeName(name) {
+      return encodeURIComponent(name);
+    }
+
+    function searchUrl(keyword, city) {
+      const cityPart = city ? "&city=" + encodeName(city) : "";
+      return (
+        "https://uri.amap.com/search?keyword=" +
+        encodeName(keyword) +
+        cityPart +
+        "&src=huizhou-dananshan-2026&callnative=1"
+      );
+    }
+
+    function markerUrl(poi) {
+      return (
+        "https://uri.amap.com/marker?position=" +
+        poi.lon +
+        "," +
+        poi.lat +
+        "&name=" +
+        encodeName(poi.name) +
+        "&coordinate=gaode&src=huizhou-dananshan-2026&callnative=1"
+      );
+    }
+
+    function navCoordUrl(poi) {
+      return (
+        "https://uri.amap.com/navigation?to=" +
+        poi.lon +
+        "," +
+        poi.lat +
+        "," +
+        encodeName(poi.name) +
+        "&mode=car&src=huizhou-dananshan-2026&callnative=1"
+      );
+    }
+
+    const NAV_ICON_SVG =
+      '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<path fill="currentColor" d="M12 2.5L4.2 20.1c-.25.55.3 1.1.85.9L12 17.6l6.95 3.4c.55.2 1.1-.35.85-.9L12 2.5zm0 5.1l4.4 9.95-4.05-2-4.05 2L12 7.6z"/>' +
+      "</svg>";
+
+    function primaryNavUrl(poi) {
+      /* 主入口：高德关键词搜索（与 README 一致）；有 search 优先，不用坐标导航当默认 */
+      if (poi.search) return searchUrl(poi.search, poi.city);
+      return searchUrl(poi.name, poi.city);
+    }
+
+    function createNavIcon(href) {
+      const a = document.createElement("a");
+      a.className = "nav-icon";
+      a.href = href;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.title = "高德搜索";
+      a.setAttribute("aria-label", "高德搜索");
+      a.innerHTML = NAV_ICON_SVG;
+      return a;
+    }
+
+    function attachNavIcon(heading, poi) {
+      if (!heading || !poi || heading.querySelector(".nav-icon")) return;
+      heading.appendChild(createNavIcon(primaryNavUrl(poi)));
+    }
+
+    function appendExtraLink(container, keyword, label, city) {
+      const a = document.createElement("a");
+      a.className = "nav-extra";
+      a.href = searchUrl(keyword, city);
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.title = "高德搜索「" + label + "」";
+      a.textContent = "搜「" + label + "」";
+      container.appendChild(a);
+    }
+
+    function renderExtraSearches(container, poi) {
+      if (!container || !poi) return;
+      const extras = poi.extraSearches || [];
+      if (!extras.length) {
+        container.remove();
+        return;
+      }
+      container.innerHTML = "";
+      extras.forEach(function (item) {
+        appendExtraLink(
+          container,
+          item.search,
+          item.label || item.search,
+          poi.city
+        );
+      });
+    }
+
+    function renderStopNav(el, poi) {
+      if (!poi) return;
+      if (el.classList.contains("nav-actions")) {
+        const heading =
+          (el.parentElement && el.parentElement.querySelector("h3")) || null;
+        attachNavIcon(heading, poi);
+        renderExtraSearches(el, poi);
+        return;
+      }
+      attachNavIcon(el.querySelector(".stop-name, h3"), poi);
+      renderExtraSearches(el.querySelector(".nav-actions"), poi);
+    }
+
+    (function initMap() {
+      if (typeof L === "undefined") return;
+      const el = document.getElementById("real-map");
+      if (!el) return;
+      const map = L.map(el, { scrollWheelZoom: false });
+      L.tileLayer(
+        "https://wprd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}",
+        {
+          subdomains: "1234",
+          maxZoom: 18,
+          attribution:
+            '&copy; <a href="https://lbs.amap.com/" target="_blank" rel="noopener">高德地图</a>',
+        }
+      ).addTo(map);
+
+      const outbound = MAP_POINTS.slice(0, 5);
+      const ret = [MAP_POINTS[4], MAP_POINTS[5], MAP_POINTS[6]];
+      const outLatLngs = outbound.map(function (p) { return [p.lat, p.lon]; });
+      const retLatLngs = ret.map(function (p) { return [p.lat, p.lon]; });
+
+      L.polyline(outLatLngs, { color: "#c45c26", weight: 3.5, opacity: 0.9 }).addTo(map);
+      L.polyline(retLatLngs, {
+        color: "#00754a",
+        weight: 3,
+        opacity: 0.75,
+        dashArray: "8 8",
+      }).addTo(map);
+
+      outbound.forEach(function (p, i) {
+        L.circleMarker([p.lat, p.lon], {
+          radius: i === 0 || i === outbound.length - 1 ? 7 : 5,
+          color: "#1a2421",
+          weight: 1,
+          fillColor: i === 0 ? "#c45c26" : "#00754a",
+          fillOpacity: 0.95,
+        })
+          .bindPopup(p.name)
+          .bindTooltip(p.name, { direction: "top", offset: [0, -6] })
+          .addTo(map);
+      });
+
+      map.fitBounds(outLatLngs.concat(retLatLngs), { padding: [28, 28] });
+    })();
+
+    document.querySelectorAll("[data-poi]").forEach(function (el) {
+      renderStopNav(el, JSON.parse(el.getAttribute("data-poi")));
+    });
+
+    const segRoot = document.getElementById("drive-segments");
+    DRIVE_SEGMENTS.forEach(function (seg) {
+      const row = document.createElement("div");
+      row.className = "segment";
+      const label = document.createElement("div");
+      label.className = "segment-label";
+      const text = document.createElement("span");
+      text.textContent = seg.label + (seg.note ? " · " + seg.note : "");
+      label.appendChild(text);
+      if (seg.search) {
+        label.appendChild(createNavIcon(searchUrl(seg.search, seg.city)));
+      } else {
+        const skip = document.createElement("span");
+        skip.className = "no-nav";
+        skip.textContent = "无明确终点";
+        label.appendChild(skip);
+      }
+      row.appendChild(label);
+      segRoot.appendChild(row);
+    });
+  </script>
+</body>
+
+</html>
