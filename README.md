@@ -13,6 +13,9 @@
 ```
 travel/
 ├── README.md                           # 本说明（作者 / AI 规范）
+├── index.html                          # 入口跳转（行程列表 + 共用资料）
+├── gear/index.html                     # 徒步装备选购（多趟共用）
+├── scripts/auto_git_push.sh            # 每日自动 commit + push
 ├── .github/workflows/…                 # Cloudflare Pages 自动部署
 └── guides/
     └── <slug>/                         # 英文 slug，如 2026-guangxi-national-day
@@ -20,9 +23,10 @@ travel/
 ```
 
 - **入口**：`guides/<slug>/index.html`（单页静态：Leaflet CDN、高德关键词搜索导航等）。
-- **根目录**：只保留 README 等说明，不放攻略正文。
+- **根目录**：`index.html` 仅作跳转/说明；攻略正文放 `guides/`。
+- **装备选购**：详细怎么买写在 [`gear/`](gear/)；路书只保留当次**物品清单**，链到 `../../gear/`（或锚点如 `#shoes`）。不要在每趟路书末尾重复长篇选购文。
 - **slug**：英文小写、数字、连字符（`YYYY-place-occasion`）。
-- **新攻略**：只新增 `guides/<slug>/`，无需改根目录逻辑。
+- **新攻略**：只新增 `guides/<slug>/`；若根 `index.html` 有行程列表，补一条链接。
 
 ### 隐私
 
@@ -69,10 +73,9 @@ travel/
 
 ### 山线 / 探洞默认装备（有徒步、陡坡、洞穴时）
 
-- [ ] **中长筒排汗袜**（勿纯棉）；可选再带一双旧袜套鞋外，下山增阻、少脏鞋
-- [ ] **登山鞋 / 防滑鞋，鞋头偏硬**（勿运动鞋，易撞石伤趾）
-- [ ] 陡坡提示：**手套**；陡线带 **登山杖**
-- [ ] 相关时列入：双肩小包、水泡贴、手机防水袋
+- [ ] 物品清单含：**中长筒排汗袜**（勿纯棉）；可选旧袜套鞋外；**登山鞋 / 防滑鞋，鞋头偏硬**（勿运动鞋）
+- [ ] 陡坡提示：**手套**；陡线带 **登山杖**；相关时列入双肩小包、水泡贴、手机防水袋
+- [ ] 清单旁链到 [`gear/`](gear/)「装备选购」，**不要**在路书里再写长篇怎么买
 - [ ] 已知停车技巧写进正文（例：水库附近早点停，登山口易满位）
 
 ### 费用
@@ -157,9 +160,35 @@ travel/
 
 ```bash
 open guides/2026-guangxi-national-day/index.html
+open gear/index.html
 ```
 
 Leaflet / 地图瓦片走 CDN；子目录相对路径无需额外调整。改完用浏览器硬刷新确认地图与图标。
+
+---
+
+## 提交与每日自动同步
+
+**Agent / 日常改稿：默认只改本地，不要每次小改都 `git commit` / `push`。** 晚上由 cron 统一提交推送（与 acknowledge、ai_anime 同模式）。
+
+- 脚本：`scripts/auto_git_push.sh`（无改动则跳过；有改动则 `git add -A` → `auto sync YYYY-MM-DD HH:MM` → `push origin master`）
+- 日志：`/tmp/travel-auto-push.log`
+- crontab（已装或自行安装）：
+
+```cron
+0 19 * * * /Volumes/文档/data/travel/scripts/auto_git_push.sh >> /tmp/travel-auto-push.log 2>&1
+```
+
+验证：
+
+```bash
+crontab -l | grep travel
+# 手动干跑一次：
+/Volumes/文档/data/travel/scripts/auto_git_push.sh
+tail -20 /tmp/travel-auto-push.log
+```
+
+需要立刻上线时再手动 `git push origin master`（会触发 Cloudflare Pages）。
 
 ---
 
@@ -171,6 +200,7 @@ Leaflet / 地图瓦片走 CDN；子目录相对路径无需额外调整。改完
 
 - 站点：https://travel-aft.pages.dev/
 - 单趟示例：https://travel-aft.pages.dev/guides/2026-guangxi-national-day/
+- 装备选购：https://travel-aft.pages.dev/gear/
 
 push 到 **`master`** 后由 GitHub Actions 自动部署（见 `.github/workflows/deploy-cloudflare-pages.yml`）。  
 注意：Git 分支是 `master`，wrangler 部署参数使用 `--branch=main`（对应 Cloudflare Pages 的生产分支名）。
