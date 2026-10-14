@@ -787,6 +787,106 @@
       color: var(--muted);
       text-align: center;
     }
+
+    .gear-shot {
+      margin: 0.85rem 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.35rem;
+    }
+
+    .gear-shot-thumb {
+      display: block;
+      padding: 0;
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      cursor: zoom-in;
+      overflow: hidden;
+      max-width: 140px;
+      line-height: 0;
+    }
+
+    .gear-shot-thumb:hover,
+    .gear-shot-thumb:focus-visible {
+      border-color: var(--accent);
+      outline: 2px solid var(--accent-soft);
+      outline-offset: 2px;
+    }
+
+    .gear-shot-thumb img {
+      display: block;
+      width: 100%;
+      max-width: 140px;
+      height: auto;
+      vertical-align: middle;
+    }
+
+    .gear-shot figcaption {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .gear-lightbox {
+      border: none;
+      padding: 0;
+      margin: auto;
+      max-width: min(92vw, 720px);
+      max-height: 92vh;
+      background: transparent;
+    }
+
+    .gear-lightbox::backdrop {
+      background: rgba(26, 36, 33, 0.72);
+    }
+
+    .gear-lightbox-inner {
+      position: relative;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0.65rem;
+      box-shadow: 0 12px 40px rgba(26, 36, 33, 0.28);
+    }
+
+    .gear-lightbox-inner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: calc(92vh - 3.5rem);
+      object-fit: contain;
+      border-radius: 3px;
+    }
+
+    .gear-lightbox-close {
+      position: absolute;
+      top: 0.45rem;
+      right: 0.45rem;
+      width: 2rem;
+      height: 2rem;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: rgba(247, 244, 239, 0.95);
+      color: var(--ink);
+      font-size: 1.15rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .gear-lightbox-close:hover,
+    .gear-lightbox-close:focus-visible {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .gear-lightbox-caption {
+      margin: 0.45rem 0.15rem 0.1rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -1173,6 +1273,14 @@
           尺码按日常脚长买即可，不必死守「大一码」；穿着厚袜时后跟大约一指空隙较舒服。
           <strong>袜子比鞋更常被低估：</strong>优先美利奴羊毛袜（排汗、不起皱、少水泡）；抓地不够的湿滑段，可把旧袜套在鞋外增加摩擦力。
         </p>
+        <figure class="gear-shot">
+          <button type="button" class="gear-shot-thumb" id="humtto-boots-open"
+            aria-haspopup="dialog" aria-controls="humtto-boots-lightbox"
+            aria-label="放大查看：本次鞋款悍途登山鞋">
+            <img src="assets/humtto-boots.jpg" alt="悍途米色高帮登山鞋" width="140" height="304" loading="lazy" />
+          </button>
+          <figcaption>本次鞋款：悍途登山鞋</figcaption>
+        </figure>
         <p>
           <strong>背包选购：</strong>
           容量仍选 <strong>28–40L</strong>、有透气背板 + 腰带的（过夜睡袋+垫+水食塞满后 25L 偏紧，40L 以上又容易空荡晃）。
@@ -1421,6 +1529,14 @@
     路书 · 惠州大南山拉胡线反穿 · 2026.10.31–11.1 · 费用待定
   </footer>
 
+  <dialog id="humtto-boots-lightbox" class="gear-lightbox" aria-labelledby="humtto-boots-caption">
+    <div class="gear-lightbox-inner">
+      <button type="button" class="gear-lightbox-close" id="humtto-boots-close" aria-label="关闭大图">×</button>
+      <img src="assets/humtto-boots.jpg" alt="悍途米色高帮登山鞋（大图）" />
+      <p class="gear-lightbox-caption" id="humtto-boots-caption">本次鞋款：悍途登山鞋</p>
+    </div>
+  </dialog>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
@@ -1617,6 +1733,25 @@
       row.appendChild(label);
       segRoot.appendChild(row);
     });
+
+    (function initGearLightbox() {
+      const dialog = document.getElementById("humtto-boots-lightbox");
+      const openBtn = document.getElementById("humtto-boots-open");
+      const closeBtn = document.getElementById("humtto-boots-close");
+      if (!dialog || !openBtn || typeof dialog.showModal !== "function") return;
+
+      openBtn.addEventListener("click", function () {
+        dialog.showModal();
+      });
+      if (closeBtn) {
+        closeBtn.addEventListener("click", function () {
+          dialog.close();
+        });
+      }
+      dialog.addEventListener("click", function (e) {
+        if (e.target === dialog) dialog.close();
+      });
+    })();
   </script>
 </body>
 
