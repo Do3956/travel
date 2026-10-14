@@ -812,10 +812,11 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: #fff;
-      cursor: zoom-in;
+      cursor: pointer;
       overflow: hidden;
       max-width: 140px;
       line-height: 0;
+      text-decoration: none;
     }
 
     .gear-shot-thumb:hover,
@@ -838,64 +839,6 @@
       color: var(--muted);
     }
 
-    .gear-lightbox {
-      border: none;
-      padding: 0;
-      margin: auto;
-      max-width: min(92vw, 720px);
-      max-height: 92vh;
-      background: transparent;
-    }
-
-    .gear-lightbox::backdrop {
-      background: rgba(26, 36, 33, 0.72);
-    }
-
-    .gear-lightbox-inner {
-      position: relative;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 0.65rem;
-      box-shadow: 0 12px 40px rgba(26, 36, 33, 0.28);
-    }
-
-    .gear-lightbox-inner img {
-      display: block;
-      width: 100%;
-      height: auto;
-      max-height: calc(92vh - 3.5rem);
-      object-fit: contain;
-      border-radius: 3px;
-    }
-
-    .gear-lightbox-close {
-      position: absolute;
-      top: 0.45rem;
-      right: 0.45rem;
-      width: 2rem;
-      height: 2rem;
-      border: 1px solid var(--line);
-      border-radius: 3px;
-      background: rgba(247, 244, 239, 0.95);
-      color: var(--ink);
-      font-size: 1.15rem;
-      line-height: 1;
-      cursor: pointer;
-    }
-
-    .gear-lightbox-close:hover,
-    .gear-lightbox-close:focus-visible {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .gear-lightbox-caption {
-      margin: 0.45rem 0.15rem 0.1rem;
-      font-size: 0.82rem;
-      color: var(--muted);
-      text-align: center;
-    }
   </style>
 </head>
 
@@ -934,7 +877,7 @@
         <li><a href="#cost">费用明细</a></li>
         <li><a href="#ideal">理想版 vs 备选</a></li>
         <li><a href="#tips">注意事项</a></li>
-        <li><a href="../../gear/">装备选购</a></li>
+        <li><a href="../../gear/">装备</a></li>
       </ul>
     </nav>
 
@@ -993,6 +936,11 @@
         精华线反穿常见约 <strong>12.5 km / 爬升约 1000 m</strong>；本趟兴记进出 + 烂尾楼过夜，全程多约 15–18 km。
         斧头石草甸口碑好，是否绕看体能与轨迹。
         日间反穿树荫多；<strong>离线 GPS 轨迹行前必下</strong>（两步路 / 六只脚等）。
+      </p>
+      <p class="note">
+        <strong>风景别踩坑：</strong>常见吐槽是<strong>大王殿 → 斧头石再原路返回</strong>——前段密林陡爬风景差，好看的山脊草甸多在<strong>斧头石 ↔ 龙岩寺</strong>一段，原路返等于白爬最累、错过精华。
+        本趟<strong>龙岩寺进、兴记出</strong>，Day1 已走龙岩寺→脊线 / 水底山（好风景走廊上行），Day2 经峭壁 / 水渠<strong>继续往前出</strong>，不是原路返；体力不支用<strong>机耕路回兴记</strong>，勿退回龙岩寺。
+        想专看斧头石草甸，Day1 按轨迹<strong>绕看</strong>后再切烂尾楼，勿改成大王殿进出当日往返。
       </p>
     </section>
 
@@ -1171,7 +1119,7 @@
 
     <section class="panel" id="packing">
       <h2>物品清单</h2>
-      <p class="sub">过夜反穿带什么。怎么买见 <a href="../../gear/">装备选购</a>。</p>
+      <p class="sub">过夜反穿带什么。怎么买 / 我的物资见 <a href="../../gear/">装备</a>。</p>
       <div class="pack-grid">
         <div class="pack-card">
           <h3>证件 / 车 / 导航</h3>
@@ -1251,24 +1199,21 @@
           <ul>
             <li class="must">创可贴、水泡贴</li>
             <li class="must">止痛药、肠胃药、个人常备药</li>
+            <li class="must">体温计（优先电子）</li>
             <li>碘伏棉棒、绷带少量</li>
             <li class="tip">感冒 / 退烧药按需</li>
+            <li class="tip">电子快、耐摔、夜里好读；玻璃酒精/镓铟款无电池但易碎、要测几分钟</li>
           </ul>
         </div>
       </div>
 
       <div class="pack-tip">
         <p>
-          <strong>本次鞋款：</strong>悍途登山鞋。抓地够用、鞋头偏硬即可继续穿；升级与尺码见
-          <a href="../../gear/#shoes">装备选购 · 鞋袜</a>。
+          <strong>本次鞋款：</strong>悍途登山鞋。
         </p>
         <figure class="gear-shot">
-          <button type="button" class="gear-shot-thumb" id="humtto-boots-open"
-            aria-haspopup="dialog" aria-controls="humtto-boots-lightbox"
-            aria-label="放大查看：本次鞋款悍途登山鞋">
-            <img src="assets/humtto-boots.jpg" alt="悍途米色高帮登山鞋" width="140" height="304" loading="lazy" />
-          </button>
-          <figcaption>本次鞋款：悍途登山鞋</figcaption>
+          <img src="assets/humtto-boots.jpg" alt="悍途米色高帮登山鞋" width="140" height="304" loading="lazy" />
+          <figcaption>悍途登山鞋</figcaption>
         </figure>
       </div>
     </section>
@@ -1488,6 +1433,7 @@
       <h2>注意事项</h2>
       <ul>
         <li><strong>难度：</strong>精华线约 12.5 km / 爬升约 1000 m；出兴记多约 15–18 km。反穿峭壁变下行，更吃鞋底与心理；日间反穿树荫多，夜爬多建议正穿。纯新手先日间环线再过夜。</li>
+        <li><strong>风景：</strong>勿学「大王殿上斧头石再原路返」——密林陡爬风景差，精华在斧头石↔龙岩寺草甸脊线。本趟反穿已覆盖龙岩寺→脊线；次日务必出兴记（或机耕路），勿原路退龙岩寺。斧头石可绕看，非必经。</li>
         <li><strong>天气：</strong>山脊风大、昼夜温差大；约 1000 m 以上易浓雾。防风层必带；雨天山路极难走——行前看预报。</li>
         <li><strong>信号与导航：</strong>山里常无信号，<strong>离线 GPS 必下</strong>；烂尾楼岔路左切，勿沿石溪直下。接驳说清龙岩寺 / 半山腰。</li>
         <li><strong>水：</strong>露营区<strong>无水源</strong>，全部自带，勿指望小溪；至少约 2.5–3 L / 人。本次见「物品清单 · 个人准备」。</li>
@@ -1502,14 +1448,6 @@
   <footer>
     路书 · 惠州大南山拉胡线反穿 · 2026.10.31–11.1 · 费用待定
   </footer>
-
-  <dialog id="humtto-boots-lightbox" class="gear-lightbox" aria-labelledby="humtto-boots-caption">
-    <div class="gear-lightbox-inner">
-      <button type="button" class="gear-lightbox-close" id="humtto-boots-close" aria-label="关闭大图">×</button>
-      <img src="assets/humtto-boots.jpg" alt="悍途米色高帮登山鞋（大图）" />
-      <p class="gear-lightbox-caption" id="humtto-boots-caption">本次鞋款：悍途登山鞋</p>
-    </div>
-  </dialog>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -1708,24 +1646,6 @@
       segRoot.appendChild(row);
     });
 
-    (function initGearLightbox() {
-      const dialog = document.getElementById("humtto-boots-lightbox");
-      const openBtn = document.getElementById("humtto-boots-open");
-      const closeBtn = document.getElementById("humtto-boots-close");
-      if (!dialog || !openBtn || typeof dialog.showModal !== "function") return;
-
-      openBtn.addEventListener("click", function () {
-        dialog.showModal();
-      });
-      if (closeBtn) {
-        closeBtn.addEventListener("click", function () {
-          dialog.close();
-        });
-      }
-      dialog.addEventListener("click", function (e) {
-        if (e.target === dialog) dialog.close();
-      });
-    })();
   </script>
 </body>
 

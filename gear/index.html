@@ -4,14 +4,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="徒步 / 过夜山线共用装备选购：鞋袜、背包、过夜系统、头灯杖、衣物、药。路书只列清单，详细怎么买看这里。" />
-  <title>徒步装备选购 · 旅游路书</title>
+  <meta name="description" content="徒步装备：小白选购指南 + 个人物资一表（物品、说明、状态、金额）。鞋袜、背包、过夜、头灯杖、衣物、药。" />
+  <title>徒步装备 · 选购与我的物资</title>
   <style>
     :root {
       --ink: #1a2421;
       --muted: #5c6b66;
       --paper: #f7f4ef;
       --accent: #c45c26;
+      --accent-soft: rgba(196, 92, 38, 0.12);
       --line: rgba(26, 36, 33, 0.1);
       --nav: #00754a;
       --radius: 6px;
@@ -60,7 +61,7 @@
     .hero .lead {
       font-size: 1.05rem;
       color: var(--muted);
-      max-width: 36em;
+      max-width: 38em;
       margin: 0;
     }
 
@@ -70,6 +71,8 @@
     }
 
     .hero .lead a:hover { text-decoration: underline; }
+
+    .hero .lead strong { color: var(--ink); font-weight: 600; }
 
     main {
       max-width: 920px;
@@ -91,19 +94,33 @@
       margin: 0 0 0.65rem;
     }
 
-    .toc ul {
+    .toc > ul {
       margin: 0;
       padding: 0;
       list-style: none;
       display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .toc > ul > li > a {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .toc ul ul {
+      margin: 0.35rem 0 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
       flex-wrap: wrap;
-      gap: 0.35rem 1rem;
+      gap: 0.3rem 0.85rem;
     }
 
     .toc a {
       color: var(--nav);
       text-decoration: none;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
     }
 
     .toc a:hover { text-decoration: underline; }
@@ -132,10 +149,25 @@
       font-family: var(--font-display);
       font-size: 1.05rem;
       font-weight: 700;
-      margin: 1.25rem 0 0.4rem;
+      margin: 1.45rem 0 0.4rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--line);
     }
 
-    .panel h3:first-of-type { margin-top: 0.55rem; }
+    .panel h3:first-of-type {
+      margin-top: 0.35rem;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    .panel h3 .hint {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
 
     .panel p {
       font-size: 0.95rem;
@@ -177,6 +209,187 @@
       color: var(--muted);
     }
 
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      vertical-align: 0.05em;
+      white-space: nowrap;
+    }
+
+    .tag.have {
+      background: rgba(0, 117, 74, 0.1);
+      border-color: rgba(0, 117, 74, 0.25);
+    }
+
+    .tag.plan {
+      background: var(--accent-soft);
+      border-color: rgba(196, 92, 38, 0.28);
+    }
+
+    .item-cell {
+      min-width: 7.5rem;
+    }
+
+    .item-cell .item-name {
+      display: block;
+      color: var(--ink);
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .gear-shot-thumb {
+      display: block;
+      padding: 0;
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      cursor: zoom-in;
+      overflow: hidden;
+      max-width: 88px;
+      line-height: 0;
+    }
+
+    .gear-shot-thumb:hover,
+    .gear-shot-thumb:focus-visible {
+      border-color: var(--accent);
+      outline: 2px solid var(--accent-soft);
+      outline-offset: 2px;
+    }
+
+    .gear-shot-thumb img {
+      display: block;
+      width: 100%;
+      max-width: 88px;
+      height: auto;
+      vertical-align: middle;
+    }
+
+    table.info td.note {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .gear-lightbox {
+      border: none;
+      padding: 0;
+      margin: auto;
+      max-width: min(92vw, 720px);
+      max-height: 92vh;
+      background: transparent;
+    }
+
+    .gear-lightbox::backdrop {
+      background: rgba(26, 36, 33, 0.72);
+    }
+
+    .gear-lightbox-inner {
+      position: relative;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0.65rem;
+      box-shadow: 0 12px 40px rgba(26, 36, 33, 0.28);
+    }
+
+    .gear-lightbox-inner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: calc(92vh - 3.5rem);
+      object-fit: contain;
+      border-radius: 3px;
+    }
+
+    .gear-lightbox-close {
+      position: absolute;
+      top: 0.45rem;
+      right: 0.45rem;
+      width: 2rem;
+      height: 2rem;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: rgba(247, 244, 239, 0.95);
+      color: var(--ink);
+      font-size: 1.15rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .gear-lightbox-close:hover,
+    .gear-lightbox-close:focus-visible {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .gear-lightbox-caption {
+      margin: 0.45rem 0.15rem 0.1rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 0.35rem;
+    }
+
+    table.info {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    table.info th,
+    table.info td {
+      text-align: left;
+      padding: 0.55rem 0.65rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    table.info th {
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    table.info td.amount {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    table.info td.status {
+      white-space: nowrap;
+    }
+
+    table.info tr.total td {
+      border-top: 2px solid var(--ink);
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--ink);
+    }
+
+    .guide-block {
+      margin-top: 0.35rem;
+      padding-top: 0.15rem;
+    }
+
+    .guide-block > .label {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 0.85rem;
+    }
+
     footer {
       text-align: center;
       color: var(--muted);
@@ -192,10 +405,11 @@
 <body>
   <header class="hero">
     <div class="eyebrow">Travel · Gear</div>
-    <h1>徒步装备选购</h1>
+    <h1>徒步装备</h1>
     <p class="lead">
-      多趟山线共用：怎么买、买哪档写在这里。各路书只保留<strong>当次物品清单</strong>，
-      详见 <a href="../">路书入口</a>。
+      两件事放一起：<strong>选购指南</strong>（小白怎么买鞋袜、背包、过夜系统等），以及<strong>我的物资</strong>（已有 / 待买装备与金额一表）。
+      各路书只列当次物品；详细怎么买、个人档案看这里。入口见
+      <a href="../">路书首页</a>。
     </p>
   </header>
 
@@ -203,132 +417,385 @@
     <nav class="toc" aria-label="目录">
       <h2>跳转</h2>
       <ul>
-        <li><a href="#shoes">鞋袜</a></li>
-        <li><a href="#pack">背包</a></li>
-        <li><a href="#sleep">过夜系统</a></li>
-        <li><a href="#light-poles">头灯 · 杖</a></li>
-        <li><a href="#clothes">衣物分层</a></li>
-        <li><a href="#water-rain">水 · 雨具</a></li>
-        <li><a href="#med">药 · 急救</a></li>
+        <li>
+          <a href="#shoes">鞋袜类</a>
+          <ul>
+            <li><a href="#boots">登山鞋</a></li>
+            <li><a href="#merino-socks">美利奴袜</a></li>
+            <li><a href="#sock-overshoes">旧袜套鞋</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#load-sleep">负重与过夜</a>
+          <ul>
+            <li><a href="#pack">背包</a></li>
+            <li><a href="#sleeping-bag">睡袋</a></li>
+            <li><a href="#foam-pad">蛋巢防潮垫</a></li>
+            <li><a href="#inflatable-pad">充气垫</a></li>
+            <li><a href="#tent">帐篷</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#protect-misc">防护与其它</a>
+          <ul>
+            <li><a href="#headlamp">头灯</a></li>
+            <li><a href="#poles">登山杖</a></li>
+            <li><a href="#base-layer">速干内衣</a></li>
+            <li><a href="#fleece">抓绒</a></li>
+            <li><a href="#shell">防风壳</a></li>
+            <li><a href="#gloves">手套</a></li>
+            <li><a href="#disposable-underwear">一次性内裤</a></li>
+            <li><a href="#camp-slippers">营地拖鞋</a></li>
+            <li><a href="#water">水杯 / 饮水</a></li>
+            <li><a href="#rain">雨具</a></li>
+            <li><a href="#meds">药品</a></li>
+            <li><a href="#thermometer">体温计</a></li>
+            <li><a href="#whistle-blanket">哨子 · 箔毯</a></li>
+          </ul>
+        </li>
         <li><a href="#buy-order">采购顺序</a></li>
+        <li><a href="#my-kit">我的物资</a></li>
       </ul>
     </nav>
 
+    <div class="guide-block" id="guide">
+      <p class="label">选购指南 · 小白怎么买</p>
+    </div>
+
     <section class="panel" id="shoes">
-      <h2>鞋袜</h2>
-      <p class="sub">抓地与鞋头硬度优先于品牌。</p>
+      <h2>鞋袜类</h2>
+      <p class="sub">抓地与鞋头硬度优先于品牌；袜子常被低估。</p>
+
+      <h3 id="boots">登山鞋
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
       <p>
         有预算可上迪卡侬 MH100/MH500、凯乐石等一档；跟重不重装无关——现有鞋若<strong>抓地够用、鞋头偏硬</strong>，继续穿即可。
-        勿普通运动鞋：易撞石伤趾。
       </p>
       <p>
-        尺码按日常脚长，不必死守「大一码」；厚袜时后跟约一指空隙较舒服。
+        勿普通运动鞋：易撞石伤趾。尺码按日常脚长，不必死守「大一码」；厚袜时后跟约一指空隙较舒服。
+      </p>
+      <h3 id="merino-socks">美利奴袜
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        优先<strong>美利奴羊毛 / 中长筒排汗袜</strong>；勿纯棉（湿了难干、易磨泡）。
       </p>
       <p>
-        <strong>袜子常被低估：</strong>优先美利奴羊毛 / 中长筒排汗袜（勿纯棉）；湿滑段可把旧袜套鞋外增阻、少脏鞋。
+        建议两双：路上一双、过夜换一双。中长筒比短袜更护踝、少进沙石。
+      </p>
+
+      <h3 id="sock-overshoes">旧袜套鞋
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        湿滑段可把<strong>旧袜套在鞋外</strong>：增阻、少脏鞋，几乎零成本。
+      </p>
+      <p>
+        用穿破、扔掉也不可惜的旧袜即可；干了取下，别当正式鞋套长期穿。
       </p>
     </section>
 
-    <section class="panel" id="pack">
-      <h2>背包</h2>
-      <p class="sub">日穿轻装与过夜负重档位不同。</p>
-      <ul>
-        <li><strong>日穿 / 轻装：</strong>15–25L 双肩小包即可。</li>
-        <li><strong>过夜：</strong>容量 <strong>28–40L</strong>；25L 塞满偏紧，40L+ 易空荡晃。</li>
-      </ul>
+    <section class="panel" id="load-sleep">
+      <h2>负重与过夜</h2>
+      <p class="sub">睡袋温度余量 + 垫子隔热，比「品牌齐全」更重要。</p>
+
+      <h3 id="pack">背包
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        <strong>日穿 / 轻装：</strong>15–25L 双肩小包即可。
+        <strong>过夜：</strong>容量 <strong>28–40L</strong>；25L 塞满偏紧，40L+ 易空荡晃。
+      </p>
       <p>
         看三点：透气背负、硬一点的腰带（负重上胯）、防雨罩。
         负重约 <strong>15 kg 以内</strong>时，<strong>艾王（Aione）</strong>入门款够用（常见约 200 元内）；再重易勒肩。
       </p>
       <p>
-        想升级：社区常提<strong>小鹰（Osprey）</strong>或<strong>神秘农场（Mystery Ranch，「农场」）</strong>；迪卡侬 / 牧高笛入门款也可先顶一趟。
+        想升级：社区常提<strong>小鹰（Osprey）</strong>、<strong>小高（格里高利 Gregory）</strong>或<strong>神秘农场（Mystery Ranch，「农场」）</strong>；
+        「小高」即格里高利（口语里「高利格力」多为误听），偏重装贴合与承重；轻装透气常比小鹰。
+        按背长选尺码、负重试背；迪卡侬 / 牧高笛入门款也可先顶一趟。
       </p>
-    </section>
 
-    <section class="panel" id="sleep">
-      <h2>过夜系统</h2>
-      <p class="sub">睡袋温度余量 + 垫子隔热，比「品牌齐全」更重要。</p>
-      <h3>睡袋</h3>
+      <h3 id="sleeping-bag">睡袋
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
       <p>
         看「舒适温度」留一点余量。华南十月底山顶夜间多在十来度，烂尾楼 / 风口漏风体感更低，不必按北方严冬备。
       </p>
-      <h3>防潮垫</h3>
+
+      <h3 id="foam-pad">蛋巢防潮垫
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
       <p>
-        蛋巢 / 充气垫二选一，有能力都上。充气垫易被石割，蛋巢可垫底；单蛋巢不够平整。
-        看 <strong>R 值</strong>（越高越暖）；充气垫常见推荐「山之泉 R7」（MountainSpring）一类高 R 值款。
+        闭孔泡沫蛋巢：轻、耐扎、可垫在充气垫下防割。单用时平整度一般，体感偏硬。
       </p>
-      <h3>帐篷</h3>
+      <p>
+        看厚度与 <strong>R 值</strong>（越高越暖）；预算紧或怕充气垫漏气时，先上蛋巢最稳妥。
+      </p>
+
+      <h3 id="inflatable-pad">充气垫
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        睡感更平更暖，但易被石割；有能力可与蛋巢同带（蛋巢垫底）。
+      </p>
+      <p>
+        重点看 <strong>R 值</strong>；常见推荐「山之泉 R7」（MountainSpring）一类高 R 值款。过夜前练打气 / 收纳。
+      </p>
+
+      <h3 id="tent">帐篷
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
       <p>
         住建筑废墟 / 有顶营地可不带；野营再上。优先轻量、好搭、防风压桩可靠。
       </p>
+      <p><strong>保养：</strong></p>
+      <ul>
+        <li>不要机洗 / 机烘：洗衣机搅动易伤布、缝线与防水涂层；脏了用海绵或手在冷 / 温水里轻擦，中性皂或户外专用洗剂，忌洗衣粉、漂白、大力搓。</li>
+        <li>阴凉处彻底晾干再收（防霉、防涂层发黏）；少长时间暴晒。外帐泼水变差时，可喷补防水层（DWR 喷雾 / 养护液，网上有卖），洗后一般需重新做防水。</li>
+      </ul>
     </section>
 
-    <section class="panel" id="light-poles">
-      <h2>头灯 · 登山杖</h2>
+    <section class="panel" id="protect-misc">
+      <h2>防护与其它</h2>
+      <p class="sub">照明、助行、衣物分层、水雨与急救，按线型补齐。</p>
+
+      <h3 id="headlamp">头灯
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
       <p>
-        <strong>头灯：</strong>能调焦、续航标称 10h+ 的入门款即可；过夜 / 夜爬务必带备用电池或第二光源。
+        能调焦、续航标称 10h+ 的入门款即可；过夜 / 夜爬务必带备用电池或第二光源。
+      </p>
+      <p>
         报团洞穴（如星空洞）可能提供头灯，以当次路书为准。
       </p>
+
+      <h3 id="poles">登山杖
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
       <p>
-        <strong>杖：</strong>可折叠外锁，新手先体验再决定要不要碳杖。陡线下行更建议带一对。
+        可折叠外锁；新手先体验再决定要不要碳杖。陡线下行更建议带一对。
       </p>
-    </section>
 
-    <section class="panel" id="clothes">
-      <h2>衣物分层</h2>
-      <p class="sub">排汗 → 保暖 → 防风；纯棉贴身少用。</p>
+      <h3 id="base-layer">速干内衣
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        内层用速干内衣 / 排汗衣；纯棉贴身少用（湿透难干、易失温）。
+      </p>
+
+      <h3 id="fleece">抓绒
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        中层保暖：薄抓绒即可；怕冷再加轻薄羽绒或加厚抓绒。
+      </p>
+      <p>
+        华南秋冬过夜多数「抓绒 + 防风」够用；漏风建筑再加一层，不必一次买齐硬壳体系。
+      </p>
+
+      <h3 id="shell">防风壳
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        外壳用防风软壳或冲锋衣，挡风比「看起来厚」更重要。
+      </p>
+      <p><strong>保养：</strong></p>
       <ul>
-        <li><strong>内层：</strong>速干内衣 / 排汗衣</li>
-        <li><strong>中层：</strong>薄抓绒；怕冷再加轻薄羽绒或加厚抓绒</li>
-        <li><strong>外壳：</strong>防风软壳或冲锋衣</li>
-        <li><strong>下装：</strong>速干长裤；陡坡 / 抓绳可加薄手套</li>
-        <li><strong>营地：</strong>拖鞋一双换脚；换洗内裤两条（速干优先）</li>
+        <li>冲锋衣 / 硬壳：勿当「绝对不能洗」；普通洗衣粉、柔顺剂会伤表层防泼水（DWR）。新手可手洗；标签允许时也可用专用「技术洗」+ 轻柔 / 低温、低转速单独机洗（波轮摩擦大更宜手洗）。</li>
+        <li>洗后若水珠不再成珠滚落，需补防水：喷雾或洗护液（Nikwax / Granger's 一类，国内网购常见），先洗净再涂。部分款低温烘干可助 DWR 回活，以吊牌为准。</li>
       </ul>
-      <div class="callout">
-        华南秋冬过夜多数「抓绒 + 防风」够用；漏风建筑再加一层即可，不必一次买齐硬壳体系。
-      </div>
-    </section>
 
-    <section class="panel" id="water-rain">
-      <h2>水 · 雨具</h2>
+      <h3 id="gloves">手套
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        陡坡 / 抓绳可加薄手套，护手、少磨破皮。不必先买专业攀岩手套。
+      </p>
+
+      <h3 id="disposable-underwear">一次性内裤
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        短途过夜可用针织贴合一次性：当天穿一条、再带一条换。有速干内裤更好。
+      </p>
+
+      <h3 id="camp-slippers">营地拖鞋
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        到营地换脚，让登山鞋通风；轻量、能塞包侧袋即可。
+      </p>
+
+      <h3 id="water">水杯 / 饮水
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
       <p>
         无水源山线按路书自备（过夜常见至少约 2.5–3 L / 人起）。有补给点可少带，勿指望小溪。
       </p>
       <p>
+        硬水瓶 + 软水袋皆可；软袋省空间，硬瓶更好灌 / 加电解质。
+      </p>
+
+      <h3 id="rain">雨具
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
         轻量雨衣或背包防雨罩二选一优先；手机防水袋在潮湿 / 雨天有用。
       </p>
-    </section>
 
-    <section class="panel" id="med">
-      <h2>药 · 急救</h2>
-      <ul>
-        <li>创可贴、水泡贴（必带）</li>
-        <li>止痛药、肠胃药、个人常备药</li>
-        <li>碘伏棉棒、绷带少量</li>
-        <li>感冒 / 退烧药按需；驱蚊按季节</li>
-      </ul>
+      <h3 id="meds">药品
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
       <p>
-        哨子、应急箔毯体积小，过夜 / 偏远线建议塞进包底。
+        创可贴、水泡贴必带；止痛药、肠胃药、个人常备药按需。碘伏棉棒、绷带少量；感冒 / 退烧药按需，驱蚊按季节。
       </p>
+
+      <h3 id="thermometer">体温计
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        优先电子：快、耐摔、夜里好读。玻璃酒精 / 镓铟款无电池，但易碎、要测几分钟。
+      </p>
+
+      <h3 id="whistle-blanket">哨子 · 箔毯
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        体积小、重量轻；过夜 / 偏远线建议塞进包底，应急求救与保暖。
+      </p>
+
+      <div class="callout">
+        衣物原则：排汗 → 保暖 → 防风。华南多数线「抓绒 + 防风」够用，漏风建筑再加一层即可。
+      </div>
     </section>
 
     <section class="panel" id="buy-order">
       <h2>采购顺序</h2>
       <p class="sub">整套新购优先「能安全走完」，不必一次品牌齐全。</p>
       <ol>
-        <li>鞋 + 袜（抓地、防撞趾）</li>
-        <li>头灯 + 水具（过夜 / 夜爬）</li>
+        <li>登山鞋 + 美利奴袜（抓地、防撞趾）</li>
+        <li>头灯 + 水杯 / 饮水（过夜 / 夜爬）</li>
         <li>背包（按是否过夜定容量）</li>
-        <li>睡袋 + 垫（仅过夜）</li>
-        <li>杖、雨具、药包（按线型补齐）</li>
+        <li>睡袋 + 蛋巢 / 充气垫（仅过夜）</li>
+        <li>登山杖、雨具、药品与体温计（按线型补齐）</li>
       </ol>
+      <p>二手、折扣装备可在闲鱼、拼多多淘一下；看好成色、真伪与尺码即可。</p>
+    </section>
+
+    <section class="panel" id="my-kit">
+      <h2>我的物资</h2>
+      <p class="sub">个人装备档案与花费；已知金额写入，未买或未知价用 — 。合计只加已填数字。路书清单仍以当次为准。</p>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>物品</th>
+              <th>说明</th>
+              <th>状态</th>
+              <th>金额</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="item-cell">
+                <span class="item-name">悍途登山鞋</span>
+                <button type="button" class="gear-shot-thumb" id="humtto-boots-open"
+                  aria-haspopup="dialog" aria-controls="humtto-boots-lightbox"
+                  aria-label="放大查看：悍途登山鞋">
+                  <img src="assets/humtto-boots.jpg" alt="悍途米色高帮登山鞋" width="88" height="191" loading="lazy" />
+                </button>
+              </td>
+              <td class="note">抓地够用、鞋头偏硬，继续穿；尺码按日常脚长（厚袜后跟约一指空隙），不必死守大一码。</td>
+              <td class="status"><span class="tag have">已买</span></td>
+              <td class="amount">≈221.85</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">美利奴 / 中长筒排汗袜</span></td>
+              <td class="note">两双（路上 + 过夜）；勿纯棉。湿滑时可把旧袜套鞋外增阻。</td>
+              <td class="status"><span class="tag plan">待买</span></td>
+              <td class="amount">—</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">一次性内裤</span></td>
+              <td class="note">针织贴合款；出发当天穿一条、再带一条过夜换。短途过夜可用，有速干更好。</td>
+              <td class="status"><span class="tag plan">待买</span></td>
+              <td class="amount">—</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">过夜背包 28–40L</span></td>
+              <td class="note">在看：小鹰（Osprey）、小高（格里高利 Gregory）、神秘农场（Mystery Ranch）；入门也可先艾王 / 迪卡侬 / 牧高笛。看透气背负、硬腰带、防雨罩；负重约 15 kg 内入门款够用。</td>
+              <td class="status"><span class="tag plan">待买</span></td>
+              <td class="amount">—</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">睡袋</span></td>
+              <td class="note">舒适温度留余量（华南十月底山顶十来度，风口更凉）。帐篷：住有顶营地可不带。</td>
+              <td class="status"><span class="tag plan">待买</span></td>
+              <td class="amount">—</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">防潮垫</span></td>
+              <td class="note">蛋巢 / 充气二选一或都上，看 R 值。</td>
+              <td class="status"><span class="tag plan">待买</span></td>
+              <td class="amount">—</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">头灯</span></td>
+              <td class="note">可调焦；过夜带备用电。另常备：营地拖鞋、充电宝、药包（含体温计）、雨具。</td>
+              <td class="status"><span class="tag plan">待买</span></td>
+              <td class="amount">—</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">登山杖</span></td>
+              <td class="note">可折叠外锁；陡线下行更建议带一对。</td>
+              <td class="status"><span class="tag plan">待买</span></td>
+              <td class="amount">—</td>
+            </tr>
+            <tr class="total">
+              <td colspan="3">已填金额合计</td>
+              <td class="amount">≈221.85</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
   </main>
 
   <footer>
     <a href="../">← 路书入口</a>
-    · 装备选购 · 多趟共用
+    · 选购指南 · 我的物资
   </footer>
+
+  <dialog id="humtto-boots-lightbox" class="gear-lightbox" aria-labelledby="humtto-boots-caption">
+    <div class="gear-lightbox-inner">
+      <button type="button" class="gear-lightbox-close" id="humtto-boots-close" aria-label="关闭大图">×</button>
+      <img src="assets/humtto-boots.jpg" alt="悍途米色高帮登山鞋（大图）" />
+      <p class="gear-lightbox-caption" id="humtto-boots-caption">悍途登山鞋</p>
+    </div>
+  </dialog>
+
+  <script>
+    (function initGearLightbox() {
+      const dialog = document.getElementById("humtto-boots-lightbox");
+      const openBtn = document.getElementById("humtto-boots-open");
+      const closeBtn = document.getElementById("humtto-boots-close");
+      if (!dialog || !openBtn || typeof dialog.showModal !== "function") return;
+
+      openBtn.addEventListener("click", function () {
+        dialog.showModal();
+      });
+      if (closeBtn) {
+        closeBtn.addEventListener("click", function () {
+          dialog.close();
+        });
+      }
+      dialog.addEventListener("click", function (e) {
+        if (e.target === dialog) dialog.close();
+      });
+    })();
+  </script>
 </body>
 
 </html>

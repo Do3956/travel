@@ -171,6 +171,8 @@ Leaflet / 地图瓦片走 CDN；子目录相对路径无需额外调整。改完
 
 **Agent / 日常改稿：默认只改本地，不要每次小改都 `git commit` / `push`。** 晚上由 cron 统一提交推送（与 acknowledge、ai_anime 同模式）。
 
+**预览：改完后不要 `open` 本地 HTML / 浏览器，除非用户明确要求。** 用户自己刷新即可。
+
 - 脚本：`scripts/auto_git_push.sh`（无改动则跳过；有改动则 `git add -A` → `auto sync YYYY-MM-DD HH:MM` → `push origin master`）
 - 日志：`/tmp/travel-auto-push.log`
 - crontab（已装或自行安装）：
