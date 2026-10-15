@@ -319,29 +319,6 @@
       color: var(--nav);
     }
 
-    .pack-tip {
-      margin: 1.15rem 0 0;
-      padding: 0.85rem 1rem;
-      background: rgba(0, 117, 74, 0.06);
-      border: 1px solid rgba(0, 117, 74, 0.18);
-      border-radius: var(--radius);
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
-
-    .pack-tip strong {
-      color: var(--ink);
-      font-weight: 600;
-    }
-
-    .pack-tip p {
-      margin: 0 0 0.55rem;
-    }
-
-    .pack-tip p:last-child {
-      margin-bottom: 0;
-    }
-
     .checklist {
       margin: 0;
       padding: 0;
@@ -797,46 +774,185 @@
       text-align: center;
     }
 
-    .gear-shot {
-      margin: 0.85rem 0 0;
+    .route-block {
+      margin: 0 0 1.5rem;
+    }
+
+    .route-block:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .route-block h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      margin: 0 0 0.35rem;
+    }
+
+    .our-route {
+      margin: 0.75rem 0 0;
+      padding: 0.85rem 0.75rem 1rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .our-route-legend {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.55rem 1rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin: 0 0 0.65rem;
+      padding: 0 0.25rem;
+    }
+
+    .our-route-legend span {
+      display: inline-flex;
+      align-items: center;
       gap: 0.35rem;
     }
 
-    .gear-shot-thumb {
+    .our-route-legend i {
+      display: inline-block;
+      width: 1.1rem;
+      height: 0.28rem;
+      border-radius: 2px;
+    }
+
+    .our-route-legend .day1 i {
+      background: var(--accent);
+    }
+
+    .our-route-legend .day2 i {
+      background: var(--nav);
+    }
+
+    .our-route-legend .drive i {
+      background: var(--muted);
+      background-image: repeating-linear-gradient(
+        90deg,
+        var(--muted) 0 3px,
+        transparent 3px 6px
+      );
+      height: 0.18rem;
+    }
+
+    .our-route-legend .overnight i {
+      width: 0.7rem;
+      height: 0.7rem;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .our-route svg {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    .ref-maps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.85rem;
+      margin: 0.75rem 0 0;
+    }
+
+    .ref-map {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .ref-map-thumb {
       display: block;
       padding: 0;
       margin: 0;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: #fff;
-      cursor: pointer;
+      cursor: zoom-in;
       overflow: hidden;
-      max-width: 140px;
       line-height: 0;
       text-decoration: none;
+      aspect-ratio: 4 / 3;
     }
 
-    .gear-shot-thumb:hover,
-    .gear-shot-thumb:focus-visible {
+    .ref-map-thumb:hover,
+    .ref-map-thumb:focus-visible {
       border-color: var(--accent);
       outline: 2px solid var(--accent-soft);
       outline-offset: 2px;
     }
 
-    .gear-shot-thumb img {
+    .ref-map-thumb img {
       display: block;
       width: 100%;
-      max-width: 140px;
-      height: auto;
-      vertical-align: middle;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
     }
 
-    .gear-shot figcaption {
-      font-size: 0.8rem;
+    .ref-map figcaption {
+      font-size: 0.78rem;
       color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(10, 14, 12, 0.88);
+      cursor: zoom-out;
+    }
+
+    .lightbox.is-open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: min(96vw, 1100px);
+      max-height: 92vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+      cursor: default;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: max(0.75rem, env(safe-area-inset-top));
+      right: max(0.75rem, env(safe-area-inset-right));
+      width: 2.4rem;
+      height: 2.4rem;
+      border: none;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .lightbox-close:hover,
+    .lightbox-close:focus-visible {
+      background: rgba(255, 255, 255, 0.28);
+      outline: none;
+    }
+
+    body.lightbox-open {
+      overflow: hidden;
     }
 
   </style>
@@ -868,6 +984,8 @@
       <ul>
         <li><a href="#overview">行程概览</a></li>
         <li><a href="#route-map">行程路线图</a></li>
+        <li><a href="#our-route">我们的实际路线</a></li>
+        <li><a href="#ref-routes">网友示意图</a></li>
         <li><a href="#map">驾车导航段</a></li>
         <li><a href="#d1031">10.31</a></li>
         <li><a href="#d1101">11.1</a></li>
@@ -877,7 +995,7 @@
         <li><a href="#cost">费用明细</a></li>
         <li><a href="#ideal">理想版 vs 备选</a></li>
         <li><a href="#tips">注意事项</a></li>
-        <li><a href="../../gear/">装备</a></li>
+        <li><a href="../../gear/index.html">装备</a></li>
       </ul>
     </nav>
 
@@ -945,9 +1063,139 @@
     </section>
 
     <section class="panel" id="route-map">
-      <h2>行程路线图（真实地理方位）</h2>
-      <p class="sub">高德底图 + Leaflet。节点为公开资料估算经纬度，仅作方位示意；导航请点站点旁搜索图标。</p>
-      <div id="real-map" role="img" aria-label="真实地图路线"></div>
+      <h2>行程路线图</h2>
+      <p class="sub">先看本书实际走法示意，再对照网友全环线图；下方为真实地理方位底图。</p>
+
+      <div class="route-block" id="our-route">
+        <h3>我们的实际路线</h3>
+        <p class="note" style="margin:0 0 0.35rem">
+          本趟<strong>不是</strong>精华大环线全环，也<strong>不保证</strong>一日走满网友 18 km 拉胡环线。
+          徒步全程约 <strong>12.5–18 km</strong>（视切线）· 爬升约 <strong>1000 m</strong>量级。
+        </p>
+        <div class="our-route" role="img" aria-label="本书实际徒步路线示意：兴记停车、龙岩寺进、水底山、烂尾楼过夜、次日下撤兴记">
+          <div class="our-route-legend" aria-hidden="true">
+            <span class="drive"><i></i>接驳 / 驾车</span>
+            <span class="day1"><i></i>Day1 上山</span>
+            <span class="overnight"><i></i>过夜</span>
+            <span class="day2"><i></i>Day2 下撤</span>
+          </div>
+          <svg viewBox="0 0 360 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <marker id="arr-muted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0 1.5 L8 5 L0 8.5 Z" fill="#5c6b66" />
+              </marker>
+              <marker id="arr-day1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0 1.5 L8 5 L0 8.5 Z" fill="#c45c26" />
+              </marker>
+              <marker id="arr-day2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0 1.5 L8 5 L0 8.5 Z" fill="#00754a" />
+              </marker>
+            </defs>
+
+            <!-- drive in -->
+            <line x1="50" y1="36" x2="150" y2="36" stroke="#5c6b66" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arr-muted)" />
+            <rect x="8" y="18" width="42" height="36" rx="6" fill="#fff" stroke="rgba(26,36,33,0.18)" />
+            <text x="29" y="33" text-anchor="middle" font-size="9" fill="#5c6b66">马鞍岛</text>
+            <text x="29" y="46" text-anchor="middle" font-size="8" fill="#5c6b66">开车去</text>
+            <text x="100" y="28" text-anchor="middle" font-size="9" fill="#5c6b66">约 2–2.5h</text>
+
+            <!-- 兴记停车 -->
+            <rect x="158" y="14" width="110" height="44" rx="8" fill="#fff" stroke="#1a2421" stroke-width="1.4" />
+            <text x="213" y="33" text-anchor="middle" font-size="12" font-weight="700" fill="#1a2421">兴记停车</text>
+            <text x="213" y="48" text-anchor="middle" font-size="9" fill="#5c6b66">百木洋 · 留车</text>
+
+            <!-- shuttle -->
+            <path d="M213 58 L213 88" stroke="#5c6b66" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arr-muted)" fill="none" />
+            <text x="222" y="78" font-size="9" fill="#5c6b66">接驳</text>
+
+            <!-- 龙岩寺登山口 -->
+            <rect x="148" y="92" width="130" height="46" rx="8" fill="#fff" stroke="#c45c26" stroke-width="1.6" />
+            <text x="213" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#1a2421">龙岩寺登山口</text>
+            <text x="213" y="127" text-anchor="middle" font-size="9" fill="#5c6b66">大榕树缺口 · Day1 起点</text>
+
+            <!-- Day1 climb -->
+            <path d="M213 138 L213 178" stroke="#c45c26" stroke-width="3" marker-end="url(#arr-day1)" fill="none" />
+            <text x="222" y="162" font-size="10" fill="#c45c26" font-weight="600">Day1</text>
+            <text x="222" y="174" font-size="8" fill="#c45c26">纯走约 3–4.5h</text>
+
+            <!-- 脊线 / 水底山 -->
+            <rect x="138" y="182" width="150" height="48" rx="8" fill="#fff" stroke="#c45c26" stroke-width="1.6" />
+            <text x="213" y="203" text-anchor="middle" font-size="12" font-weight="700" fill="#1a2421">脊线 / 水底山</text>
+            <text x="213" y="218" text-anchor="middle" font-size="9" fill="#5c6b66">约 1280 m · A9 过境</text>
+
+            <path d="M213 230 L213 268" stroke="#c45c26" stroke-width="3" marker-end="url(#arr-day1)" fill="none" />
+            <text x="222" y="254" font-size="8" fill="#c45c26">侧切 20–40min</text>
+
+            <!-- 烂尾楼过夜 — prominent -->
+            <circle cx="213" cy="304" r="36" fill="#fff7f0" stroke="#c45c26" stroke-width="3" />
+            <circle cx="213" cy="304" r="42" fill="none" stroke="rgba(196,92,38,0.22)" stroke-width="6" />
+            <text x="213" y="298" text-anchor="middle" font-size="12" font-weight="700" fill="#c45c26">烂尾楼</text>
+            <text x="213" y="314" text-anchor="middle" font-size="11" font-weight="700" fill="#1a2421">过夜 ★</text>
+            <text x="72" y="308" text-anchor="middle" font-size="9" fill="#5c6b66">无水源</text>
+            <text x="72" y="322" text-anchor="middle" font-size="9" fill="#5c6b66">夜爬嘈杂</text>
+
+            <!-- Day2 descend -->
+            <path d="M213 346 L213 388" stroke="#00754a" stroke-width="3" marker-end="url(#arr-day2)" fill="none" />
+            <text x="222" y="368" font-size="10" fill="#00754a" font-weight="600">Day2 · 约 4–6h</text>
+
+            <!-- exit options -->
+            <rect x="78" y="396" width="120" height="40" rx="7" fill="#fff" stroke="#00754a" stroke-width="1.4" />
+            <text x="138" y="414" text-anchor="middle" font-size="11" font-weight="700" fill="#1a2421">峭壁 / 水渠</text>
+            <text x="138" y="428" text-anchor="middle" font-size="8" fill="#5c6b66">主线下撤</text>
+
+            <rect x="228" y="396" width="110" height="40" rx="7" fill="#fff" stroke="#00754a" stroke-width="1.2" stroke-dasharray="4 3" />
+            <text x="283" y="414" text-anchor="middle" font-size="11" font-weight="700" fill="#1a2421">机耕路</text>
+            <text x="283" y="428" text-anchor="middle" font-size="8" fill="#5c6b66">累了可走</text>
+
+            <path d="M138 436 L138 452 L200 452" stroke="#00754a" stroke-width="2.5" fill="none" marker-end="url(#arr-day2)" />
+            <path d="M283 436 L283 452 L226 452" stroke="#00754a" stroke-width="2" stroke-dasharray="4 3" fill="none" />
+
+            <!-- 兴记取车 -->
+            <rect x="158" y="460" width="110" height="30" rx="7" fill="#e8f5ef" stroke="#00754a" stroke-width="1.6" />
+            <text x="213" y="479" text-anchor="middle" font-size="12" font-weight="700" fill="#00754a">下撤兴记取车</text>
+          </svg>
+          <p class="note" style="margin:0.65rem 0 0;font-size:0.82rem">
+            Day1：龙岩寺进 → 脊线 / 水底山 → <strong>烂尾楼过夜</strong>。
+            Day2：经峭壁 / 水渠出兴记；体力不支改<strong>机耕路</strong>，勿原路退龙岩寺。
+          </p>
+        </div>
+      </div>
+
+      <div class="route-block" id="ref-routes">
+        <h3>网友示意图</h3>
+        <p class="note" style="margin:0">
+          网友示意图 · 供对照；与本书行程可能不完全一致（本书非精华大环线全环，亦非一日走满 18 km 反穿环）。
+          点图可放大。
+        </p>
+        <div class="ref-maps">
+          <figure class="ref-map">
+            <a class="ref-map-thumb" href="assets/ref-route-essence-big-loop.jpg" data-lightbox
+              aria-label="放大：大南山精华大环线示意图">
+              <img src="assets/ref-route-essence-big-loop.jpg" alt="大南山精华大环线路线图（约23km，大王殿起终）" loading="lazy" />
+            </a>
+            <figcaption>
+              精华大环线 · 约 23 km · 大王殿起终<br />
+              （龙岩寺→望海→草甸→斧头石→牛皮嶂→马山坳；含水底山支线）
+            </figcaption>
+          </figure>
+          <figure class="ref-map">
+            <a class="ref-map-thumb" href="assets/ref-route-lahu-reverse-loop.jpg" data-lightbox
+              aria-label="放大：大南山拉胡线反穿环线示意图">
+              <img src="assets/ref-route-lahu-reverse-loop.jpg" alt="大南山拉胡线反穿环线路线图（约18km，兴记起终）" loading="lazy" />
+            </a>
+            <figcaption>
+              拉胡线反穿环线 · 约 18 km · 兴记 / 拉胡村起终<br />
+              （廊竹坑→峭壁→树林→水渠→水底山→禾镰牙→机耕路→烂尾楼→水尾径）
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="route-block">
+        <h3>真实地理方位</h3>
+        <p class="sub" style="margin-bottom:0.75rem">高德底图 + Leaflet。节点为公开资料估算经纬度，仅作方位示意；导航请点站点旁搜索图标。</p>
+        <div id="real-map" role="img" aria-label="真实地图路线"></div>
+      </div>
     </section>
 
     <section class="panel" id="map">
@@ -1119,7 +1367,7 @@
 
     <section class="panel" id="packing">
       <h2>物品清单</h2>
-      <p class="sub">过夜反穿带什么。怎么买 / 我的物资见 <a href="../../gear/">装备</a>。</p>
+      <p class="sub">过夜反穿带什么。怎么买 / 我的物资见 <a href="../../gear/index.html">装备</a>。</p>
       <div class="pack-grid">
         <div class="pack-card">
           <h3>证件 / 车 / 导航</h3>
@@ -1207,15 +1455,6 @@
         </div>
       </div>
 
-      <div class="pack-tip">
-        <p>
-          <strong>本次鞋款：</strong>悍途登山鞋。
-        </p>
-        <figure class="gear-shot">
-          <img src="assets/humtto-boots.jpg" alt="悍途米色高帮登山鞋" width="140" height="304" loading="lazy" />
-          <figcaption>悍途登山鞋</figcaption>
-        </figure>
-      </div>
     </section>
 
     <section class="panel" id="booking">
@@ -1449,6 +1688,11 @@
     路书 · 惠州大南山拉胡线反穿 · 2026.10.31–11.1 · 费用待定
   </footer>
 
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="图片预览">
+    <button type="button" class="lightbox-close" id="lightbox-close" aria-label="关闭">×</button>
+    <img id="lightbox-img" alt="" />
+  </div>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
@@ -1645,6 +1889,53 @@
       row.appendChild(label);
       segRoot.appendChild(row);
     });
+
+    (function initLightbox() {
+      const box = document.getElementById("lightbox");
+      const img = document.getElementById("lightbox-img");
+      const closeBtn = document.getElementById("lightbox-close");
+      if (!box || !img || !closeBtn) return;
+
+      function openLightbox(src, alt) {
+        img.src = src;
+        img.alt = alt || "";
+        box.hidden = false;
+        box.classList.add("is-open");
+        document.body.classList.add("lightbox-open");
+        closeBtn.focus();
+      }
+
+      function closeLightbox() {
+        box.classList.remove("is-open");
+        box.hidden = true;
+        document.body.classList.remove("lightbox-open");
+        img.removeAttribute("src");
+        img.alt = "";
+      }
+
+      document.querySelectorAll("[data-lightbox]").forEach(function (el) {
+        el.addEventListener("click", function (e) {
+          e.preventDefault();
+          const thumb = el.querySelector("img");
+          openLightbox(el.getAttribute("href"), thumb ? thumb.alt : "");
+        });
+      });
+
+      closeBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        closeLightbox();
+      });
+
+      box.addEventListener("click", function (e) {
+        if (e.target === box) closeLightbox();
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && box.classList.contains("is-open")) {
+          closeLightbox();
+        }
+      });
+    })();
 
   </script>
 </body>

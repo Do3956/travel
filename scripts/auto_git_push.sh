@@ -2,11 +2,11 @@
 # 每日自动提交并推送 travel 到 GitHub master。
 # 尊重 .gitignore；无改动则跳过（幂等）。
 # crontab 示例：
-#   0 19 * * * /Volumes/文档/data/travel/scripts/auto_git_push.sh >> /tmp/travel-auto-push.log 2>&1
+#   0 19 * * * /Volumes/Elements/data/travel/scripts/auto_git_push.sh >> /tmp/travel-auto-push.log 2>&1
 
 set -u
 
-REPO_DIR="/Volumes/文档/data/travel"
+REPO_DIR="/Volumes/Elements/data/travel"
 LOG_FILE="${TRAVEL_AUTO_PUSH_LOG:-/tmp/travel-auto-push.log}"
 BRANCH="master"
 

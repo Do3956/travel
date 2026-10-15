@@ -270,6 +270,29 @@
       vertical-align: middle;
     }
 
+    .tip-figs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem 0.85rem;
+      margin: 0.55rem 0 0.35rem;
+    }
+
+    .tip-figs .gear-shot-thumb {
+      max-width: 140px;
+    }
+
+    .tip-figs .gear-shot-thumb img {
+      max-width: 140px;
+    }
+
+    .tip-figs .fig-cap {
+      display: block;
+      margin-top: 0.3rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
     table.info td.note {
       color: var(--muted);
       font-size: 0.86rem;
@@ -409,7 +432,7 @@
     <p class="lead">
       两件事放一起：<strong>选购指南</strong>（小白怎么买鞋袜、背包、过夜系统等），以及<strong>我的物资</strong>（已有 / 待买装备与金额一表）。
       各路书只列当次物品；详细怎么买、个人档案看这里。入口见
-      <a href="../">路书首页</a>。
+      <a href="../index.html">路书首页</a>。
     </p>
   </header>
 
@@ -423,6 +446,7 @@
             <li><a href="#boots">登山鞋</a></li>
             <li><a href="#merino-socks">美利奴袜</a></li>
             <li><a href="#sock-overshoes">旧袜套鞋</a></li>
+            <li><a href="#toe-protect">防顶趾 / 下坡护脚</a></li>
           </ul>
         </li>
         <li>
@@ -440,6 +464,8 @@
           <ul>
             <li><a href="#headlamp">头灯</a></li>
             <li><a href="#poles">登山杖</a></li>
+            <li><a href="#patella-strap">髌骨带</a></li>
+            <li><a href="#knee-sleeve">护膝套</a></li>
             <li><a href="#base-layer">速干内衣</a></li>
             <li><a href="#fleece">抓绒</a></li>
             <li><a href="#shell">防风壳</a></li>
@@ -473,13 +499,18 @@
         有预算可上迪卡侬 MH100/MH500、凯乐石等一档；跟重不重装无关——现有鞋若<strong>抓地够用、鞋头偏硬</strong>，继续穿即可。
       </p>
       <p>
-        勿普通运动鞋：易撞石伤趾。尺码按日常脚长，不必死守「大一码」；厚袜时后跟约一指空隙较舒服。
+        勿普通运动鞋：易撞石伤趾。尺码按日常脚长，不必死守「大一码」；厚袜试鞋时<strong>脚趾轻顶鞋头、脚跟约能插一指</strong>较合适（下山不易顶趾）。更多见
+        <a href="#toe-protect">防顶趾 / 下坡护脚</a>。
+      </p>
+      <p>
+        <strong>磨合：</strong>至少提前约一周穿着（短走 / 通勤），别全新首穿上山——磨脚、起泡多半出在这时。
       </p>
       <h3 id="merino-socks">美利奴袜
         <span class="hint">怎么选 · 注意点</span>
       </h3>
       <p>
-        优先<strong>美利奴羊毛 / 中长筒排汗袜</strong>；勿纯棉（湿了难干、易磨泡）。
+        优先<strong>美利奴羊毛 / 中长筒排汗袜</strong>；勿纯棉（湿了难干、易磨泡）。比普通薄袜<strong>包裹更强</strong>，脚在鞋里更稳、少前滑顶趾（见
+        <a href="#toe-protect">防顶趾</a>）。
       </p>
       <p>
         建议两双：路上一双、过夜换一双。中长筒比短袜更护踝、少进沙石。
@@ -494,6 +525,65 @@
       <p>
         用穿破、扔掉也不可惜的旧袜即可；干了取下，别当正式鞋套长期穿。
       </p>
+
+      <h3 id="toe-protect">防顶趾 / 下坡护脚
+        <span class="hint">技巧 · 与鞋袜杖配合</span>
+      </h3>
+      <p>陡下坡脚易前冲顶趾；鞋码、系带、步幅、杖、袜一起控。</p>
+      <ul>
+        <li>
+          <strong>鞋带系法：</strong>高帮——上山可不系上半挂钩（踝活动更自由），下山挂钩全部勒紧锁踝；
+          低帮——上山顶孔可留空，下山顶孔穿满勒紧固定脚跟。下山前花约 30 秒重系一次。
+        </li>
+        <li>
+          <strong>小步下坡：</strong>大步易前滑顶趾、也更伤膝；小步脚趾留空、膝盖更省。
+        </li>
+        <li>
+          <strong>鞋码：</strong>试鞋时脚趾顶到鞋头、脚跟能插一指，下山最不易顶趾（与正码 + 一指空余一致）。
+        </li>
+        <li>
+          <strong>双登山杖：</strong>下坡分担冲击、身体更稳，减轻脚在鞋内前滑（见
+          <a href="#poles">登山杖</a>）。
+        </li>
+        <li>
+          <strong>徒步羊毛袜：</strong>比薄袜包裹强，减少滑动顶趾（见
+          <a href="#merino-socks">美利奴袜</a>）。
+        </li>
+      </ul>
+      <div class="tip-figs">
+        <div>
+          <button type="button" class="gear-shot-thumb" data-lightbox="toe-lacing"
+            aria-haspopup="dialog" aria-controls="toe-lacing-lightbox"
+            aria-label="放大查看：鞋带系法示意">
+            <img src="assets/toe-protect-lacing.jpg" alt="鞋带系法：高帮/低帮上山与下山对比" width="140" height="220" loading="lazy" />
+          </button>
+          <span class="fig-cap">鞋带：下山锁踝 / 锁跟</span>
+        </div>
+        <div>
+          <button type="button" class="gear-shot-thumb" data-lightbox="toe-steps"
+            aria-haspopup="dialog" aria-controls="toe-steps-lightbox"
+            aria-label="放大查看：小步下坡示意">
+            <img src="assets/toe-protect-steps.jpg" alt="大步下坡顶趾 vs 小步下坡脚趾有空间" width="140" height="220" loading="lazy" />
+          </button>
+          <span class="fig-cap">小步下坡：脚趾省力、护膝</span>
+        </div>
+        <div>
+          <button type="button" class="gear-shot-thumb" data-lightbox="toe-size"
+            aria-haspopup="dialog" aria-controls="toe-size-lightbox"
+            aria-label="放大查看：鞋码与一指空余示意">
+            <img src="assets/toe-protect-size.jpg" alt="鞋码合适：脚趾顶鞋头时脚跟能插一指" width="140" height="220" loading="lazy" />
+          </button>
+          <span class="fig-cap">鞋码：顶趾试鞋 + 一指</span>
+        </div>
+        <div>
+          <button type="button" class="gear-shot-thumb" data-lightbox="toe-socks"
+            aria-haspopup="dialog" aria-controls="toe-socks-lightbox"
+            aria-label="放大查看：徒步袜包裹示意">
+            <img src="assets/toe-protect-socks.jpg" alt="普通薄袜易前滑 vs 徒步羊毛袜包裹更稳" width="140" height="220" loading="lazy" />
+          </button>
+          <span class="fig-cap">徒步袜：包裹强、少前滑</span>
+        </div>
+      </div>
     </section>
 
     <section class="panel" id="load-sleep">
@@ -575,7 +665,38 @@
         <span class="hint">怎么选 · 注意点</span>
       </h3>
       <p>
-        可折叠外锁；新手先体验再决定要不要碳杖。陡线下行更建议带一对。
+        可折叠外锁；新手先体验再决定要不要碳杖。陡线下行更建议带一对：分担冲击、减前滑顶趾（见
+        <a href="#toe-protect">防顶趾</a>）。
+      </p>
+      <div class="tip-figs">
+        <div>
+          <button type="button" class="gear-shot-thumb" data-lightbox="poles-downhill"
+            aria-haspopup="dialog" aria-controls="poles-downhill-lightbox"
+            aria-label="放大查看：双登山杖下坡用法">
+            <img src="assets/poles-downhill.jpg" alt="不用杖 vs 双杖下坡：冲击分担与身体更稳" width="140" height="220" loading="lazy" />
+          </button>
+          <span class="fig-cap">双杖下坡：分担冲击、脚趾更轻松</span>
+        </div>
+      </div>
+
+      <h3 id="patella-strap">髌骨带
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        <strong>何时需要：</strong>长陡下坡（如戈见山 / 大南山一类）、膝有旧伤或不适、负重偏大时，下坡刹车力容易顶到髌腱。膝盖完全没症状可先不买，优先杖 + 控速。
+      </p>
+      <p>
+        窄带压在<strong>髌骨下方</strong>（髌腱一带），针对膝前 / 髌腱酸痛；不是把整个膝盖包起来。选<strong>开合可调</strong>、走动不勒麻；有症状再戴，别整晚勒着睡觉。
+      </p>
+
+      <h3 id="knee-sleeve">护膝套
+        <span class="hint">怎么选 · 注意点</span>
+      </h3>
+      <p>
+        与髌骨带不同：套筒包覆整膝，靠<strong>压迫 + 保暖</strong>减轻笼统酸胀、轻微肿胀、想多一点「稳定感」时更合适；不专门针对髌腱点压。
+      </p>
+      <p>
+        同样建议开合 / 尺寸可调，贴合但不妨碍屈伸、无麻木；有症状或已知弱膝再戴，别当万能护具整夜加压。严重不稳、绞锁、肿胀加重应停走就医，护具不能替代训练与杖。
       </p>
 
       <h3 id="base-layer">速干内衣
@@ -702,6 +823,7 @@
               <td class="item-cell">
                 <span class="item-name">悍途登山鞋</span>
                 <button type="button" class="gear-shot-thumb" id="humtto-boots-open"
+                  data-lightbox="humtto-boots"
                   aria-haspopup="dialog" aria-controls="humtto-boots-lightbox"
                   aria-label="放大查看：悍途登山鞋">
                   <img src="assets/humtto-boots.jpg" alt="悍途米色高帮登山鞋" width="88" height="191" loading="lazy" />
@@ -712,50 +834,86 @@
               <td class="amount">≈221.85</td>
             </tr>
             <tr>
-              <td class="item-cell"><span class="item-name">美利奴 / 中长筒排汗袜</span></td>
-              <td class="note">两双（路上 + 过夜）；勿纯棉。湿滑时可把旧袜套鞋外增阻。</td>
-              <td class="status"><span class="tag plan">待买</span></td>
-              <td class="amount">—</td>
+              <td class="item-cell"><span class="item-name">袜子</span></td>
+              <td class="note">已买两双，约 10+/双；路上 + 过夜各一。尽量别纯棉；湿滑时可把旧袜套鞋外增阻。</td>
+              <td class="status"><span class="tag have">已买</span></td>
+              <td class="amount">≈20+</td>
             </tr>
             <tr>
               <td class="item-cell"><span class="item-name">一次性内裤</span></td>
-              <td class="note">针织贴合款；出发当天穿一条、再带一条过夜换。短途过夜可用，有速干更好。</td>
-              <td class="status"><span class="tag plan">待买</span></td>
-              <td class="amount">—</td>
+              <td class="note">已买；约 2 元/条。按路书穿 1 带 1，至少 2 条。</td>
+              <td class="status"><span class="tag have">已买</span></td>
+              <td class="amount">≈4</td>
             </tr>
             <tr>
-              <td class="item-cell"><span class="item-name">过夜背包 28–40L</span></td>
-              <td class="note">在看：小鹰（Osprey）、小高（格里高利 Gregory）、神秘农场（Mystery Ranch）；入门也可先艾王 / 迪卡侬 / 牧高笛。看透气背负、硬腰带、防雨罩；负重约 15 kg 内入门款够用。</td>
-              <td class="status"><span class="tag plan">待买</span></td>
-              <td class="amount">—</td>
+              <td class="item-cell"><span class="item-name">艾王 35+5L</span></td>
+              <td class="note">闲鱼 110 元入；过夜容量够用。看透气背负、硬腰带、防雨罩；负重约 15 kg 内入门够用。</td>
+              <td class="status"><span class="tag have">已买</span></td>
+              <td class="amount">110</td>
             </tr>
             <tr>
               <td class="item-cell"><span class="item-name">睡袋</span></td>
-              <td class="note">舒适温度留余量（华南十月底山顶十来度，风口更凉）。帐篷：住有顶营地可不带。</td>
-              <td class="status"><span class="tag plan">待买</span></td>
-              <td class="amount">—</td>
+              <td class="note">拼多多约 50+；舒适温度留余量（华南十月底山顶十来度，风口更凉）。帐篷：住有顶营地可不带。</td>
+              <td class="status"><span class="tag have">已买</span></td>
+              <td class="amount">≈50+</td>
             </tr>
             <tr>
-              <td class="item-cell"><span class="item-name">防潮垫</span></td>
-              <td class="note">蛋巢 / 充气二选一或都上，看 R 值。</td>
-              <td class="status"><span class="tag plan">待买</span></td>
-              <td class="amount">—</td>
+              <td class="item-cell"><span class="item-name">蛋巢防潮垫</span></td>
+              <td class="note">闲鱼 10 元入。蛋巢够隔凉；怕冷或硬地再考虑充气垫叠用。</td>
+              <td class="status"><span class="tag have">已买</span></td>
+              <td class="amount">10</td>
             </tr>
             <tr>
               <td class="item-cell"><span class="item-name">头灯</span></td>
-              <td class="note">可调焦；过夜带备用电。另常备：营地拖鞋、充电宝、药包（含体温计）、雨具。</td>
-              <td class="status"><span class="tag plan">待买</span></td>
-              <td class="amount">—</td>
+              <td class="note">自行车灯拆下当头灯用（几年前约 100 元）。出发前确认能头戴 / 绑头盔或手持，以及过夜大概亮多久。</td>
+              <td class="status"><span class="tag have">已有</span></td>
+              <td class="amount">≈100</td>
             </tr>
             <tr>
               <td class="item-cell"><span class="item-name">登山杖</span></td>
-              <td class="note">可折叠外锁；陡线下行更建议带一对。</td>
-              <td class="status"><span class="tag plan">待买</span></td>
+              <td class="note">共两根：一根别人送的；一根拼多多约 30+ 元，三节拆卸款。陡线下行建议带一对。</td>
+              <td class="status"><span class="tag have">已有</span></td>
+              <td class="amount">≈30+</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">髌骨带 / 护膝套</span></td>
+              <td class="note">陡下坡、旧膝伤、负重偏大时按需；膝前点痛优先髌骨带，笼统酸胀用护膝套。开合可调，有症状再戴。</td>
+              <td class="status"><span class="tag plan">待买 / 按需</span></td>
+              <td class="amount">—</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">抓绒</span></td>
+              <td class="note">迪卡侬，约十年前买的 ≈60；中层保暖够用。</td>
+              <td class="status"><span class="tag have">已有</span></td>
+              <td class="amount">≈60</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">防风外套</span></td>
+              <td class="note">已有，约 200；挡风比「看起来厚」更重要，配抓绒作外壳。</td>
+              <td class="status"><span class="tag have">已有</span></td>
+              <td class="amount">≈200</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">雨具（折叠伞）</span></td>
+              <td class="note">平时用的折叠伞，非轻量专用。山顶风大时伞不好撑，遇雨天/风口线可再备轻量雨衣或背包防雨罩。</td>
+              <td class="status"><span class="tag have">已有</span></td>
+              <td class="amount">—</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">手套</span></td>
+              <td class="note">劳保手套 8 元/双，护手够用。陡坡抓绳若嫌厚笨，可换成户外薄手套。</td>
+              <td class="status"><span class="tag have">已买</span></td>
+              <td class="amount">8</td>
+            </tr>
+            <tr>
+              <td class="item-cell"><span class="item-name">营地拖鞋</span></td>
+              <td class="note">家里随便带一双即可，营地换鞋透气。</td>
+              <td class="status"><span class="tag have">已有</span></td>
               <td class="amount">—</td>
             </tr>
             <tr class="total">
               <td colspan="3">已填金额合计</td>
-              <td class="amount">≈221.85</td>
+              <td class="amount">≈813.85+</td>
             </tr>
           </tbody>
         </table>
@@ -764,35 +922,81 @@
   </main>
 
   <footer>
-    <a href="../">← 路书入口</a>
+    <a href="../index.html">← 路书入口</a>
     · 选购指南 · 我的物资
   </footer>
 
   <dialog id="humtto-boots-lightbox" class="gear-lightbox" aria-labelledby="humtto-boots-caption">
     <div class="gear-lightbox-inner">
-      <button type="button" class="gear-lightbox-close" id="humtto-boots-close" aria-label="关闭大图">×</button>
+      <button type="button" class="gear-lightbox-close" data-lightbox-close aria-label="关闭大图">×</button>
       <img src="assets/humtto-boots.jpg" alt="悍途米色高帮登山鞋（大图）" />
       <p class="gear-lightbox-caption" id="humtto-boots-caption">悍途登山鞋</p>
     </div>
   </dialog>
 
-  <script>
-    (function initGearLightbox() {
-      const dialog = document.getElementById("humtto-boots-lightbox");
-      const openBtn = document.getElementById("humtto-boots-open");
-      const closeBtn = document.getElementById("humtto-boots-close");
-      if (!dialog || !openBtn || typeof dialog.showModal !== "function") return;
+  <dialog id="toe-lacing-lightbox" class="gear-lightbox" aria-labelledby="toe-lacing-caption">
+    <div class="gear-lightbox-inner">
+      <button type="button" class="gear-lightbox-close" data-lightbox-close aria-label="关闭大图">×</button>
+      <img src="assets/toe-protect-lacing.jpg" alt="鞋带系法：高帮/低帮上山与下山对比（大图）" />
+      <p class="gear-lightbox-caption" id="toe-lacing-caption">下山前重系鞋带，锁踝 / 锁跟</p>
+    </div>
+  </dialog>
 
-      openBtn.addEventListener("click", function () {
-        dialog.showModal();
-      });
-      if (closeBtn) {
-        closeBtn.addEventListener("click", function () {
-          dialog.close();
+  <dialog id="toe-steps-lightbox" class="gear-lightbox" aria-labelledby="toe-steps-caption">
+    <div class="gear-lightbox-inner">
+      <button type="button" class="gear-lightbox-close" data-lightbox-close aria-label="关闭大图">×</button>
+      <img src="assets/toe-protect-steps.jpg" alt="大步下坡顶趾 vs 小步下坡脚趾有空间（大图）" />
+      <p class="gear-lightbox-caption" id="toe-steps-caption">步子越小，脚趾越省力，膝盖也更不容易受伤</p>
+    </div>
+  </dialog>
+
+  <dialog id="toe-size-lightbox" class="gear-lightbox" aria-labelledby="toe-size-caption">
+    <div class="gear-lightbox-inner">
+      <button type="button" class="gear-lightbox-close" data-lightbox-close aria-label="关闭大图">×</button>
+      <img src="assets/toe-protect-size.jpg" alt="鞋码合适：脚趾顶鞋头时脚跟能插一指（大图）" />
+      <p class="gear-lightbox-caption" id="toe-size-caption">试鞋：顶趾 + 脚跟一指</p>
+    </div>
+  </dialog>
+
+  <dialog id="toe-socks-lightbox" class="gear-lightbox" aria-labelledby="toe-socks-caption">
+    <div class="gear-lightbox-inner">
+      <button type="button" class="gear-lightbox-close" data-lightbox-close aria-label="关闭大图">×</button>
+      <img src="assets/toe-protect-socks.jpg" alt="普通薄袜易前滑 vs 徒步羊毛袜包裹更稳（大图）" />
+      <p class="gear-lightbox-caption" id="toe-socks-caption">合适的徒步袜让脚更稳，减少前滑顶趾</p>
+    </div>
+  </dialog>
+
+  <dialog id="poles-downhill-lightbox" class="gear-lightbox" aria-labelledby="poles-downhill-caption">
+    <div class="gear-lightbox-inner">
+      <button type="button" class="gear-lightbox-close" data-lightbox-close aria-label="关闭大图">×</button>
+      <img src="assets/poles-downhill.jpg" alt="不用杖 vs 双杖下坡：冲击分担与身体更稳（大图）" />
+      <p class="gear-lightbox-caption" id="poles-downhill-caption">双登山杖分担下坡冲击，身体更稳、脚趾更轻松</p>
+    </div>
+  </dialog>
+
+  <script>
+    (function initGearLightboxes() {
+      if (typeof HTMLDialogElement === "undefined") return;
+
+      document.querySelectorAll("[data-lightbox]").forEach(function (btn) {
+        const id = btn.getAttribute("data-lightbox") + "-lightbox";
+        const dialog = document.getElementById(id);
+        if (!dialog || typeof dialog.showModal !== "function") return;
+        btn.addEventListener("click", function () {
+          dialog.showModal();
         });
-      }
-      dialog.addEventListener("click", function (e) {
-        if (e.target === dialog) dialog.close();
+      });
+
+      document.querySelectorAll("dialog.gear-lightbox").forEach(function (dialog) {
+        const closeBtn = dialog.querySelector("[data-lightbox-close]");
+        if (closeBtn) {
+          closeBtn.addEventListener("click", function () {
+            dialog.close();
+          });
+        }
+        dialog.addEventListener("click", function (e) {
+          if (e.target === dialog) dialog.close();
+        });
       });
     })();
   </script>

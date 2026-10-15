@@ -178,7 +178,7 @@ Leaflet / 地图瓦片走 CDN；子目录相对路径无需额外调整。改完
 - crontab（已装或自行安装）：
 
 ```cron
-0 19 * * * /Volumes/文档/data/travel/scripts/auto_git_push.sh >> /tmp/travel-auto-push.log 2>&1
+0 19 * * * /Volumes/Elements/data/travel/scripts/auto_git_push.sh >> /tmp/travel-auto-push.log 2>&1
 ```
 
 验证：
@@ -186,7 +186,7 @@ Leaflet / 地图瓦片走 CDN；子目录相对路径无需额外调整。改完
 ```bash
 crontab -l | grep travel
 # 手动干跑一次：
-/Volumes/文档/data/travel/scripts/auto_git_push.sh
+/Volumes/Elements/data/travel/scripts/auto_git_push.sh
 tail -20 /tmp/travel-auto-push.log
 ```
 
