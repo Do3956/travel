@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="2026.10.31–11.1（周末）：中山马鞍岛→惠州大南山拉胡线反穿，水底山附近烂尾楼过夜；无水源、夜爬嘈杂、离线轨迹必带" />
-  <title>惠州大南山 · 拉胡线反穿过夜 · 2026.10.31–11.1</title>
+  <meta name="description" content="2026.10.31–11.1（周末）：中山马鞍岛→惠东大南山，车停大王殿；有接驳走龙岩寺反穿+水底山过夜，无接驳走精华线斧头石过夜" />
+  <title>惠州大南山 · 精华线双方案过夜 · 2026.10.31–11.1</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <style>
@@ -183,12 +183,13 @@
       margin-top: 0.2rem;
     }
 
-    #real-map {
-      height: 380px;
+    #our-route-map {
+      height: min(62vh, 480px);
       width: 100%;
       border-radius: var(--radius);
       border: 1px solid var(--line);
       z-index: 1;
+      margin-top: 0.35rem;
     }
 
     .table-wrap {
@@ -259,11 +260,36 @@
       gap: 1rem;
     }
 
+    .pack-total {
+      margin: 0 0 1rem;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent);
+      font-size: 0.92rem;
+      color: var(--ink);
+    }
+
+    .pack-total strong {
+      color: var(--accent);
+    }
+
     .pack-card h3 {
       font-size: 0.92rem;
       margin: 0 0 0.55rem;
       padding-bottom: 0.35rem;
       border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      align-items: baseline;
+    }
+
+    .pack-card h3 .wt {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      white-space: nowrap;
     }
 
     .pack-card ul {
@@ -274,8 +300,30 @@
 
     .pack-card li {
       position: relative;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      align-items: baseline;
       padding: 0.28rem 0 0.28rem 1.45rem;
       font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .pack-card li .item {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pack-card li .wt {
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+      font-size: 0.8rem;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .pack-card li.tip .wt,
+    .pack-card li.note-only .wt {
       color: var(--muted);
     }
 
@@ -295,7 +343,7 @@
       color: var(--ink);
     }
 
-    .pack-card li.must::after {
+    .pack-card li.must .item::after {
       content: "必带";
       margin-left: 0.35rem;
       font-size: 0.65rem;
@@ -307,7 +355,7 @@
       color: var(--warn);
     }
 
-    .pack-card li.miss::after {
+    .pack-card li.miss .item::after {
       content: "本次后悔没带";
       margin-left: 0.35rem;
       font-size: 0.65rem;
@@ -846,12 +894,15 @@
       box-shadow: 0 0 0 3px var(--accent-soft);
     }
 
-    .our-route svg {
-      display: block;
-      width: 100%;
-      max-width: 420px;
-      height: auto;
-      margin: 0 auto;
+    .our-route-legend .alt i {
+      background: var(--nav);
+      background-image: repeating-linear-gradient(
+        90deg,
+        var(--nav) 0 3px,
+        transparent 3px 6px
+      );
+      height: 0.18rem;
+      opacity: 0.75;
     }
 
     .ref-maps {
@@ -960,20 +1011,22 @@
 
 <body>
   <header class="hero">
-    <p class="eyebrow">自驾路书 · 拉胡线反穿 · 山上过夜</p>
+    <p class="eyebrow">自驾路书 · 精华线双方案 · 山上过夜</p>
     <h1>惠州大南山<br />2026.10.31 – 11.1</h1>
     <p class="lead">
-      中山马鞍岛出发，自驾惠东大南山，走<strong style="color:var(--ink)">拉胡线反穿</strong>：
-      大榕树 / 龙岩寺一带进山，经 A9 垭口、水底山，傍晚在附近<strong style="color:var(--ink)">烂尾楼（废弃房子）</strong>住一晚，次日下山至兴记农家乐取车回程。
-      十月底草甸转金黄，山脊风大、夜里偏凉；露营区<strong style="color:var(--ink)">无水源</strong>。本趟周末，夜爬到顶常吵——备装按过夜强度。
+      中山马鞍岛出发，自驾惠东大南山，<strong style="color:var(--ink)">车停大王殿 / 大王庙</strong>（不去兴记）。
+      到场先问有没有车接到<strong style="color:var(--ink)">龙岩寺</strong>：
+      <strong style="color:var(--ink)">有</strong>→ 方案 A：反穿加水底山，当晚水底山一带过夜；
+      <strong style="color:var(--ink)">无</strong>→ 方案 B：从大王殿走精华线，斧头石一带过夜。
+      十月底草甸转金黄；山脊<strong style="color:var(--ink)">无水源、风大偏凉</strong>——备装按过夜露营强度。
     </p>
     <div class="route-strip" aria-label="总路线">
       <span>中山马鞍岛</span><span class="arrow">→</span>
-      <span>兴记农家乐（停车）</span><span class="arrow">→</span>
-      <span>大榕树 / 龙岩寺</span><span class="arrow">→</span>
-      <span>水底山</span><span class="arrow">→</span>
-      <span>烂尾楼过夜</span><span class="arrow">→</span>
-      <span>兴记农家乐</span><span class="arrow">→</span>
+      <span>大王殿（停车）</span><span class="arrow">→</span>
+      <span>有接驳？</span><span class="arrow">→</span>
+      <span>A 龙岩寺→水底山过夜</span><span class="arrow">/</span>
+      <span>B 精华线→斧头石过夜</span><span class="arrow">→</span>
+      <span>大王殿取车</span><span class="arrow">→</span>
       <span>中山马鞍岛</span>
     </div>
   </header>
@@ -983,6 +1036,7 @@
       <h2>跳转</h2>
       <ul>
         <li><a href="#overview">行程概览</a></li>
+        <li><a href="#lines-bg">背景：精华线 vs 拉胡线</a></li>
         <li><a href="#route-map">行程路线图</a></li>
         <li><a href="#our-route">我们的实际路线</a></li>
         <li><a href="#ref-routes">网友示意图</a></li>
@@ -1001,162 +1055,213 @@
 
     <section class="panel" id="overview">
       <h2>行程概览</h2>
-      <p class="sub">2 天 1 晚 · 周六–周日 · 中山 ↔ 惠东大南山 · 拉胡线反穿 + 山上过夜（计划稿）</p>
+      <p class="sub">2 天 1 晚 · 周六–周日 · 中山 ↔ 惠东大南山 · 精华线双方案 + 山上过夜（计划稿）</p>
       <div class="stats">
         <div class="stat">
           <div class="num">2 天</div>
           <div class="label">10.31 六 – 11.1 日</div>
         </div>
         <div class="stat">
-          <div class="num">~12.5–18 km</div>
-          <div class="label">徒步全程约（视切线）</div>
+          <div class="num">~12–17 km</div>
+          <div class="label">徒步全程约（视方案）</div>
         </div>
         <div class="stat">
-          <div class="num">~1000 m</div>
+          <div class="num">~900–1500 m</div>
           <div class="label">累计爬升量级</div>
         </div>
         <div class="stat">
           <div class="num">1 晚</div>
-          <div class="label">山上烂尾楼 · 无水源</div>
+          <div class="label">山上露营 · 无水源</div>
         </div>
       </div>
+
+      <p class="note" style="margin:0 0 0.85rem">
+        <strong>停车总原则：</strong>导航「惠东大王庙 / 大王殿」（搜哪个能到用哪个）。
+        <strong>不去兴记</strong>（拉胡线侧，不顺路）。
+        到场先确认<strong>大王殿 → 龙岩寺</strong>有没有摩的 / 村民车 / 包车（公开攻略常见约 20–25 元 / 人、十来分钟量级；周末人多更好叫到）。
+      </p>
+
       <div class="table-wrap">
         <table class="info">
           <thead>
             <tr>
-              <th>日期</th>
-              <th>主线</th>
+              <th>方案</th>
+              <th>触发条件</th>
+              <th>Day1</th>
               <th>过夜</th>
-              <th>强度</th>
+              <th>Day2</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>10.31</td>
-              <td>马鞍岛出发 → 停车兴记 → 接驳大榕树 → 反穿至水底山 / 烂尾楼</td>
-              <td>山上烂尾楼（废弃房子）</td>
-              <td>高 · 过夜</td>
+              <td><strong>A · 反穿 + 水底山</strong></td>
+              <td>有车接到龙岩寺 / 大榕树缺口</td>
+              <td>接驳龙岩寺 → A9 → 水底山</td>
+              <td>水底山一带露营</td>
+              <td>水底山 → 沼泽 / 斧头石草甸 → 下山大王殿取车</td>
             </tr>
             <tr>
-              <td>11.1</td>
-              <td>下山经峭壁 / 水渠出兴记 → 回中山马鞍岛</td>
-              <td>—</td>
-              <td>中高 · 下行陡</td>
+              <td><strong>B · 精华线</strong></td>
+              <td>叫不到接驳，或不想等</td>
+              <td>大王殿进山 → 斧头石</td>
+              <td>斧头石一带露营</td>
+              <td>草甸段后下撤回大王殿取车</td>
             </tr>
           </tbody>
         </table>
       </div>
+
       <p class="note" style="margin-top:1rem">
-        <strong>路线：</strong>拉胡线现多从<strong>百木洋 · 兴记农家乐</strong>进出。
-        <strong>反穿</strong>从<strong>大榕树 / 龙岩寺盘山公路缺口</strong>进，经 A9、水底山（约 1280 m），再经峭壁、水渠出兴记；
-        正穿则反向。<strong>烂尾楼</strong>在水底山附近下山岔路，常见日落 / 云海与过夜点，岔路易偏。
-        终点侧俗称<strong>大王殿 / 大王庙</strong>（搜哪个以高德能到为准）。
-        精华线反穿常见约 <strong>12.5 km / 爬升约 1000 m</strong>；本趟兴记进出 + 烂尾楼过夜，全程多约 15–18 km。
-        斧头石草甸口碑好，是否绕看体能与轨迹。
-        日间反穿树荫多；<strong>离线 GPS 轨迹行前必下</strong>（两步路 / 六只脚等）。
+        <strong>方案 A：</strong>反穿前段树荫多、体能分配更顺；可把<strong>水底山最高峰</strong>吃到，次日再走精华草甸出片段下撤。
+        里程 / 爬升通常高于纯精华线（公开有「精华 + 水底山」约 17 km、爬升约 1500 m 量级）。
+        <br /><strong>方案 B：</strong>不依赖接驳；主菜是<strong>斧头石高山草甸</strong>（十月底金黄更稳）。
+        不必硬冲水底山；经典精华线约 12–14 km、爬升约 900–1200 m 量级。
+        <br /><strong>共同点：</strong>过夜在山脊 / 草甸，<strong>无水源、风大、信号弱</strong>；建议带帐篷；结伴；雨大取消过夜。
+        <strong>离线 GPS 必下</strong>（两步路搜「大南山精华线」「龙岩寺 大王庙」等）。
+        下山吃饭默认<strong>大王殿附近农家</strong>，不是兴记。
       </p>
       <p class="note">
-        <strong>风景别踩坑：</strong>常见吐槽是<strong>大王殿 → 斧头石再原路返回</strong>——前段密林陡爬风景差，好看的山脊草甸多在<strong>斧头石 ↔ 龙岩寺</strong>一段，原路返等于白爬最累、错过精华。
-        本趟<strong>龙岩寺进、兴记出</strong>，Day1 已走龙岩寺→脊线 / 水底山（好风景走廊上行），Day2 经峭壁 / 水渠<strong>继续往前出</strong>，不是原路返；体力不支用<strong>机耕路回兴记</strong>，勿退回龙岩寺。
-        想专看斧头石草甸，Day1 按轨迹<strong>绕看</strong>后再切烂尾楼，勿改成大王殿进出当日往返。
+        <strong>十月风景：</strong>公开攻略里 <strong>10–12 月</strong> 都是旺季——底色是<strong>草甸 / 芦苇转金黄</strong>（十月底已值得来）；
+        <strong>云海</strong>秋冬清晨都可能有，更吃「雨后转晴 + 清晨在山脊」，不是保证项；深冬水汽足时往往更稳。
+        过夜比日间穿越更利于碰云海 / 日出；方案 A 水底山更高、视野大，方案 B 斧头石草甸出片稳——按接驳与体力选，不必为云海死磕 A。
+        <br /><strong>别踩坑：</strong>方案 B 体力紧就近下撤即可，不必硬穿到龙岩寺再找车。
+      </p>
+    </section>
+
+    <section class="panel" id="lines-bg">
+      <h2>背景：精华线 vs 拉胡线</h2>
+      <p class="sub">
+        据两步路社区公开帖与常见攻略整理，仅作背景对照；轨迹、停车与饭点以现场 / 高德为准。
+        路线示意图见下方 <a href="#ref-routes">网友示意图</a>。
+      </p>
+
+      <p class="note" style="margin:0 0 0.85rem">
+        大南山成熟徒步大致分两半：<strong>精华线</strong>（大王庙侧 ↔ 龙岩寺侧，草甸出片）与
+        <strong>拉胡线</strong>（兴记 / 拉胡村侧，经峭壁冲水底山）。两条线可在脊线一带衔接；
+        也有人走「兴记 → 水底山 → 斧头石 → 大王庙」大环，或「大榕树反穿出兴记」商团常见走法。
+      </p>
+
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th></th>
+              <th>精华线</th>
+              <th>拉胡线</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>典型走法</strong></td>
+              <td>大王庙 ↔ 斧头石 / A9 ↔ 龙岩寺（正穿或反穿）</td>
+              <td>兴记进出环线；或兴记 ↔ 大榕树 / 龙岩寺穿越</td>
+            </tr>
+            <tr>
+              <td><strong>里程 / 耗时</strong></td>
+              <td>约 12–14 km · 常见 6–8 h</td>
+              <td>环线约 15–18 km · 常见 8–12 h（易摸黑）</td>
+            </tr>
+            <tr>
+              <td><strong>难度印象</strong></td>
+              <td>经典、人多、路相对成熟；仍有陡坡碎石</td>
+              <td>更虐：拉胡峭壁多段拉绳；反穿变下行更吃鞋与心理</td>
+            </tr>
+            <tr>
+              <td><strong>风景重心</strong></td>
+              <td>斧头石草甸、山脊芦苇 / 云海（「广东小武功山」常指这段）</td>
+              <td>拉胡峭壁、山脊草坡、水底山冲顶（约 1280 m 级）</td>
+            </tr>
+            <tr>
+              <td><strong>停车</strong></td>
+              <td>大王庙 / 大王殿（约 10–15 元 / 天量级）；反穿可停龙岩寺再接驳</td>
+              <td>百木洋 · <strong>兴记农家乐</strong>（亦可对面驿站 / 世外桃源；常提前联系芳姐留位）</td>
+            </tr>
+            <tr>
+              <td><strong>走完吃饭</strong></td>
+              <td><strong>大王庙附近农家 / 农庄</strong>（炒粉、客家菜等），不是兴记</td>
+              <td><strong>兴记农家乐</strong>（酿豆腐、土鸡煲一类；同片还有强记、一亩三分地）</td>
+            </tr>
+            <tr>
+              <td><strong>接驳</strong></td>
+              <td>大王庙 ↔ 龙岩寺常见摩的 / 村民车，约 20–25 元 / 人量级</td>
+              <td>兴记 ↔ 大榕树 / 龙岩寺盘山缺口；跟司机说清「龙岩寺」还是「半山腰」</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top:1.15rem">精华线 · 路线要点</h3>
+      <ul>
+        <li>
+          <strong>导航：</strong>「惠东大王庙 / 大王殿」或「惠东龙岩寺」。
+          反穿常车停大王庙，再接到龙岩寺 / 大榕树缺口进山，下山直接取车。
+        </li>
+        <li>
+          <strong>节点：</strong>龙岩寺 / 大榕树 → 山脊草甸 → 斧头石 →（可接 A9）→ 大王庙；
+          正穿则反向。全程无正规补给，饮水自备。
+        </li>
+        <li>
+          <strong>腐败：</strong>终点侧在大王庙吃饭；公开攻略几乎不写兴记。
+        </li>
+        <li>
+          <strong>示意图：</strong>见 <a href="#ref-routes">精华大环线</a>（网友图含更长环线变体，勿与经典 12–14 km 单日精华混为一谈）。
+        </li>
+      </ul>
+
+      <h3>拉胡线 · 路线要点</h3>
+      <ul>
+        <li>
+          <strong>导航：</strong>「兴记农家乐」（惠东多祝 / 百木洋）；备用「许屋洋」。
+          拉胡村门口曾作起点，近年多改从兴记进出。
+        </li>
+        <li>
+          <strong>常见变体（两步路帖常见归纳）：</strong>
+          <ul>
+            <li>兴记 → 水渠 → 树林 → 峭壁 → 水底山 → 烂尾楼 / 机耕路 → 兴记（经典环，约 18 km 量级）</li>
+            <li>兴记 → … → 水底山 → A9 → 斧头石 → 大王庙（大环，更长，有人两天）</li>
+            <li>大榕树 → A9 → 水底山 → 峭壁 → 水渠 → 兴记（反穿；商团 / 大巴常见）</li>
+          </ul>
+        </li>
+        <li>
+          <strong>腐败：</strong>走完回兴记吃饭最常见；芳姐一线也常被提到停车、住宿、应急联系。
+        </li>
+        <li>
+          <strong>示意图：</strong>见 <a href="#ref-routes">拉胡线反穿环线</a>。
+        </li>
+      </ul>
+
+      <p class="note" style="margin-top:0.85rem">
+        <strong>和本趟的关系：</strong>停车与下山吃饭挂<strong>大王殿</strong>，不走兴记拉胡环。
+        <strong>方案 A</strong>借用精华线反穿入口（龙岩寺）并<strong>加水底山过夜</strong>，次日经草甸下大王殿；
+        <strong>方案 B</strong>是精华线侧<strong>斧头石过夜</strong>，不依赖龙岩寺接驳。
+        两步路开帖里的兴记吃饭 / 拉胡峭壁环，仅作对照，不是本趟默认。
       </p>
     </section>
 
     <section class="panel" id="route-map">
       <h2>行程路线图</h2>
-      <p class="sub">先看本书实际走法示意，再对照网友全环线图；下方为真实地理方位底图。</p>
+      <p class="sub">先看本书实际走法（高德底图），再对照网友全环线图。</p>
 
       <div class="route-block" id="our-route">
         <h3>我们的实际路线</h3>
         <p class="note" style="margin:0 0 0.35rem">
-          本趟<strong>不是</strong>精华大环线全环，也<strong>不保证</strong>一日走满网友 18 km 拉胡环线。
-          徒步全程约 <strong>12.5–18 km</strong>（视切线）· 爬升约 <strong>1000 m</strong>量级。
+          车停<strong>大王殿</strong>。图上实线偏<strong>方案 A</strong>（有接驳：龙岩寺 → 水底山过夜 → 草甸 → 大王殿）；
+          虚线偏<strong>方案 B</strong>（无接驳：大王殿 → 斧头石过夜 → 下撤）。
+          折线为公开地名估算，<strong>仅作方位示意，不能当离线导航</strong>。
         </p>
-        <div class="our-route" role="img" aria-label="本书实际徒步路线示意：兴记停车、龙岩寺进、水底山、烂尾楼过夜、次日下撤兴记">
+        <div class="our-route">
           <div class="our-route-legend" aria-hidden="true">
-            <span class="drive"><i></i>接驳 / 驾车</span>
-            <span class="day1"><i></i>Day1 上山</span>
-            <span class="overnight"><i></i>过夜</span>
-            <span class="day2"><i></i>Day2 下撤</span>
+            <span class="drive"><i></i>接驳（A）</span>
+            <span class="day1"><i></i>方案 A Day1</span>
+            <span class="overnight"><i></i>过夜点</span>
+            <span class="day2"><i></i>方案 A Day2</span>
+            <span class="alt"><i></i>方案 B</span>
           </div>
-          <svg viewBox="0 0 360 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <defs>
-              <marker id="arr-muted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M0 1.5 L8 5 L0 8.5 Z" fill="#5c6b66" />
-              </marker>
-              <marker id="arr-day1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M0 1.5 L8 5 L0 8.5 Z" fill="#c45c26" />
-              </marker>
-              <marker id="arr-day2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M0 1.5 L8 5 L0 8.5 Z" fill="#00754a" />
-              </marker>
-            </defs>
-
-            <!-- drive in -->
-            <line x1="50" y1="36" x2="150" y2="36" stroke="#5c6b66" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arr-muted)" />
-            <rect x="8" y="18" width="42" height="36" rx="6" fill="#fff" stroke="rgba(26,36,33,0.18)" />
-            <text x="29" y="33" text-anchor="middle" font-size="9" fill="#5c6b66">马鞍岛</text>
-            <text x="29" y="46" text-anchor="middle" font-size="8" fill="#5c6b66">开车去</text>
-            <text x="100" y="28" text-anchor="middle" font-size="9" fill="#5c6b66">约 2–2.5h</text>
-
-            <!-- 兴记停车 -->
-            <rect x="158" y="14" width="110" height="44" rx="8" fill="#fff" stroke="#1a2421" stroke-width="1.4" />
-            <text x="213" y="33" text-anchor="middle" font-size="12" font-weight="700" fill="#1a2421">兴记停车</text>
-            <text x="213" y="48" text-anchor="middle" font-size="9" fill="#5c6b66">百木洋 · 留车</text>
-
-            <!-- shuttle -->
-            <path d="M213 58 L213 88" stroke="#5c6b66" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arr-muted)" fill="none" />
-            <text x="222" y="78" font-size="9" fill="#5c6b66">接驳</text>
-
-            <!-- 龙岩寺登山口 -->
-            <rect x="148" y="92" width="130" height="46" rx="8" fill="#fff" stroke="#c45c26" stroke-width="1.6" />
-            <text x="213" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#1a2421">龙岩寺登山口</text>
-            <text x="213" y="127" text-anchor="middle" font-size="9" fill="#5c6b66">大榕树缺口 · Day1 起点</text>
-
-            <!-- Day1 climb -->
-            <path d="M213 138 L213 178" stroke="#c45c26" stroke-width="3" marker-end="url(#arr-day1)" fill="none" />
-            <text x="222" y="162" font-size="10" fill="#c45c26" font-weight="600">Day1</text>
-            <text x="222" y="174" font-size="8" fill="#c45c26">纯走约 3–4.5h</text>
-
-            <!-- 脊线 / 水底山 -->
-            <rect x="138" y="182" width="150" height="48" rx="8" fill="#fff" stroke="#c45c26" stroke-width="1.6" />
-            <text x="213" y="203" text-anchor="middle" font-size="12" font-weight="700" fill="#1a2421">脊线 / 水底山</text>
-            <text x="213" y="218" text-anchor="middle" font-size="9" fill="#5c6b66">约 1280 m · A9 过境</text>
-
-            <path d="M213 230 L213 268" stroke="#c45c26" stroke-width="3" marker-end="url(#arr-day1)" fill="none" />
-            <text x="222" y="254" font-size="8" fill="#c45c26">侧切 20–40min</text>
-
-            <!-- 烂尾楼过夜 — prominent -->
-            <circle cx="213" cy="304" r="36" fill="#fff7f0" stroke="#c45c26" stroke-width="3" />
-            <circle cx="213" cy="304" r="42" fill="none" stroke="rgba(196,92,38,0.22)" stroke-width="6" />
-            <text x="213" y="298" text-anchor="middle" font-size="12" font-weight="700" fill="#c45c26">烂尾楼</text>
-            <text x="213" y="314" text-anchor="middle" font-size="11" font-weight="700" fill="#1a2421">过夜 ★</text>
-            <text x="72" y="308" text-anchor="middle" font-size="9" fill="#5c6b66">无水源</text>
-            <text x="72" y="322" text-anchor="middle" font-size="9" fill="#5c6b66">夜爬嘈杂</text>
-
-            <!-- Day2 descend -->
-            <path d="M213 346 L213 388" stroke="#00754a" stroke-width="3" marker-end="url(#arr-day2)" fill="none" />
-            <text x="222" y="368" font-size="10" fill="#00754a" font-weight="600">Day2 · 约 4–6h</text>
-
-            <!-- exit options -->
-            <rect x="78" y="396" width="120" height="40" rx="7" fill="#fff" stroke="#00754a" stroke-width="1.4" />
-            <text x="138" y="414" text-anchor="middle" font-size="11" font-weight="700" fill="#1a2421">峭壁 / 水渠</text>
-            <text x="138" y="428" text-anchor="middle" font-size="8" fill="#5c6b66">主线下撤</text>
-
-            <rect x="228" y="396" width="110" height="40" rx="7" fill="#fff" stroke="#00754a" stroke-width="1.2" stroke-dasharray="4 3" />
-            <text x="283" y="414" text-anchor="middle" font-size="11" font-weight="700" fill="#1a2421">机耕路</text>
-            <text x="283" y="428" text-anchor="middle" font-size="8" fill="#5c6b66">累了可走</text>
-
-            <path d="M138 436 L138 452 L200 452" stroke="#00754a" stroke-width="2.5" fill="none" marker-end="url(#arr-day2)" />
-            <path d="M283 436 L283 452 L226 452" stroke="#00754a" stroke-width="2" stroke-dasharray="4 3" fill="none" />
-
-            <!-- 兴记取车 -->
-            <rect x="158" y="460" width="110" height="30" rx="7" fill="#e8f5ef" stroke="#00754a" stroke-width="1.6" />
-            <text x="213" y="479" text-anchor="middle" font-size="12" font-weight="700" fill="#00754a">下撤兴记取车</text>
-          </svg>
+          <div id="our-route-map" role="img"
+            aria-label="双方案示意：A 龙岩寺至水底山过夜再经斧头石回大王殿；B 大王殿至斧头石过夜再下撤"></div>
           <p class="note" style="margin:0.65rem 0 0;font-size:0.82rem">
-            Day1：龙岩寺进 → 脊线 / 水底山 → <strong>烂尾楼过夜</strong>。
-            Day2：经峭壁 / 水渠出兴记；体力不支改<strong>机耕路</strong>，勿原路退龙岩寺。
+            <strong>A：</strong>接驳龙岩寺 → 水底山过夜 → 次日经沼泽 / 斧头石草甸下大王殿。
+            <strong>B：</strong>大王殿进 → 斧头石过夜 → 次日下撤大王殿。
           </p>
         </div>
       </div>
@@ -1190,17 +1295,11 @@
           </figure>
         </div>
       </div>
-
-      <div class="route-block">
-        <h3>真实地理方位</h3>
-        <p class="sub" style="margin-bottom:0.75rem">高德底图 + Leaflet。节点为公开资料估算经纬度，仅作方位示意；导航请点站点旁搜索图标。</p>
-        <div id="real-map" role="img" aria-label="真实地图路线"></div>
-      </div>
     </section>
 
     <section class="panel" id="map">
       <h2>驾车导航段</h2>
-      <p class="sub">有明确店名/地名的路段提供高德搜索链接；接驳与返程无固定终点的只列文字。</p>
+      <p class="sub">有明确店名/地名的路段提供高德搜索链接；接驳现场谈价，无固定终点的只列文字。</p>
       <div class="segment-list" id="drive-segments"></div>
     </section>
 
@@ -1208,38 +1307,45 @@
     <section class="day" id="d1031">
       <div class="day-header">
         <span class="date">10.31</span>
-        <span class="theme">出发 · 拉胡线反穿进山 · 烂尾楼过夜</span>
+        <span class="theme">出发 · 大王殿停车 · 按接驳选 A / B · 山上过夜</span>
       </div>
       <div class="timeline">
         <h3>当日时间轴（约，计划估算）</h3>
         <p class="note" style="margin:0 0 0.75rem">
-          <strong>到烂尾楼：</strong>登山口 → 过夜点，有经验约 <strong>3–4.5 h 纯走</strong>，新手过夜包约 <strong>4.5–6.5 h</strong>。
-          十月底日落约 <strong>17:40–18:00</strong>；多数 14:30–16:00 可到。
-          马鞍岛约 <strong>07:30–08:30</strong> 出发通常够用（不必 06:30）；最晚不宜过约 <strong>08:30</strong>。
-          周末凌晨夜爬嘈杂——耳塞见物品清单。
+          十月底日落约 <strong>17:40–18:00</strong>。
+          <strong>08:00</strong> 马鞍岛出发；到点看高德预估并预留堵车容错（常见约 2–2.5h，目标午前到大王殿）。
+          到场<strong>先问接驳</strong>再定 A / B；天黑前必须到过夜点搭好营。
         </p>
         <ol>
-          <li><span class="t">约 07:30–08:30</span><span>中山马鞍岛出发（可晚一点；想宽裕可更早）；最后检查饮水、头灯、离线轨迹</span></li>
-          <li><span class="t">约 08:00–11:00</span><span class="drive">自驾 马鞍岛 → 惠东兴记农家乐（约 2–2.5h，视路况）</span></li>
-          <li><span class="t">约 10:00–12:00</span><span>兴记停车休整；接驳至大榕树 / 龙岩寺登山口（包车或约车；说清「龙岩寺」还是「半山腰」）</span></li>
-          <li><span class="t">约 11:00–13:30</span><span>大榕树 → A9 垭口一带（约 1.5–2.5h；前段机耕 / 山径；雨天极难走）</span></li>
-          <li><span class="t">约 13:00–15:30</span><span>A9 → 水底山冲顶与草甸；午饭、补水、拍照（约 1000 m 以上易浓雾，天气变化快）</span></li>
-          <li><span class="t">约 14:30–16:30</span><span>水底山侧切至烂尾楼（纯走约 20–40min；岔路左切，勿沿石溪直下）</span></li>
-          <li><span class="t">约 15:00–16:30</span><span>多数可到；日落 / 云海前后安顿过夜；早睡留电——凌晨夜爬可能吵醒</span></li>
+          <li><span class="t">08:00</span><span>中山马鞍岛出发；检查饮水、帐篷、头灯、离线轨迹（精华线 + 水底山相关）</span></li>
+          <li><span class="t">上午</span><span class="drive">自驾 马鞍岛 → 惠东大王庙 / 大王殿（以导航 ETA 为准，预留堵车）</span></li>
+          <li><span class="t">到场后</span><span>大王殿停车；问摩的 / 村民车 / 包车能否到龙岩寺（说清「龙岩寺」或「大榕树缺口」）</span></li>
+          <li><span class="t">方案 A</span><span>有车且时间宽裕：接驳龙岩寺 → A9 → 水底山；午饭后冲顶、找背风营地过夜</span></li>
+          <li><span class="t">方案 B</span><span>无车或到得晚：从大王殿登山口上山 → 斧头石草甸；午饭后选营地过夜</span></li>
+          <li><span class="t">天黑前</span><span>到过夜点搭营；日落 / 云海碰运气；早睡，次日清晨再看云海窗口</span></li>
         </ol>
       </div>
 
-      <div class="choice-row" aria-label="停车与接驳">
+      <div class="choice-row" aria-label="接驳判定">
         <div class="choice-card picked">
-          <span class="badge">推荐自驾</span>
-          <h3>车停兴记 · 接驳去起点</h3>
-          <p>车停反穿终点<strong>兴记农家乐</strong>，再打车 / 包车到<strong>大榕树 / 龙岩寺</strong>进山；次日下山直接取车，省得终点再倒腾。登山口很多，跟司机说清要<strong>龙岩寺</strong>还是<strong>半山腰</strong>，别停错口。</p>
+          <span class="badge">方案 A · 有接驳</span>
+          <h3>龙岩寺反穿 + 水底山过夜</h3>
+          <p>
+            车停<strong>大王殿</strong>，接到<strong>龙岩寺 / 大榕树</strong>进山。
+            Day1：龙岩寺 → A9 → <strong>水底山过夜</strong>。
+            Day2：经沼泽 / 斧头石草甸下撤大王殿取车、吃饭。
+            公开价：大王庙↔龙岩寺拼车约 <strong>20–25 元 / 人</strong>量级，以现场为准。
+          </p>
         </div>
         <div class="vs">VS</div>
         <div class="choice-card alt">
-          <span class="badge">备选</span>
-          <h3>车停大王殿 / 龙岩寺 · 终点再回</h3>
-          <p>有人导航惠东县<strong>「大王殿」</strong>（亦称大王庙）停车后打车去登山口；或车停龙岩寺停车场直接进山，出兴记后再约车回取车。终点找车不如前者省心。</p>
+          <span class="badge">方案 B · 无接驳</span>
+          <h3>精华线 · 斧头石过夜</h3>
+          <p>
+            叫不到车或不想等：从<strong>大王殿</strong>直接进山，走精华线主风景段，
+            <strong>斧头石一带过夜</strong>；次日草甸后再下撤回大王殿。
+            不强制冲水底山，省接驳、路线更短。
+          </p>
         </div>
       </div>
 
@@ -1250,61 +1356,64 @@
             <h3 class="stop-name">中山马鞍岛（出发点）</h3>
             <p class="no-nav">自行导航 · 不链</p>
           </li>
-          <li data-poi='{"name":"兴记农家乐","search":"兴记农家乐","city":"惠州"}'>
-            <h3 class="stop-name">惠东 · 兴记农家乐（停车）</h3>
-            <div class="tags"><span class="tag star">高德好搜</span><span class="tag">百木洋一带</span></div>
+          <li data-poi='{"name":"大王庙","search":"大王庙","city":"惠州","extraSearches":[{"search":"大王殿","label":"大王殿"}]}'>
+            <h3 class="stop-name">惠东 · 大王庙 / 大王殿（停车）</h3>
+            <div class="tags"><span class="tag star">本趟停车</span><span class="tag">高德好搜</span></div>
             <p class="note">
-              惠东多祝 / 百木洋一带；附近一亩三分地、强记等，认准停车点。
-              <strong>停车：</strong>上午到即可；收费以现场为准。可提前联系<strong>芳姐</strong>留位（兴记 / 世外桃源公开源说法不一，到店再问）。
-              <strong>大王殿侧参考：</strong>停车约 15（当日）/ 20（过夜）元 / 车；盘山接驳约 6 km、约 20 元 / 人。
-              下山可农家饭（有文人均约 40）；室内房多指向世外桃源农庄，电话房价待确认。
+              搜「大王庙」或「大王殿」以能导航到为准。
+              公开参考：停车约 <strong>10–15 元 / 天</strong>（过夜可能更高），以现场为准；周末早到占位。
+              终点侧有农家 / 农庄，下山吃饭方便。
+              <strong>接驳：</strong>下山口常见摩的 / 村民车往返龙岩寺，约 20–25 元 / 人量级；谈好「龙岩寺」还是「半山腰 / 大榕树缺口」。
             </p>
             <div class="nav-actions"></div>
           </li>
-          <li data-poi='{"name":"许屋洋","search":"许屋洋","city":"惠州"}'>
-            <h3 class="stop-name">许屋洋（备用搜点）</h3>
-            <div class="tags"><span class="tag">兴记不好搜时</span></div>
-            <p class="note">部分攻略写导航「惠东县多祝镇许屋洋」可到登山口附近乡村路。优先仍搜兴记；此为备用关键词。</p>
+          <li data-poi='{"name":"龙岩寺","search":"龙岩寺","city":"惠州"}'>
+            <h3 class="stop-name">龙岩寺 / 大榕树（方案 A 起点）</h3>
+            <div class="tags"><span class="tag">仅方案 A</span></div>
+            <p class="note">
+              反穿常见从盘山公路「大榕树缺口」进；轿车盘山路窄。
+              无接驳则改方案 B，不必自己开盘山路硬上。
+            </p>
             <div class="nav-actions"></div>
           </li>
         </ol>
       </div>
 
       <div class="leg">
-        <div class="leg-title">反穿进山</div>
+        <div class="leg-title">方案 A · 反穿至水底山</div>
         <ol class="stops">
-          <li data-poi='{"name":"龙岩寺","search":"龙岩寺","city":"惠州"}'>
-            <h3 class="stop-name">大榕树 / 龙岩寺（反穿起点）</h3>
-            <div class="tags"><span class="tag star">反穿进山口</span></div>
-            <p class="note">
-              反穿常见从<strong>龙岩寺下方盘山公路「大榕树缺口」</strong>进；高德搜「<strong>龙岩寺</strong>」。
-              大巴常上不到真正缺口；轿车盘山路窄，会车鸣笛。
-              接驳说清<strong>龙岩寺</strong>还是<strong>半山腰</strong>，别停错口。
-              进山：大榕树 → A9 → 水底山 → 切烂尾楼过夜 → 次日峭壁 / 水渠出兴记。
-            </p>
-            <div class="nav-actions"></div>
-          </li>
           <li>
-            <h3 class="stop-name">A9 垭口 · 水底山</h3>
-            <div class="tags"><span class="tag">最高点约 1280 m</span><span class="tag">草甸风大</span></div>
+            <h3 class="stop-name">A9 垭口</h3>
+            <div class="tags"><span class="tag">下撤点</span></div>
             <p class="note">
-              拉胡线制高点，山脊草甸开阔，十月底偏金黄；天气好时日落 / 云海常见。
-              冲顶前陡坡长，过夜负重留余量。
-              <strong>约 1000 m 以上常遇浓雾</strong>，天气变化快——离线轨迹与防风层别省；山脊防晒 + 防风都带。
-              <strong>无水源</strong>，饮水自备（量见物品清单）。
+              两峰之间低点；体力不支可从 A9 下撤龙岩寺方向（需再找车回大王殿）。
+              往水底山一侧多为连续爬升「大 V」。
             </p>
             <p class="no-nav">山野点位 · 不链导航</p>
           </li>
           <li>
-            <h3 class="stop-name">住宿 · 烂尾楼（山上废弃房子）</h3>
-            <div class="tags"><span class="tag star">过夜点</span><span class="tag skip">非正规民宿</span></div>
+            <h3 class="stop-name">住宿 · 水底山一带（方案 A）</h3>
+            <div class="tags"><span class="tag star">过夜 · A</span><span class="tag">约 1280 m</span></div>
             <p class="note">
-              水底山附近下山岔路；水底山再切过来通常半小时内。
-              <strong>岔路往左切</strong>（勿沿石溪直下，易入溯溪）；天黑前确认轨迹。
-              <br /><strong>过夜：</strong>非正规住宿——结构不明、可能漏风漏雨、夜里偏冷、<strong>信号常弱或无</strong>、<strong>无水源</strong>。
-              结伴；头灯备用电、睡袋 / 防潮垫、饮水干粮齐。
-              本趟周末：约 <strong>3:00–3:30</strong> 夜爬到顶常吵——耳塞、别期待安睡。
-              不建议独行；大风大雨改山下农家（雨天山路极难走）。
+              最高峰制高点；开阔、风大，运气好有云海。
+              <strong>过夜：</strong>露营（建议帐篷）；无水源、信号弱、夜里凉。
+              附近或有越野车营地痕迹，勿依赖补给。结伴；大风大雨改山下农家。
+            </p>
+            <p class="no-nav">山野点位 · 不链导航</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="leg">
+        <div class="leg-title">方案 B · 精华线上斧头石</div>
+        <ol class="stops">
+          <li>
+            <h3 class="stop-name">住宿 · 斧头石一带（方案 B）</h3>
+            <div class="tags"><span class="tag star">过夜 · B</span><span class="tag">约 1105 m</span></div>
+            <p class="note">
+              精华线主峰 / 草甸核心；十月底金黄芦苇出片。
+              <strong>过夜：</strong>草甸或背风处露营；同样无水源、风大。
+              次日可先走一段草甸再下撤大王殿，不必硬穿到龙岩寺。
             </p>
             <p class="no-nav">山野点位 · 不链导航</p>
           </li>
@@ -1316,46 +1425,46 @@
     <section class="day" id="d1101">
       <div class="day-header">
         <span class="date">11.1</span>
-        <span class="theme">下山出兴记 · 回马鞍岛</span>
+        <span class="theme">下山回大王殿 · 取车回马鞍岛</span>
       </div>
       <div class="timeline">
         <h3>当日时间轴（约）</h3>
         <ol>
-          <li><span class="t">约 06:30–07:30</span><span>起床收装（若被夜爬吵醒可能更早）；简单早餐；检查头灯电量（林段可能偏暗）</span></li>
-          <li><span class="t">约 07:30–12:00</span><span>烂尾楼 → 拉胡峭壁 → 树林 / 水渠 → 兴记（视体能 4–6h）</span></li>
-          <li><span class="t">约 12:00–13:30</span><span>兴记休整、可选农家午饭；换干净衣服</span></li>
-          <li><span class="t">约 13:30–16:00</span><span class="drive">自驾 兴记 → 中山马鞍岛（约 2–2.5h）</span></li>
+          <li><span class="t">约 06:30–07:30</span><span>起床收装；简单早餐；检查头灯（下撤林段可能偏暗）</span></li>
+          <li><span class="t">方案 A</span><span>水底山 → 沼泽 / 斧头石草甸 → 下山大王殿（视体能约 4–7h）</span></li>
+          <li><span class="t">方案 B</span><span>斧头石草甸段 → 下撤回大王殿（通常短于 A）</span></li>
+          <li><span class="t">约 12:00–14:00</span><span>大王殿休整、农家午饭；换干净衣服</span></li>
+          <li><span class="t">约 13:30–16:30</span><span class="drive">自驾 大王殿 → 中山马鞍岛（约 2–2.5h）</span></li>
         </ol>
       </div>
 
-      <div class="choice-row" aria-label="下山线路">
+      <div class="choice-row" aria-label="下山提示">
         <div class="choice-card picked">
-          <span class="badge">计划 · 走完反穿</span>
-          <h3>经拉胡峭壁出兴记</h3>
-          <p>反穿精华：下行经过拉胡峭壁（正穿是上行拉绳，反穿变下行，湿滑时更吃鞋底与手套）。出树林后接水渠平路回兴记。</p>
+          <span class="badge">方案 A</span>
+          <h3>草甸出片后再下撤</h3>
+          <p>水底山下来后接精华草甸（沼泽 → 斧头石方向），再下到大王殿。长陡下坡护膝 + 杖；碎石路慢行。</p>
         </div>
         <div class="vs">VS</div>
         <div class="choice-card alt">
-          <span class="badge">体力不支时</span>
-          <h3>烂尾楼 → 机耕路回兴记</h3>
-          <p>环线常见下撤：烂尾楼切机耕路回兴记，少走一段峭壁。夜里或疲劳时优先保安全，不必硬走满反穿。</p>
+          <span class="badge">方案 B / 体力紧</span>
+          <h3>就近下撤大王殿</h3>
+          <p>斧头石过夜后不必硬走到龙岩寺；原路或轨迹下撤回停车点即可。雨雾大优先保安全。</p>
         </div>
       </div>
 
       <ol class="stops">
         <li>
-          <h3 class="stop-name">拉胡峭壁 · 树林 · 水渠</h3>
-          <div class="tags"><span class="tag">手套必带</span><span class="tag">绳段慢行</span></div>
+          <h3 class="stop-name">沼泽地 · 斧头石草甸</h3>
+          <div class="tags"><span class="tag">出片段</span></div>
           <p class="note">
-            峭壁段有拉绳陡坡，反穿时重心放低、确认落脚点；恐高者可改机耕路下撤。
-            水渠段接近尾声，多为平路，但腿已经软——别赶时间在湿石上滑倒。
-            全程垃圾带走；山里无垃圾桶。
+            精华线高光：连片草甸 / 秋冬芦苇。方案 A 次日经过；方案 B 可在此多留影再下。
+            全程垃圾带走。
           </p>
           <p class="no-nav">山野路段 · 不链导航</p>
         </li>
-        <li data-poi='{"name":"兴记农家乐","search":"兴记农家乐","city":"惠州"}'>
-          <h3 class="stop-name">兴记农家乐（取车 / 休整）</h3>
-          <p class="note">下山后可简单吃饭、冲凉（以店家当日服务为准）。取车回中山前补油、补水。</p>
+        <li data-poi='{"name":"大王庙","search":"大王庙","city":"惠州","extraSearches":[{"search":"大王殿","label":"大王殿"}]}'>
+          <h3 class="stop-name">大王庙 / 大王殿（取车 / 吃饭）</h3>
+          <p class="note">下山后农家菜 / 炒粉一类（人均公开约几十元量级）；取车回中山前补油、补水。</p>
           <div class="nav-actions"></div>
         </li>
         <li>
@@ -1367,106 +1476,110 @@
 
     <section class="panel" id="packing">
       <h2>物品清单</h2>
-      <p class="sub">过夜反穿带什么。怎么买 / 我的物资见 <a href="../../gear/index.html">装备</a>。</p>
+      <p class="sub">
+        本趟过夜露营实装（按系统分类列表）。怎么买 / 家底见 <a href="../../gear/index.html">装备</a>。
+        有实测用实测，其余估重。口径 = <strong>包内</strong>（抓绒防风穿着；杖手提、鞋脚上不算）。
+      </p>
+
+      <p class="pack-total">
+        包内合计约 <strong>13–14 kg</strong>（贴艾王约 15 kg 上限；出发前实装称一次）
+      </p>
+
       <div class="pack-grid">
         <div class="pack-card">
-          <h3>证件 / 车 / 导航</h3>
+          <h3>背负 <span class="wt">小计 ≈1.4 kg</span></h3>
           <ul>
-            <li class="must">身份证</li>
-            <li class="must">驾驶证、行驶证</li>
-            <li class="must">离线地图 + GPS 轨迹（「拉胡线」「大榕树反穿」；强烈建议离线）</li>
-            <li>ETC / 现金小额（接驳约 20 元级 / 人、停车 15–20 元级）</li>
-            <li>车载充电器、手机支架</li>
-            <li class="tip">手机防水袋</li>
+            <li class="must"><span class="item">艾王 35+5L</span><span class="wt">≈1.4 kg</span></li>
           </ul>
         </div>
         <div class="pack-card">
-          <h3>鞋袜 · 衣物分层</h3>
+          <h3>庇护 · 睡眠系统 <span class="wt">小计 4.5 kg</span></h3>
           <ul>
-            <li class="must">防滑登山鞋（鞋头偏硬；勿普通运动鞋）</li>
-            <li class="must">美利奴 / 中长筒排汗袜两双（勿纯棉；路上 + 过夜）</li>
-            <li class="tip">旧袜子一双（可选：套鞋外增阻）</li>
-            <li class="must">速干内衣 + 中层薄抓绒</li>
-            <li class="must">防风软壳或冲锋衣外壳</li>
-            <li class="tip">轻薄羽绒或加厚抓绒（怕冷 / 漏风再带；多数抓绒 + 防风够用）</li>
-            <li>速干长裤；内裤两条（速干优先；一次性选针织贴合）</li>
-            <li class="must">拖鞋一双（营地换脚）</li>
-            <li class="tip">薄手套（抓绳、防刮）</li>
+            <li class="must"><span class="item">帐篷（山脊防风固定）</span><span class="wt">2.2 kg</span></li>
+            <li class="must"><span class="item">睡袋</span><span class="wt">1.3 kg</span></li>
+            <li class="must"><span class="item">充气垫</span><span class="wt">0.6 kg</span></li>
+            <li class="must"><span class="item">蛋巢（垫底防扎；营地多石）</span><span class="wt">≈0.4 kg</span></li>
+            <li class="tip"><span class="item">耳塞（周末山上或有人夜走）</span><span class="wt">极轻</span></li>
           </ul>
         </div>
         <div class="pack-card">
-          <h3>背包 / 水 / 灯电</h3>
+          <h3>穿着 · 鞋袜 <span class="wt">小计 ≈0.7 kg</span></h3>
           <ul>
-            <li class="must">双肩包 28–40L</li>
-            <li class="must">饮水（无水源；至少 2.5–3 L / 人起，过夜再加）</li>
-            <li class="tip">本次饮水见「食物 · 个人准备」</li>
-            <li class="must">头灯 + 备用电池 / 第二光源</li>
-            <li class="must">充电宝（≥10000 mAh）</li>
-            <li class="tip">登山杖一对（下行更建议）</li>
-            <li>轻量雨衣 / 背包防雨罩</li>
-            <li>垃圾袋</li>
+            <li class="must"><span class="item">悍途登山鞋（脚上）</span><span class="wt">不计包</span></li>
+            <li class="must"><span class="item">袜两双、内裤两条（一穿一带）</span><span class="wt">≈0.15 kg</span></li>
+            <li class="must"><span class="item">速干内衣 + 抓绒 + 防风外套（建议穿着）</span><span class="wt">不计包</span></li>
+            <li class="must"><span class="item">速干长裤；营地拖鞋</span><span class="wt">≈0.2 kg</span></li>
+            <li class="must"><span class="item">护膝（负重下坡戴）</span><span class="wt">≈0.1 kg</span></li>
+            <li class="must"><span class="item">手套</span><span class="wt">≈0.1 kg</span></li>
+            <li class="tip"><span class="item">轻量雨衣 / 背包罩（山脊风大，不带伞）</span><span class="wt">≈0.25 kg</span></li>
           </ul>
         </div>
         <div class="pack-card">
-          <h3>过夜</h3>
+          <h3>水 <span class="wt">小计 ≈4.0 kg</span></h3>
           <ul>
-            <li class="must">睡袋</li>
-            <li class="must">防潮垫（蛋巢 / 充气垫；有能力都上）</li>
-            <li>帐篷：待定（住烂尾楼可不带）</li>
-            <li class="tip">耳塞（周末约 3 点夜爬嘈杂）</li>
-            <li class="tip">哨子 / 应急箔毯</li>
+            <li class="must"><span class="item">水 3 L</span><span class="wt">3.0 kg</span></li>
+            <li class="must"><span class="item">椰子水 ×2</span><span class="wt">≈1.0 kg</span></li>
+            <li class="tip note-only"><span class="item">山上无水源；果可补一点水分，勿提前喝光</span></li>
           </ul>
         </div>
         <div class="pack-card">
-          <h3>其它</h3>
+          <h3>食物 <span class="wt">小计 ≈1.7 kg</span></h3>
           <ul>
-            <li>湿巾、纸巾</li>
+            <li class="must"><span class="item">馒头 ×4（Day1 约 3、Day2 早约 1）</span><span class="wt">≈0.5 kg</span></li>
+            <li class="must"><span class="item">肉约 1 斤（卤制熟食，免煮）</span><span class="wt">0.5 kg</span></li>
+            <li class="must"><span class="item">香蕉 ×2（一天一根）</span><span class="wt">≈0.3 kg</span></li>
+            <li class="must"><span class="item">柚子半个</span><span class="wt">≈0.4 kg</span></li>
+            <li class="tip note-only"><span class="item">路上 + 过夜自备；Day2 午饭下山农庄吃；不必带灶具</span></li>
           </ul>
         </div>
         <div class="pack-card">
-          <h3>食物 · 常规建议</h3>
+          <h3>照明 · 电子 <span class="wt">小计 ≈0.6 kg</span></h3>
           <ul>
-            <li class="must">高热量干粮：面包、牛肉干、能量棒、巧克力、电解质粉</li>
-            <li class="tip">免煮 / 即食优先（无水源；自热饭需额外带水）</li>
-            <li>盐分零食 / 坚果</li>
-            <li class="tip">午饭后上山可只备<strong>晚餐 + 次日早餐</strong></li>
+            <li class="must"><span class="item">头灯（确认能头戴 + 续航）</span><span class="wt">≈0.25 kg</span></li>
+            <li class="must"><span class="item">充电宝（≥10000 mAh）</span><span class="wt">≈0.3 kg</span></li>
+            <li class="must"><span class="item">手机 + 离线轨迹（身侧；「精华线」「龙岩寺 大王庙」；方案 A 含水底山）</span><span class="wt">不计包</span></li>
           </ul>
         </div>
         <div class="pack-card">
-          <h3>食物 · 个人准备</h3>
+          <h3>助行 <span class="wt">小计 不计包</span></h3>
           <ul>
-            <li class="must">午饭后上山：只备<strong>晚餐 + 次日早餐</strong></li>
-            <li class="must">馒头 ×2、卤牛肉一份、紫甘蓝一颗、瓜子一包</li>
-            <li class="must">水：矿泉水 1.5 L + 椰子水 1 + 汽水/运动饮料 1（约 2–2.5 L+）</li>
-            <li class="tip">可选再加 500 ml：刷牙 / 简单擦洗</li>
-            <li class="tip">免煮即食；不必带灶具 / 自热饭</li>
+            <li class="must"><span class="item">登山杖一对（手提）</span><span class="wt">≈0.5 kg · 不计包</span></li>
           </ul>
         </div>
         <div class="pack-card">
-          <h3>药品 / 急救</h3>
+          <h3>证件 · 车 <span class="wt">小计 极轻</span></h3>
           <ul>
-            <li class="must">创可贴、水泡贴</li>
-            <li class="must">止痛药、肠胃药、个人常备药</li>
-            <li class="must">体温计（优先电子）</li>
-            <li>碘伏棉棒、绷带少量</li>
-            <li class="tip">感冒 / 退烧药按需</li>
-            <li class="tip">电子快、耐摔、夜里好读；玻璃酒精/镓铟款无电池但易碎、要测几分钟</li>
+            <li class="must"><span class="item">身份证；驾驶证、行驶证；车钥匙</span><span class="wt">极轻</span></li>
+            <li class="must"><span class="item">现金小额（接驳约 20–25 元 / 人、停车 10–20 元级）</span><span class="wt">极轻</span></li>
+            <li class="tip"><span class="item">ETC；车载充；手机防水袋</span><span class="wt">极轻</span></li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h3>急救 · 卫生 · 应急 <span class="wt">小计 ≈0.3 kg</span></h3>
+          <ul>
+            <li class="must"><span class="item">创可贴、水泡贴；止痛药、肠胃药、个人常备药</span><span class="wt">≈0.1 kg</span></li>
+            <li class="must"><span class="item">体温计（优先电子）</span><span class="wt">≈0.05 kg</span></li>
+            <li><span class="item">碘伏棉棒、绷带少量；感冒 / 退烧药按需</span><span class="wt">≈0.05 kg</span></li>
+            <li class="must"><span class="item">湿巾、纸巾、垃圾袋</span><span class="wt">≈0.05 kg</span></li>
+            <li class="tip"><span class="item">哨子 / 箔毯</span><span class="wt">≈0.05 kg</span></li>
           </ul>
         </div>
       </div>
-
+      <p class="note" style="margin-top:0.85rem">
+        可留车：折叠伞、下山换洗衣。超 15 kg 优先砍杂物、不砍饮用水。
+      </p>
     </section>
 
     <section class="panel" id="booking">
       <h2>行前预约清单</h2>
       <ul class="checklist">
         <li>看天气预报；雨天山路极难走，大风大雨取消过夜</li>
-        <li>下载离线地图 + 拉胡线 / 大榕树反穿 GPS 轨迹；标记烂尾楼岔路</li>
+        <li>下载离线地图 + 精华线 /（方案 A）含水底山轨迹；标记 A9、斧头石、下撤点</li>
         <li>约伴（过夜不建议独行）；互留紧急联系人</li>
-        <li>确认兴记停车与接驳；跟司机说清「龙岩寺」还是「半山腰」</li>
-        <li>备足饮水（无水源；本次见物品清单个人准备）；耳塞</li>
+        <li>导航大王庙 / 大王殿；到场确认能否接驳龙岩寺（谈价、说清停靠点）</li>
+        <li>备足饮水（无水源；见物品清单）；帐篷防风</li>
         <li>充电宝、头灯满电；前一晚装包试背</li>
-        <li>告知家人进出时间与下山点（兴记）</li>
+        <li>告知家人进出时间与下山点（大王殿）</li>
       </ul>
     </section>
 
@@ -1484,14 +1597,19 @@
           </thead>
           <tbody>
             <tr>
-              <td>10.31</td>
-              <td>大南山 · 烂尾楼（废弃房子）</td>
-              <td>无水源；信号差；自备睡袋/垫/饮水；周末约 3 点夜爬嘈杂；恶劣天气改山下</td>
+              <td>10.31 · A</td>
+              <td>水底山一带露营</td>
+              <td>最高峰附近；无水源、风大；帐篷 + 睡袋/垫；恶劣天气改山下大王殿侧农家</td>
+            </tr>
+            <tr>
+              <td>10.31 · B</td>
+              <td>斧头石一带露营</td>
+              <td>草甸核心；无水源、风大；同上装备；次日就近下撤大王殿</td>
             </tr>
             <tr>
               <td>备选</td>
-              <td>兴记一带 / 世外桃源农庄（山下）</td>
-              <td>下山后备选，≠烂尾楼。兴记多停车+吃饭，有文写可扎营；室内房公开源多指向世外桃源（问芳姐）。电话房价待现场确认</td>
+              <td>大王殿侧农家 / 山下住宿</td>
+              <td>取消过夜时用；店名电话待现场确认</td>
             </tr>
           </tbody>
         </table>
@@ -1516,21 +1634,21 @@
           <tbody>
             <tr>
               <td>往返油费 / 高速</td>
-              <td>马鞍岛 ↔ 惠东兴记</td>
+              <td>马鞍岛 ↔ 惠东大王殿</td>
               <td class="amount">待定</td>
               <td>约 2–2.5h / 单程</td>
             </tr>
             <tr>
-              <td>兴记 / 大王殿停车</td>
-              <td>农家或村民现场</td>
-              <td class="amount">15–20</td>
-              <td>大王殿侧参考：当日约 15、过夜约 20 / 车；兴记以现场为准</td>
+              <td>大王殿停车</td>
+              <td>现场收费</td>
+              <td class="amount">10–20</td>
+              <td>公开参考约 10–15 / 天，过夜或更高；以现场为准</td>
             </tr>
             <tr>
-              <td>接驳车</td>
-              <td>停车点 → 大榕树 / 龙岩寺</td>
-              <td class="amount">约 20 / 人</td>
-              <td>大王殿↔登山口约 6 km 盘山路，村民载客常见约 20 元 / 人；整车包价另议</td>
+              <td>接驳车（仅方案 A）</td>
+              <td>大王殿 → 龙岩寺</td>
+              <td class="amount">约 20–25 / 人</td>
+              <td>摩的 / 村民车常见价；整车包价另议；无车则走方案 B</td>
             </tr>
             <tr class="subtotal">
               <td>小计</td>
@@ -1555,10 +1673,10 @@
           </thead>
           <tbody>
             <tr>
-              <td>山上烂尾楼</td>
-              <td>废弃房子过夜</td>
+              <td>山上露营</td>
+              <td>水底山或斧头石</td>
               <td class="amount">0</td>
-              <td>非经营性住宿</td>
+              <td>非经营性营地；自备帐篷</td>
             </tr>
             <tr class="subtotal">
               <td>小计</td>
@@ -1590,7 +1708,7 @@
             </tr>
             <tr>
               <td>下山农家餐</td>
-              <td>兴记一带</td>
+              <td>大王殿一带</td>
               <td class="amount">待定</td>
               <td>店名待定</td>
             </tr>
@@ -1652,17 +1770,17 @@
         <div class="col">
           <h3>计划走法</h3>
           <ol>
-            <li>车停兴记 → 接驳大榕树反穿 → 烂尾楼过夜</li>
-            <li>次日峭壁 / 水渠出兴记 → 回马鞍岛</li>
+            <li>08:00 出发 → 车停大王殿 → 有接驳且时间够则 A（水底山），否则 B（斧头石）</li>
+            <li>次日清晨看云海窗口 → 下撤大王殿午饭 → 回马鞍岛</li>
           </ol>
         </div>
         <div class="col better">
           <h3>更稳妥的备选</h3>
           <ol>
-            <li>风雨大：取消过夜，改当日环线</li>
-            <li>体力紧：机耕路下撤，不强穿峭壁</li>
-            <li>嫌周末吵：改平日，或山下世外桃源（芳姐）</li>
-            <li>新手结伴；独行优先日间环线</li>
+            <li>风雨大：取消过夜，改当日精华线轻装</li>
+            <li>方案 A 体力紧：A9 下撤，不强冲水底山</li>
+            <li>嫌山脊风大：改山下大王殿侧住宿</li>
+            <li>新手结伴；独行优先日间精华线</li>
           </ol>
         </div>
       </div>
@@ -1671,13 +1789,13 @@
     <section class="tips" id="tips">
       <h2>注意事项</h2>
       <ul>
-        <li><strong>难度：</strong>精华线约 12.5 km / 爬升约 1000 m；出兴记多约 15–18 km。反穿峭壁变下行，更吃鞋底与心理；日间反穿树荫多，夜爬多建议正穿。纯新手先日间环线再过夜。</li>
-        <li><strong>风景：</strong>勿学「大王殿上斧头石再原路返」——密林陡爬风景差，精华在斧头石↔龙岩寺草甸脊线。本趟反穿已覆盖龙岩寺→脊线；次日务必出兴记（或机耕路），勿原路退龙岩寺。斧头石可绕看，非必经。</li>
-        <li><strong>天气：</strong>山脊风大、昼夜温差大；约 1000 m 以上易浓雾。防风层必带；雨天山路极难走——行前看预报。</li>
-        <li><strong>信号与导航：</strong>山里常无信号，<strong>离线 GPS 必下</strong>；烂尾楼岔路左切，勿沿石溪直下。接驳说清龙岩寺 / 半山腰。</li>
-        <li><strong>水：</strong>露营区<strong>无水源</strong>，全部自带，勿指望小溪；至少约 2.5–3 L / 人。本次见「物品清单 · 个人准备」。</li>
-        <li><strong>过夜：</strong>结构与卫生未知；结伴、留足电量与用水。周末约 3:00–3:30 夜爬嘈杂——耳塞；不适或天气转坏果断下撤。</li>
-        <li><strong>停车与接驳：</strong>兴记上午到即可；大王殿侧参考 15（当日）/ 20（过夜）元 / 车，接驳约 20 元 / 人，以现场为准。</li>
+        <li><strong>难度：</strong>方案 B 精华线约 12–14 km / 爬升约 900–1200 m；方案 A 加水底山通常更长更虐。过夜负重再加一档。</li>
+        <li><strong>风景：</strong>十月底金黄草甸较稳；云海秋冬清晨都可能有，过夜 + 雨后转晴更利于碰。水底山更高，斧头石草甸出片稳。</li>
+        <li><strong>天气：</strong>山脊风大、昼夜温差大；约 1000 m 以上易浓雾。防风层 + 帐篷防风；雨天山路极难走。</li>
+        <li><strong>信号与导航：</strong>山里常无信号，<strong>离线 GPS 必下</strong>。接驳说清龙岩寺 / 大榕树缺口。</li>
+        <li><strong>水：</strong>露营区<strong>无水源</strong>，全部自带；至少约 2.5–3 L / 人。见「物品清单 · 个人准备」。</li>
+        <li><strong>过夜：</strong>水底山 / 斧头石均为露营；结伴、留足电量与用水；不适或天气转坏果断下撤大王殿。</li>
+        <li><strong>停车与接驳：</strong>大王殿早到；接驳约 20–25 元 / 人量级，没有就走方案 B——不必绕兴记。</li>
         <li><strong>环保：</strong>无垃圾桶，垃圾全部带走。</li>
       </ul>
     </section>
@@ -1685,7 +1803,7 @@
   </main>
 
   <footer>
-    路书 · 惠州大南山拉胡线反穿 · 2026.10.31–11.1 · 费用待定
+    路书 · 惠州大南山精华线双方案 · 2026.10.31–11.1 · 费用待定
   </footer>
 
   <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="图片预览">
@@ -1696,21 +1814,57 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
-    /* 仅用于概览地图方位示意；导航按钮一律走高德 keyword 搜索，不用此坐标 */
-    const MAP_POINTS = [
-      { name: "中山马鞍岛", lat: 22.575, lon: 113.615 },
-      { name: "兴记农家乐（停车）", lat: 23.055, lon: 115.055 },
-      { name: "龙岩寺 / 大榕树", lat: 23.025, lon: 115.125 },
-      { name: "水底山一带", lat: 23.040, lon: 115.095 },
-      { name: "烂尾楼（过夜）", lat: 23.048, lon: 115.080 },
-      { name: "兴记农家乐（下山）", lat: 23.055, lon: 115.055 },
-      { name: "中山马鞍岛(返)", lat: 22.575, lon: 113.615 },
+    /* 徒步折线：公开地名估算（GCJ-02 量级），仅方位示意；导航一律走高德 keyword */
+    /* 方案 A：大王殿接驳 → 龙岩寺 → 水底山过夜 → 斧头石草甸 → 大王殿 */
+    const HIKE_SHUTTLE = [
+      [23.048, 115.070],
+      [23.040, 115.090],
+      [23.032, 115.108],
+      [23.025, 115.125],
+    ];
+
+    const HIKE_DAY1 = [
+      [23.025, 115.125],
+      [23.028, 115.118],
+      [23.031, 115.112],
+      [23.033, 115.108],
+      [23.036, 115.102],
+      [23.038, 115.098],
+      [23.040, 115.095],
+    ];
+
+    const HIKE_DAY2 = [
+      [23.040, 115.095],
+      [23.038, 115.090],
+      [23.036, 115.085],
+      [23.038, 115.080],
+      [23.042, 115.075],
+      [23.045, 115.072],
+      [23.048, 115.070],
+    ];
+
+    /* 方案 B：大王殿 → 斧头石过夜 → 下撤大王殿 */
+    const HIKE_ALT = [
+      [23.048, 115.070],
+      [23.046, 115.074],
+      [23.044, 115.078],
+      [23.042, 115.075],
+      [23.044, 115.072],
+      [23.048, 115.070],
+    ];
+
+    const HIKE_MARKERS = [
+      { name: "大王庙 / 大王殿（停车）", lat: 23.048, lon: 115.070, kind: "end" },
+      { name: "龙岩寺 / 大榕树（方案 A 起点）", lat: 23.025, lon: 115.125, kind: "start" },
+      { name: "A9 垭口一带", lat: 23.033, lon: 115.108, kind: "waypoint" },
+      { name: "水底山（方案 A 过夜）", lat: 23.040, lon: 115.095, kind: "overnight" },
+      { name: "斧头石（方案 B 过夜 / A 经过）", lat: 23.042, lon: 115.075, kind: "overnight" },
     ];
 
     const DRIVE_SEGMENTS = [
-      { label: "中山马鞍岛 → 兴记农家乐（约 2–2.5h）", search: "兴记农家乐", city: "惠州" },
-      { label: "兴记农家乐 → 龙岩寺 / 大榕树登山口（接驳约 20–40min）", search: "龙岩寺", city: "惠州" },
-      { label: "兴记农家乐 → 中山马鞍岛 · 返程（约 2–2.5h）", search: null, note: "返程自行导航" },
+      { label: "中山马鞍岛 → 大王庙 / 大王殿（约 2–2.5h）", search: "大王庙", city: "惠州" },
+      { label: "大王殿 → 龙岩寺（接驳，仅方案 A；约 20–25 元/人量级）", search: "龙岩寺", city: "惠州" },
+      { label: "大王殿 → 中山马鞍岛 · 返程（约 2–2.5h）", search: null, note: "返程自行导航" },
     ];
 
     function encodeName(name) {
@@ -1823,7 +1977,7 @@
 
     (function initMap() {
       if (typeof L === "undefined") return;
-      const el = document.getElementById("real-map");
+      const el = document.getElementById("our-route-map");
       if (!el) return;
       const map = L.map(el, { scrollWheelZoom: false });
       L.tileLayer(
@@ -1836,33 +1990,68 @@
         }
       ).addTo(map);
 
-      const outbound = MAP_POINTS.slice(0, 5);
-      const ret = [MAP_POINTS[4], MAP_POINTS[5], MAP_POINTS[6]];
-      const outLatLngs = outbound.map(function (p) { return [p.lat, p.lon]; });
-      const retLatLngs = ret.map(function (p) { return [p.lat, p.lon]; });
-
-      L.polyline(outLatLngs, { color: "#c45c26", weight: 3.5, opacity: 0.9 }).addTo(map);
-      L.polyline(retLatLngs, {
-        color: "#00754a",
-        weight: 3,
-        opacity: 0.75,
-        dashArray: "8 8",
+      L.polyline(HIKE_SHUTTLE, {
+        color: "#5c6b66",
+        weight: 2,
+        opacity: 0.7,
+        dashArray: "6 6",
       }).addTo(map);
 
-      outbound.forEach(function (p, i) {
+      L.polyline(HIKE_DAY1, {
+        color: "#c45c26",
+        weight: 4,
+        opacity: 0.92,
+      }).addTo(map);
+
+      L.polyline(HIKE_DAY2, {
+        color: "#00754a",
+        weight: 4,
+        opacity: 0.9,
+      }).addTo(map);
+
+      L.polyline(HIKE_ALT, {
+        color: "#00754a",
+        weight: 2.5,
+        opacity: 0.65,
+        dashArray: "7 7",
+      }).addTo(map);
+
+      HIKE_MARKERS.forEach(function (p) {
+        let radius = 5;
+        let fill = "#00754a";
+        if (p.kind === "start") {
+          radius = 7;
+          fill = "#c45c26";
+        } else if (p.kind === "end") {
+          radius = 7;
+          fill = "#00754a";
+        } else if (p.kind === "overnight") {
+          radius = 9;
+          fill = "#fff7f0";
+        }
         L.circleMarker([p.lat, p.lon], {
-          radius: i === 0 || i === outbound.length - 1 ? 7 : 5,
-          color: "#1a2421",
-          weight: 1,
-          fillColor: i === 0 ? "#c45c26" : "#00754a",
+          radius: radius,
+          color: p.kind === "overnight" ? "#c45c26" : "#1a2421",
+          weight: p.kind === "overnight" ? 3 : 1,
+          fillColor: fill,
           fillOpacity: 0.95,
         })
           .bindPopup(p.name)
           .bindTooltip(p.name, { direction: "top", offset: [0, -6] })
           .addTo(map);
+        if (p.kind === "overnight") {
+          L.circleMarker([p.lat, p.lon], {
+            radius: 14,
+            color: "rgba(196,92,38,0.28)",
+            weight: 6,
+            fill: false,
+            interactive: false,
+          }).addTo(map);
+        }
       });
 
-      map.fitBounds(outLatLngs.concat(retLatLngs), { padding: [28, 28] });
+      const bounds = L.latLngBounds(HIKE_DAY1.concat(HIKE_DAY2).concat(HIKE_ALT));
+      map.fitBounds(bounds, { padding: [36, 36] });
     })();
 
     document.querySelectorAll("[data-poi]").forEach(function (el) {
