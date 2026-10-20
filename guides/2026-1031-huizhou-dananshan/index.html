@@ -6,8 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="description" content="2026.10.31–11.1（周末）：中山马鞍岛→惠东大南山，车停大王殿；有接驳走龙岩寺反穿+水底山过夜，无接驳走精华线斧头石过夜" />
   <title>惠州大南山 · 精华线双方案过夜 · 2026.10.31–11.1</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <style>
     :root {
       --ink: #1a2421;
@@ -181,15 +179,6 @@
       font-size: 0.75rem;
       color: var(--muted);
       margin-top: 0.2rem;
-    }
-
-    #our-route-map {
-      height: min(62vh, 480px);
-      width: 100%;
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      z-index: 1;
-      margin-top: 0.35rem;
     }
 
     .table-wrap {
@@ -836,75 +825,6 @@
       margin: 0 0 0.35rem;
     }
 
-    .our-route {
-      margin: 0.75rem 0 0;
-      padding: 0.85rem 0.75rem 1rem;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-    }
-
-    .our-route-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.55rem 1rem;
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin: 0 0 0.65rem;
-      padding: 0 0.25rem;
-    }
-
-    .our-route-legend span {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .our-route-legend i {
-      display: inline-block;
-      width: 1.1rem;
-      height: 0.28rem;
-      border-radius: 2px;
-    }
-
-    .our-route-legend .day1 i {
-      background: var(--accent);
-    }
-
-    .our-route-legend .day2 i {
-      background: var(--nav);
-    }
-
-    .our-route-legend .drive i {
-      background: var(--muted);
-      background-image: repeating-linear-gradient(
-        90deg,
-        var(--muted) 0 3px,
-        transparent 3px 6px
-      );
-      height: 0.18rem;
-    }
-
-    .our-route-legend .overnight i {
-      width: 0.7rem;
-      height: 0.7rem;
-      border-radius: 50%;
-      background: #fff;
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-soft);
-    }
-
-    .our-route-legend .alt i {
-      background: var(--nav);
-      background-image: repeating-linear-gradient(
-        90deg,
-        var(--nav) 0 3px,
-        transparent 3px 6px
-      );
-      height: 0.18rem;
-      opacity: 0.75;
-    }
-
     .ref-maps {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -1038,7 +958,7 @@
         <li><a href="#overview">行程概览</a></li>
         <li><a href="#lines-bg">背景：精华线 vs 拉胡线</a></li>
         <li><a href="#route-map">行程路线图</a></li>
-        <li><a href="#our-route">我们的实际路线</a></li>
+        <li><a href="#our-route">实际路线（两步路）</a></li>
         <li><a href="#ref-routes">网友示意图</a></li>
         <li><a href="#map">驾车导航段</a></li>
         <li><a href="#d1031">10.31</a></li>
@@ -1240,30 +1160,16 @@
 
     <section class="panel" id="route-map">
       <h2>行程路线图</h2>
-      <p class="sub">先看本书实际走法（高德底图），再对照网友全环线图。</p>
+      <p class="sub">实际轨迹看两步路；下方网友示意图仅作对照。</p>
 
       <div class="route-block" id="our-route">
-        <h3>我们的实际路线</h3>
-        <p class="note" style="margin:0 0 0.35rem">
-          车停<strong>大王殿</strong>。图上实线偏<strong>方案 A</strong>（有接驳：龙岩寺 → 水底山过夜 → 草甸 → 大王殿）；
-          虚线偏<strong>方案 B</strong>（无接驳：大王殿 → 斧头石过夜 → 下撤）。
-          折线为公开地名估算，<strong>仅作方位示意，不能当离线导航</strong>。
+        <h3>实际路线（两步路）</h3>
+        <p class="note" style="margin:0">
+          本趟徒步以<strong>两步路 App 内轨迹</strong>为准，不必再估画路线图。
+          请事先搜索 / 下载，例如「大南山精华线」「龙岩寺 大王庙」等；
+          <strong>方案 A</strong>可再找含水底山过夜的相关轨迹。
+          车仍停<strong>大王殿</strong>：A 接驳龙岩寺反穿、水底山过夜；B 大王殿进、斧头石过夜再下撤。
         </p>
-        <div class="our-route">
-          <div class="our-route-legend" aria-hidden="true">
-            <span class="drive"><i></i>接驳（A）</span>
-            <span class="day1"><i></i>方案 A Day1</span>
-            <span class="overnight"><i></i>过夜点</span>
-            <span class="day2"><i></i>方案 A Day2</span>
-            <span class="alt"><i></i>方案 B</span>
-          </div>
-          <div id="our-route-map" role="img"
-            aria-label="双方案示意：A 龙岩寺至水底山过夜再经斧头石回大王殿；B 大王殿至斧头石过夜再下撤"></div>
-          <p class="note" style="margin:0.65rem 0 0;font-size:0.82rem">
-            <strong>A：</strong>接驳龙岩寺 → 水底山过夜 → 次日经沼泽 / 斧头石草甸下大王殿。
-            <strong>B：</strong>大王殿进 → 斧头石过夜 → 次日下撤大王殿。
-          </p>
-        </div>
       </div>
 
       <div class="route-block" id="ref-routes">
@@ -1811,56 +1717,7 @@
     <img id="lightbox-img" alt="" />
   </div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
-    /* 徒步折线：公开地名估算（GCJ-02 量级），仅方位示意；导航一律走高德 keyword */
-    /* 方案 A：大王殿接驳 → 龙岩寺 → 水底山过夜 → 斧头石草甸 → 大王殿 */
-    const HIKE_SHUTTLE = [
-      [23.048, 115.070],
-      [23.040, 115.090],
-      [23.032, 115.108],
-      [23.025, 115.125],
-    ];
-
-    const HIKE_DAY1 = [
-      [23.025, 115.125],
-      [23.028, 115.118],
-      [23.031, 115.112],
-      [23.033, 115.108],
-      [23.036, 115.102],
-      [23.038, 115.098],
-      [23.040, 115.095],
-    ];
-
-    const HIKE_DAY2 = [
-      [23.040, 115.095],
-      [23.038, 115.090],
-      [23.036, 115.085],
-      [23.038, 115.080],
-      [23.042, 115.075],
-      [23.045, 115.072],
-      [23.048, 115.070],
-    ];
-
-    /* 方案 B：大王殿 → 斧头石过夜 → 下撤大王殿 */
-    const HIKE_ALT = [
-      [23.048, 115.070],
-      [23.046, 115.074],
-      [23.044, 115.078],
-      [23.042, 115.075],
-      [23.044, 115.072],
-      [23.048, 115.070],
-    ];
-
-    const HIKE_MARKERS = [
-      { name: "大王庙 / 大王殿（停车）", lat: 23.048, lon: 115.070, kind: "end" },
-      { name: "龙岩寺 / 大榕树（方案 A 起点）", lat: 23.025, lon: 115.125, kind: "start" },
-      { name: "A9 垭口一带", lat: 23.033, lon: 115.108, kind: "waypoint" },
-      { name: "水底山（方案 A 过夜）", lat: 23.040, lon: 115.095, kind: "overnight" },
-      { name: "斧头石（方案 B 过夜 / A 经过）", lat: 23.042, lon: 115.075, kind: "overnight" },
-    ];
-
     const DRIVE_SEGMENTS = [
       { label: "中山马鞍岛 → 大王庙 / 大王殿（约 2–2.5h）", search: "大王庙", city: "惠州" },
       { label: "大王殿 → 龙岩寺（接驳，仅方案 A；约 20–25 元/人量级）", search: "龙岩寺", city: "惠州" },
@@ -1878,30 +1735,6 @@
         encodeName(keyword) +
         cityPart +
         "&src=huizhou-dananshan-2026&callnative=1"
-      );
-    }
-
-    function markerUrl(poi) {
-      return (
-        "https://uri.amap.com/marker?position=" +
-        poi.lon +
-        "," +
-        poi.lat +
-        "&name=" +
-        encodeName(poi.name) +
-        "&coordinate=gaode&src=huizhou-dananshan-2026&callnative=1"
-      );
-    }
-
-    function navCoordUrl(poi) {
-      return (
-        "https://uri.amap.com/navigation?to=" +
-        poi.lon +
-        "," +
-        poi.lat +
-        "," +
-        encodeName(poi.name) +
-        "&mode=car&src=huizhou-dananshan-2026&callnative=1"
       );
     }
 
@@ -1974,85 +1807,6 @@
       attachNavIcon(el.querySelector(".stop-name, h3"), poi);
       renderExtraSearches(el.querySelector(".nav-actions"), poi);
     }
-
-    (function initMap() {
-      if (typeof L === "undefined") return;
-      const el = document.getElementById("our-route-map");
-      if (!el) return;
-      const map = L.map(el, { scrollWheelZoom: false });
-      L.tileLayer(
-        "https://wprd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}",
-        {
-          subdomains: "1234",
-          maxZoom: 18,
-          attribution:
-            '&copy; <a href="https://lbs.amap.com/" target="_blank" rel="noopener">高德地图</a>',
-        }
-      ).addTo(map);
-
-      L.polyline(HIKE_SHUTTLE, {
-        color: "#5c6b66",
-        weight: 2,
-        opacity: 0.7,
-        dashArray: "6 6",
-      }).addTo(map);
-
-      L.polyline(HIKE_DAY1, {
-        color: "#c45c26",
-        weight: 4,
-        opacity: 0.92,
-      }).addTo(map);
-
-      L.polyline(HIKE_DAY2, {
-        color: "#00754a",
-        weight: 4,
-        opacity: 0.9,
-      }).addTo(map);
-
-      L.polyline(HIKE_ALT, {
-        color: "#00754a",
-        weight: 2.5,
-        opacity: 0.65,
-        dashArray: "7 7",
-      }).addTo(map);
-
-      HIKE_MARKERS.forEach(function (p) {
-        let radius = 5;
-        let fill = "#00754a";
-        if (p.kind === "start") {
-          radius = 7;
-          fill = "#c45c26";
-        } else if (p.kind === "end") {
-          radius = 7;
-          fill = "#00754a";
-        } else if (p.kind === "overnight") {
-          radius = 9;
-          fill = "#fff7f0";
-        }
-        L.circleMarker([p.lat, p.lon], {
-          radius: radius,
-          color: p.kind === "overnight" ? "#c45c26" : "#1a2421",
-          weight: p.kind === "overnight" ? 3 : 1,
-          fillColor: fill,
-          fillOpacity: 0.95,
-        })
-          .bindPopup(p.name)
-          .bindTooltip(p.name, { direction: "top", offset: [0, -6] })
-          .addTo(map);
-        if (p.kind === "overnight") {
-          L.circleMarker([p.lat, p.lon], {
-            radius: 14,
-            color: "rgba(196,92,38,0.28)",
-            weight: 6,
-            fill: false,
-            interactive: false,
-          }).addTo(map);
-        }
-      });
-
-      const bounds = L.latLngBounds(HIKE_DAY1.concat(HIKE_DAY2).concat(HIKE_ALT));
-      map.fitBounds(bounds, { padding: [36, 36] });
-    })();
 
     document.querySelectorAll("[data-poi]").forEach(function (el) {
       renderStopNav(el, JSON.parse(el.getAttribute("data-poi")));
