@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="香格里拉周边徒步选线速查：哈巴雪山、雨崩、虎跳峡、老药山、阿布吉措、尼汝、梅里、南极洛等 22 个区域 30+ 条线路的里程、季节、向导、门票对比" />
+  <title>香格里拉周边徒步点速查 · 2026</title>
+  <style>
+    :root {
+      --ink: #1a2421;
+      --muted: #5c6b66;
+      --paper: #f7f4ef;
+      --accent: #c45c26;
+      --accent-soft: rgba(196, 92, 38, 0.12);
+      --line: rgba(26, 36, 33, 0.1);
+      --nav: #00754a;
+      --warn: #8b4513;
+      --radius: 6px;
+      --font-display: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+      --font-body: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 120% 80% at 10% -20%, rgba(196, 92, 38, 0.15), transparent 50%),
+        radial-gradient(ellipse 80% 60% at 100% 0%, rgba(0, 117, 74, 0.08), transparent 45%),
+        linear-gradient(180deg, #ebe6dc 0%, var(--paper) 35%, var(--paper) 100%);
+      min-height: 100vh;
+      line-height: 1.65;
+    }
+
+    .hero {
+      position: relative;
+      padding: clamp(2.5rem, 8vw, 4.5rem) 1.25rem 2.5rem;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 2.85rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin: 0 0 1rem;
+    }
+
+    .hero .lead {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 36em;
+      margin: 0 0 1.5rem;
+    }
+
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+    }
+
+    nav.toc {
+      margin-bottom: 2rem;
+      padding: 1rem 1.15rem;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    nav.toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    nav.toc a {
+      color: var(--nav);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    nav.toc a:hover { text-decoration: underline; }
+
+    .panel {
+      margin: 0 0 2rem;
+      padding: 1.25rem 1.35rem;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      scroll-margin-top: 1rem;
+    }
+
+    .panel h2 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      margin: 0 0 0.35rem;
+    }
+
+    .panel>.sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0 0 1.1rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.65rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat {
+      padding: 0.75rem 0.85rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .stat .num {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .stat .label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin: 0 0 1rem;
+    }
+
+    .filters button {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      padding: 0.35rem 0.8rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .filters button.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    table.info {
+      width: 100%;
+      min-width: 860px;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+    }
+
+    table.info th,
+    table.info td {
+      text-align: left;
+      padding: 0.55rem 0.65rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    table.info th {
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+    }
+
+    table.info td:first-child,
+    table.info th:first-child {
+      position: sticky;
+      left: 0;
+      background: #faf7f1;
+      box-shadow: 1px 0 0 var(--line);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    td.km, td.season { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+    tr.warn-row td { background: var(--accent-soft); color: var(--warn); }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      padding: 0.05rem 0.4rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      margin-left: 0.35rem;
+      white-space: nowrap;
+    }
+
+    .tag.new { border-color: var(--accent); color: var(--accent); }
+    .tag.must { border-color: var(--warn); color: var(--warn); }
+
+    .notes-list { margin: 0; padding-left: 1.25rem; }
+    .notes-list li { margin-bottom: 0.55rem; }
+    .notes-list li:last-child { margin-bottom: 0; }
+
+    .tier-list { margin: 0; padding-left: 1.25rem; }
+    .tier-list li { margin-bottom: 0.55rem; }
+    .tier-list b { font-family: var(--font-display); }
+
+    footer.site {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 1.25rem 3rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    footer.site a { color: var(--nav); }
+
+    @media (max-width: 640px) {
+      .panel { padding: 1rem 0.9rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="hero">
+    <div class="eyebrow">HIKING SHANGRI-LA · 选线速查</div>
+    <h1>香格里拉周边徒步点汇总</h1>
+    <p class="lead">哈巴雪山、雨崩、虎跳峡、南极洛、梅里……21 个徒步区域 30+ 条线路的里程、季节、向导与门票一张表看完。价格整理于 2026-10，出行前请再核实标「待核实」项。</p>
+  </header>
+
+  <main>
+    <nav class="toc">
+      <ul>
+        <li><a href="#overview">总览</a></li>
+        <li><a href="#table">全线路对比表</a></li>
+        <li><a href="#tiers">强度分层</a></li>
+        <li><a href="#notes">补充说明</a></li>
+      </ul>
+    </nav>
+
+    <section class="panel" id="overview">
+      <h2>总览</h2>
+      <div class="stats">
+        <div class="stat"><div class="num">22</div><div class="label">徒步区域</div></div>
+        <div class="stat"><div class="num">30+</div><div class="label">线路（含分叉）</div></div>
+        <div class="stat"><div class="num">9–10月</div><div class="label">普遍最佳窗口</div></div>
+        <div class="stat"><div class="num">5396m</div><div class="label">最高点（哈巴顶峰）</div></div>
+      </div>
+    </section>
+
+    <section class="panel" id="table">
+      <h2>全线路对比表</h2>
+      <p class="sub">🆕 = 本次查漏新增 · 向导列含费用参考 · 左右滑动查看更多列</p>
+      <div class="filters" id="filters">
+        <button data-level="all" class="active">全部</button>
+        <button data-level="light">轻徒步</button>
+        <button data-level="day">一日中等</button>
+        <button data-level="multi">多日进阶</button>
+        <button data-level="epic">长线终极</button>
+      </div>
+      <div class="table-wrap">
+        <table class="info">
+          <thead>
+            <tr>
+              <th>区域</th>
+              <th>线路</th>
+              <th>里程</th>
+              <th>最佳季节</th>
+              <th>向导与费用</th>
+              <th>门票</th>
+              <th>特点</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-level="multi">
+              <td>哈巴雪山</td>
+              <td>北坡登顶线</td>
+              <td class="km">约26km / 2天</td>
+              <td class="season">4-5月、9-10月</td>
+              <td>强制1:1向导，禁独行；套餐2180-2680元/3天2晚含食宿装备，协作日约300元，登顶小费约200元</td>
+              <td>无（含套餐）</td>
+              <td>5396m，入门雪山首选，登顶率高</td>
+            </tr>
+            <tr data-level="epic">
+              <td>哈巴雪山·西坡</td>
+              <td>经典穿越（海巴洛→哈巴村）</td>
+              <td class="km">34-37km</td>
+              <td class="season">4-5月、9-10月</td>
+              <td>强烈建议向导（未完全开发，近年事故多发）</td>
+              <td>无</td>
+              <td>双湖营地+黑海，西坡核心景观段</td>
+            </tr>
+            <tr data-level="day">
+              <td>哈巴雪山·西坡</td>
+              <td>双湖精华小环线</td>
+              <td class="km">约14km往返 / 7-9h</td>
+              <td class="season">4-5月、9-10月</td>
+              <td>强烈建议向导</td>
+              <td>无</td>
+              <td>鸽山营地出发，哈巴双湖雪山倒影，适合时间紧</td>
+            </tr>
+            <tr data-level="day">
+              <td>哈巴雪山·西坡</td>
+              <td>黑海单线</td>
+              <td class="km">12-18km往返，爬升约1000m</td>
+              <td class="season">4-5月、9-10月</td>
+              <td>强烈建议向导</td>
+              <td>无</td>
+              <td>直奔黑海湖</td>
+            </tr>
+            <tr data-level="day">
+              <td>雨崩</td>
+              <td>冰湖线</td>
+              <td class="km">约14km往返 / 7-8h</td>
+              <td class="season">9-11月最佳、5-6月</td>
+              <td>成熟路线可自行；向导约200元/天</td>
+              <td>梅里景区55元</td>
+              <td>招牌进阶线：原始森林+笑农大本营+翡翠色冰湖</td>
+            </tr>
+            <tr data-level="light">
+              <td>雨崩</td>
+              <td>尼色线</td>
+              <td class="km">8-12km往返 / 4-6h</td>
+              <td class="season">9-11月、5-6月</td>
+              <td>不需要</td>
+              <td>55元</td>
+              <td>冰湖线小众平替，前半段重叠，更简单人更少</td>
+            </tr>
+            <tr data-level="light">
+              <td>雨崩</td>
+              <td>神瀑线</td>
+              <td class="km">8-12km往返 / 4-6h</td>
+              <td class="season">9-11月、5-6月</td>
+              <td>不需要</td>
+              <td>55元</td>
+              <td>新手友好，石板路，藏民朝圣圣水终点</td>
+            </tr>
+            <tr data-level="multi">
+              <td>雨崩</td>
+              <td>神湖线</td>
+              <td class="km">12-16km往返 / 8-10h</td>
+              <td class="season">9-11月、5-6月</td>
+              <td>建议向导</td>
+              <td>55元</td>
+              <td>骨灰挑战线，海拔4400-4600m，雨崩强度最高</td>
+            </tr>
+            <tr data-level="day">
+              <td>雨崩</td>
+              <td>尼农峡谷线（进/出山）</td>
+              <td class="km">13-14km，降约1000m</td>
+              <td class="season">9-11月、5-6月</td>
+              <td>不需要</td>
+              <td>55元</td>
+              <td>悬崖峡谷风景壮丽；西当修路，现多从此反向进村</td>
+            </tr>
+            <tr class="warn-row" data-level="warn">
+              <td>雨崩</td>
+              <td>虫草线</td>
+              <td class="km">—</td>
+              <td class="season">—</td>
+              <td>—</td>
+              <td>—</td>
+              <td>⚠️ 官方明令禁止徒步，勿前往</td>
+            </tr>
+            <tr data-level="multi">
+              <td>虎跳峡</td>
+              <td>高路徒步</td>
+              <td class="km">约22-23km / 2天</td>
+              <td class="season">3-5月、9-11月</td>
+              <td>不需要（黄色箭头标记）</td>
+              <td>桥头45元</td>
+              <td>峡谷+雪山+金沙江，客栈成熟；⚠️ 中虎跳谷底（天梯、一线天）已关闭</td>
+            </tr>
+            <tr data-level="day">
+              <td>老药山</td>
+              <td>杜鹃花海线（新手）</td>
+              <td class="km">约6km往返</td>
+              <td class="season">5-6月、9-10月</td>
+              <td>建议向导（无信号易迷路）：小环约300元/组、大环约500元/组；一日团约499元起</td>
+              <td>清洁费40元/人</td>
+              <td>高山杜鹃花海，新手可走小环</td>
+            </tr>
+            <tr data-level="day">
+              <td>老药山</td>
+              <td>千湖山秘境线</td>
+              <td class="km">约10km往返</td>
+              <td class="season">5-6月、9-10月</td>
+              <td>同上</td>
+              <td>40元</td>
+              <td>商业团常与老药山混称，另见千湖山独立条目</td>
+            </tr>
+            <tr data-level="day">
+              <td>老药山</td>
+              <td>纳帕海后山线</td>
+              <td class="km">约8km</td>
+              <td class="season">5-6月、9-10月</td>
+              <td>同上</td>
+              <td>40元</td>
+              <td>—</td>
+            </tr>
+            <tr data-level="day">
+              <td>老药山</td>
+              <td>石卡雪山线</td>
+              <td class="km">约12km</td>
+              <td class="season">5-6月、9-10月</td>
+              <td>同上</td>
+              <td>40元</td>
+              <td>—</td>
+            </tr>
+            <tr data-level="light">
+              <td>阿布吉措</td>
+              <td>轻环线</td>
+              <td class="km">约8km往返 / 5-6h</td>
+              <td class="season">5-10月（6-9月观湖佳）</td>
+              <td>建议结伴+本地向导</td>
+              <td>待核实</td>
+              <td>入门友好</td>
+            </tr>
+            <tr data-level="multi">
+              <td>阿布吉措</td>
+              <td>徒步+转山环线</td>
+              <td class="km">约18km，爬升约1000m</td>
+              <td class="season">5-10月</td>
+              <td>建议向导</td>
+              <td>待核实</td>
+              <td>强度中等</td>
+            </tr>
+            <tr data-level="multi">
+              <td>阿布吉措</td>
+              <td>全程环线</td>
+              <td class="km">约23km，爬升约1400m</td>
+              <td class="season">5-10月</td>
+              <td>建议向导</td>
+              <td>待核实</td>
+              <td>强度大；新路可搭交通工具（往返约600元）</td>
+            </tr>
+            <tr data-level="day">
+              <td>尼汝</td>
+              <td>彩瀑线（七彩瀑布）</td>
+              <td class="km">约12km往返，爬升仅200m</td>
+              <td class="season">5-10月</td>
+              <td>建议向导，约200元/天</td>
+              <td>无正式门票（管理费待核实）</td>
+              <td>路况平坦，原始村寨+牧场，轻松</td>
+            </tr>
+            <tr data-level="multi">
+              <td>尼汝</td>
+              <td>南宝牧场长线</td>
+              <td class="km">单日约23km，爬升1300m</td>
+              <td class="season">5-10月</td>
+              <td>建议向导</td>
+              <td>同上</td>
+              <td>进阶，偏远原始牧场风光</td>
+            </tr>
+            <tr data-level="multi">
+              <td>梅里北坡</td>
+              <td>亚贡村进出环线</td>
+              <td class="km">35-50km / 约5天</td>
+              <td class="season">6月、9-10月</td>
+              <td>强制向导约300元/天，或马帮约400元/天（4人一匹）</td>
+              <td>环保费20元</td>
+              <td>翻垭口最高超4700m，有经验者进阶选</td>
+            </tr>
+            <tr data-level="epic">
+              <td>梅里外转<span class="tag new">🆕</span></td>
+              <td>卡瓦格博外转（顺时针）</td>
+              <td class="km">240-250km / 8-13天</td>
+              <td class="season">5-6月、9-10月</td>
+              <td>强烈建议向导+马帮或商业团；涉西藏察瓦龙段，需办边防证（免费）</td>
+              <td>无门票</td>
+              <td>藏地最长最难转山，翻7个垭口，最高说拉4815m，终极挑战</td>
+            </tr>
+            <tr data-level="day">
+              <td>甲应村<span class="tag new">🆕</span></td>
+              <td>察瓦龙→甲应村（梅里西坡）</td>
+              <td class="km">徒步约8-10km+越野车接驳</td>
+              <td class="season">5-6月、9-10月</td>
+              <td>当地越野车+向导必须；需边防证（西藏察隅察瓦龙乡）</td>
+              <td>无门票（车费待核实）</td>
+              <td>梅里西壁正面+冰川悬谷，秘境村落，近年爆红</td>
+            </tr>
+            <tr data-level="day">
+              <td>孔雀山<span class="tag new">🆕</span></td>
+              <td>茨中村→孔雀山垭口·天心十二湖（传教士之路）</td>
+              <td class="km">约10-15km往返（待核实）</td>
+              <td class="season">5-6月、9-10月</td>
+              <td>建议当地向导；多为商业团操作（茨中/德钦拼团）</td>
+              <td>无门票（待核实）</td>
+              <td>茨中教堂+百年传教士之路，碧罗雪山垭口远眺梅里；德贡公路隧道通车后愈发小众</td>
+            </tr>
+            <tr data-level="day">
+              <td>南极洛<span class="tag new">🆕</span></td>
+              <td>小环线（3→4→5号湖）</td>
+              <td class="km">约5km往返 / 3-4h</td>
+              <td class="season">6-7月杜鹃、9-10月</td>
+              <td>必须向导+合作社越野车进山（43道拐，拼车分摊，费用待核实）</td>
+              <td>暂无门票；限流200人/天，提前7天小程序实名预约<span class="tag must">2026-09-30解封</span></td>
+              <td>12个高山湖泊群，蒂芙尼蓝海子；⚠️ 大环线（8-10km）仍封禁</td>
+            </tr>
+            <tr data-level="day">
+              <td>千湖山<span class="tag new">🆕</span></td>
+              <td>三碧海·大黑海环线</td>
+              <td class="km">约10-15km</td>
+              <td class="season">5-6月、9-10月</td>
+              <td>建议向导，约200-300元/天</td>
+              <td>无门票（管理费待核实）</td>
+              <td>高山湖泊星罗棋布，杜鹃盘根错节（迪庆官方推荐线）</td>
+            </tr>
+            <tr data-level="light">
+              <td>碧沽天池<span class="tag new">🆕</span></td>
+              <td>环湖线</td>
+              <td class="km">约3-5km</td>
+              <td class="season">5-6月花海</td>
+              <td>村民向导/马帮可选</td>
+              <td>待核实</td>
+              <td>《无极》取景地，湖水清澈+杜鹃花海，轻徒步</td>
+            </tr>
+            <tr data-level="multi">
+              <td>巴拉格宗<span class="tag new">🆕</span></td>
+              <td>大峡谷景区线（花海塘-香巴拉佛塔-归宿旺-乃当牧场）</td>
+              <td class="km">2-4天多日，单日段6-15km</td>
+              <td class="season">5-10月</td>
+              <td>景区步道可自行，多日段建议向导</td>
+              <td>门票+观光车约200元（待核实）</td>
+              <td>峡谷绝壁+香巴拉佛塔+高山牧场，景观多样</td>
+            </tr>
+            <tr data-level="day">
+              <td>白马雪山<span class="tag new">🆕</span></td>
+              <td>原始森林徒步（尼丁-次卡通 / 玉杰村尼顶）</td>
+              <td class="km">约8-15km</td>
+              <td class="season">5-6月、9-10月</td>
+              <td>建议向导（保护区）</td>
+              <td>待核实</td>
+              <td>滇金丝猴栖息地，原始森林与高山花卉</td>
+            </tr>
+            <tr data-level="light">
+              <td>无底湖</td>
+              <td>环湖</td>
+              <td class="km">约3.5km / 2-3h</td>
+              <td class="season">5-10月</td>
+              <td>不需要</td>
+              <td>基本免费（待核实）</td>
+              <td>几乎无陡坡，新手亲子友好</td>
+            </tr>
+            <tr data-level="light">
+              <td>纳帕海</td>
+              <td>湿地栈道</td>
+              <td class="km">约3km</td>
+              <td class="season">四季皆可</td>
+              <td>不需要</td>
+              <td>免费（骑马另计）</td>
+              <td>纯平路零爬升，休闲散步</td>
+            </tr>
+            <tr data-level="light">
+              <td>普达措</td>
+              <td>林间徒步（属都湖-碧塔海）</td>
+              <td class="km">约5km / 3-4h</td>
+              <td class="season">5-10月、冬季雪景</td>
+              <td>不需要</td>
+              <td>门票+观光车约140元（待核实）</td>
+              <td>森林与湖泊结合的轻徒步</td>
+            </tr>
+            <tr data-level="light">
+              <td>明永冰川<span class="tag new">🆕</span></td>
+              <td>冰川栈道</td>
+              <td class="km">约4-6km往返</td>
+              <td class="season">四季（秋季最佳）</td>
+              <td>不需要（木栈道）</td>
+              <td>约55-60元（待核实，梅里景区体系）</td>
+              <td>低海拔冰川奇观（末端2700m），半日游</td>
+            </tr>
+            <tr data-level="light">
+              <td>白水台<span class="tag new">🆕</span></td>
+              <td>泉华台地栈道</td>
+              <td class="km">约2-3km</td>
+              <td class="season">四季</td>
+              <td>不需要</td>
+              <td>约30元（待核实）</td>
+              <td>泉华台地，东巴文化发源地，顺路打卡</td>
+            </tr>
+            <tr data-level="light">
+              <td>石卡雪山<span class="tag new">🆕</span></td>
+              <td>索道+山顶步道</td>
+              <td class="km">步道2-4km</td>
+              <td class="season">5-10月、冬季滑雪</td>
+              <td>不需要</td>
+              <td>门票+索道约200-280元（待核实）</td>
+              <td>索道直达约4500m，可望八大神山，观景为主</td>
+            </tr>
+            <tr data-level="multi">
+              <td>稻城亚丁（四川）</td>
+              <td>长线（牛奶海、五色海）</td>
+              <td class="km">约12km往返，海拔约4700m</td>
+              <td class="season">9-10月巅峰、4-5月</td>
+              <td>不需要（景区栈道）；可选马帮约300元</td>
+              <td>旺季门票+车约266元；2026-08-01至10-31免大门票（仅付车费）</td>
+              <td>彩林+雪山+海子；短线珍珠海约3km轻松；电瓶车往返约80元</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="tiers">
+      <h2>强度分层速查</h2>
+      <ul class="tier-list">
+        <li><b>入门 / 轻徒步</b>：无底湖、纳帕海、普达措、白水台、碧沽天池、明永冰川、石卡雪山、雨崩神瀑线 / 尼色线</li>
+        <li><b>中等强度（1日）</b>：雨崩冰湖、哈巴双湖小环 / 黑海单线、阿布吉措轻环线、尼汝彩瀑线、老药山各线、千湖山环线、南极洛小环</li>
+        <li><b>进阶 / 多日</b>：哈巴北坡登顶、雨崩神湖、阿布吉措大环、尼汝南宝牧场、梅里北坡、巴拉格宗多日、稻城亚丁长线（高反注意）</li>
+        <li><b>终极 / 长线</b>：哈巴西坡经典穿越、梅里外转</li>
+      </ul>
+    </section>
+
+    <section class="panel" id="notes">
+      <h2>补充说明</h2>
+      <ul class="notes-list">
+        <li><b>南极洛</b>：封闭3年后于 2026-09-30 解封。目前仅小环线（3-4-5号湖）开放，大环线封禁；每天限200人，提前7天官方小程序实名预约；外来车辆禁入，必须合作社越野车（43道拐）+向导。</li>
+        <li><b>边防证</b>：梅里外转、甲应村涉西藏察瓦龙段，需提前在户籍地或途经地办理边防证（免费）。</li>
+        <li><b>千湖山 vs 老药山</b>：两者是不同区域（千湖山在小中甸，老药山近虎跳峡镇），部分商业团线路命名混用，报名时注意区分。</li>
+        <li><b>已关闭 / 禁止</b>：雨崩虫草线官方明令禁止；虎跳峡中虎跳谷底下撤线（天梯、一线天）已关闭。</li>
+        <li><b>雨崩进出</b>：西当方向修路，目前常规从尼农峡谷反向进入。</li>
+        <li><b>待核实项</b>：南极洛车费向导费、巴拉格宗 / 普达措 / 石卡雪山 / 白水台门票、千湖山管理费等，建议行前一周电话或小程序确认。</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site">
+    <p>整理于 2026-10 · <a href="../">← 返回路书列表</a> · <a href="../../gear/">徒步装备选购</a></p>
+  </footer>
+
+  <script>
+    (function () {
+      var btns = document.querySelectorAll('#filters button');
+      var rows = document.querySelectorAll('#table tbody tr');
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          btns.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          var level = btn.dataset.level;
+          rows.forEach(function (row) {
+            var lv = row.dataset.level;
+            row.style.display = (level === 'all' || lv === level || lv === 'warn') ? '' : 'none';
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+
+</html>
