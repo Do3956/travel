@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="2026.10.30-11.1 香港三日：后海下班过关→涌背免费营地→东平洲世界地质公园→贝澳营地+大东山日落，全程地铁港铁巴士渡轮路书" />
+  <title>香港离岛露营路书 · 涌背—东平洲—贝澳—大东山 · 2026.10.30–11.1</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <style>
+    :root {
+      --ink: #1a2421;
+      --muted: #5c6b66;
+      --paper: #f7f4ef;
+      --accent: #c45c26;
+      --accent-soft: rgba(196, 92, 38, 0.12);
+      --line: rgba(26, 36, 33, 0.1);
+      --nav: #00754a;
+      --nav-hover: #005a38;
+      --warn: #8b4513;
+      --radius: 6px;
+      --font-display: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+      --font-body: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 120% 80% at 10% -20%, rgba(196, 92, 38, 0.15), transparent 50%),
+        radial-gradient(ellipse 80% 60% at 100% 0%, rgba(0, 117, 74, 0.08), transparent 45%),
+        linear-gradient(180deg, #ebe6dc 0%, var(--paper) 35%, var(--paper) 100%);
+      min-height: 100vh;
+      line-height: 1.65;
+    }
+
+    .hero {
+      position: relative;
+      padding: clamp(2.5rem, 8vw, 4.5rem) 1.25rem 2.5rem;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 2.85rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin: 0 0 1rem;
+    }
+
+    .hero .lead {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 36em;
+      margin: 0 0 1.5rem;
+    }
+
+    .route-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.5rem;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .route-strip span {
+      padding: 0.25rem 0.55rem;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .route-strip .arrow {
+      color: var(--accent);
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+    }
+
+    nav.toc {
+      margin-bottom: 2rem;
+      padding: 1rem 1.15rem;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    nav.toc h2 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      margin: 0 0 0.65rem;
+    }
+
+    nav.toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    nav.toc a {
+      color: var(--nav);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    nav.toc a:hover {
+      text-decoration: underline;
+    }
+
+    .panel {
+      margin: 0 0 2rem;
+      padding: 1.25rem 1.35rem;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      scroll-margin-top: 1rem;
+    }
+
+    .panel h2 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      margin: 0 0 0.35rem;
+    }
+
+    .panel>.sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0 0 1.1rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.65rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .stat {
+      padding: 0.75rem 0.85rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .stat .num {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .stat .label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    #real-map {
+      height: 380px;
+      width: 100%;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      z-index: 1;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table.info {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    table.info th,
+    table.info td {
+      text-align: left;
+      padding: 0.55rem 0.65rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    table.info th {
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    table.info td.amount {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    table.info tr.total td {
+      border-top: 2px solid var(--ink);
+      font-weight: 700;
+      font-family: var(--font-display);
+    }
+
+    table.info tr.subtotal td {
+      border-top: 1px dashed var(--line);
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    #cost h3.cost-cat {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 1.35rem 0 0.45rem;
+    }
+
+    #cost h3.cost-cat:first-of-type {
+      margin-top: 0.85rem;
+    }
+
+    .pack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .pack-card h3 {
+      font-size: 0.92rem;
+      margin: 0 0 0.55rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .pack-card ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pack-card li {
+      position: relative;
+      padding: 0.28rem 0 0.28rem 1.45rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .pack-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+      width: 0.85rem;
+      height: 0.85rem;
+      border: 1.5px solid var(--line);
+      border-radius: 3px;
+      background: #fff;
+    }
+
+    .pack-card li.must {
+      color: var(--ink);
+    }
+
+    .pack-card li.must::after {
+      content: "必带";
+      margin-left: 0.35rem;
+      font-size: 0.65rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .pack-card li.miss {
+      color: var(--warn);
+    }
+
+    .pack-card li.miss::after {
+      content: "本次后悔没带";
+      margin-left: 0.35rem;
+      font-size: 0.65rem;
+      color: var(--warn);
+      font-weight: 600;
+    }
+
+    .pack-card li.tip {
+      color: var(--nav);
+    }
+
+    .checklist {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      padding: 0.4rem 0 0.4rem 1.5rem;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--muted);
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .ideal-vs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+    }
+
+    @media (max-width: 640px) {
+      .ideal-vs {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .ideal-vs .col {
+      padding: 0.85rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .ideal-vs .col h3 {
+      font-size: 0.85rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .ideal-vs .col.better h3 {
+      color: var(--nav);
+    }
+
+    .ideal-vs .col ol {
+      margin: 0;
+      padding-left: 1.15rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .choice-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.75rem;
+      align-items: stretch;
+      margin: 1rem 0 1.5rem;
+    }
+
+    @media (max-width: 700px) {
+      .choice-row {
+        grid-template-columns: 1fr;
+      }
+
+      .choice-row .vs {
+        justify-self: center;
+        transform: rotate(90deg);
+      }
+    }
+
+    .choice-card {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .choice-card.picked {
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 1px var(--accent-soft);
+    }
+
+    .choice-card.alt {
+      border-style: dashed;
+      opacity: 0.92;
+    }
+
+    .choice-card .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      margin-bottom: 0.45rem;
+      background: rgba(26, 36, 33, 0.06);
+      color: var(--muted);
+    }
+
+    .choice-card.picked .badge {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .choice-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      margin: 0 0 0.4rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .choice-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0 0 0.65rem;
+    }
+
+    .choice-row .vs {
+      align-self: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    section.day {
+      margin-bottom: 2.75rem;
+      scroll-margin-top: 1rem;
+    }
+
+    .day-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.5rem 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .day-header .date {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .day-header .theme {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .timeline {
+      margin: 0 0 1.25rem;
+      padding: 0.85rem 1rem;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .timeline h3 {
+      font-size: 0.82rem;
+      margin: 0 0 0.55rem;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .timeline ol {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .timeline li {
+      display: grid;
+      grid-template-columns: 9rem 1fr;
+      gap: 0.5rem;
+      font-size: 0.86rem;
+      padding: 0.28rem 0;
+      border-bottom: 1px dashed var(--line);
+      color: var(--muted);
+    }
+
+    .timeline li:last-child {
+      border-bottom: none;
+    }
+
+    .timeline .t {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .timeline .drive {
+      color: var(--nav);
+    }
+
+    .leg {
+      margin-bottom: 1.25rem;
+    }
+
+    .leg-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    ol.stops {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      counter-reset: stop;
+    }
+
+    ol.stops>li {
+      position: relative;
+      padding-left: 2.25rem;
+      padding-bottom: 1.25rem;
+      counter-increment: stop;
+    }
+
+    ol.stops>li::before {
+      content: counter(stop);
+      position: absolute;
+      left: 0;
+      top: 0.1rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1.5rem;
+      text-align: center;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 50%;
+    }
+
+    ol.stops>li:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 0.72rem;
+      top: 1.85rem;
+      bottom: 0;
+      width: 2px;
+      background: var(--line);
+    }
+
+    .stop-name {
+      font-family: var(--font-display);
+      font-size: 1.12rem;
+      font-weight: 600;
+      margin: 0 0 0.35rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .note {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin: 0.35rem 0 0.65rem;
+    }
+
+    .note strong {
+      color: var(--warn);
+      font-weight: 600;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0.35rem 0 0.55rem;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      background: rgba(26, 36, 33, 0.06);
+      color: var(--muted);
+    }
+
+    .tag.skip {
+      background: rgba(139, 69, 19, 0.1);
+      color: var(--warn);
+    }
+
+    .tag.star {
+      background: rgba(0, 117, 74, 0.12);
+      color: var(--nav);
+    }
+
+    .nav-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 1.4rem;
+      height: 1.4rem;
+      margin-left: 0.1rem;
+      color: var(--nav);
+      text-decoration: none;
+      border-radius: 50%;
+      vertical-align: middle;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-icon:hover,
+    .nav-icon:focus-visible {
+      background: rgba(0, 117, 74, 0.12);
+      color: var(--nav-hover);
+      outline: none;
+    }
+
+    .nav-icon svg {
+      width: 0.95rem;
+      height: 0.95rem;
+      display: block;
+    }
+
+    .nav-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 0.65rem;
+      align-items: center;
+      margin: 0.15rem 0 0;
+    }
+
+    .nav-actions:empty {
+      display: none;
+    }
+
+    .nav-extra {
+      font-size: 0.78rem;
+      color: var(--nav);
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(0, 117, 74, 0.45);
+    }
+
+    .nav-extra:hover {
+      color: var(--nav-hover);
+      border-bottom-color: var(--nav-hover);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.85rem;
+      font-family: inherit;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-nav {
+      background: var(--nav);
+      color: #fff;
+    }
+
+    .btn-nav:hover {
+      background: var(--nav-hover);
+    }
+
+    .btn-route {
+      background: transparent;
+      color: var(--nav);
+      border: 1px solid var(--nav);
+    }
+
+    .no-nav {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .segment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .segment {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 0.75rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .segment-label {
+      font-size: 0.88rem;
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .tips {
+      padding: 1.25rem 1.35rem;
+      background: linear-gradient(135deg, rgba(196, 92, 38, 0.08), rgba(26, 36, 33, 0.04));
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-top: 2rem;
+      scroll-margin-top: 1rem;
+    }
+
+    .tips h2 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      margin: 0 0 0.75rem;
+    }
+
+    .tips ul {
+      margin: 0;
+      padding-left: 1.2rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .tips li {
+      margin-bottom: 0.4rem;
+    }
+
+    footer {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 2.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="hero">
+    <p class="eyebrow">露营徒步路书 · 行前计划版 · 后海出发 · 全程地铁/港铁/巴士/渡轮</p>
+    <h1>香港离岛双营地<br />2026.10.30 – 11.1</h1>
+    <p class="lead">
+      周五下班<strong style="color:var(--ink)">深圳后海</strong>出发 → 地铁福田口岸过关 → 船湾淡水湖<strong style="color:var(--ink)">涌背免费营地</strong>，
+      周六<strong style="color:var(--ink)">东平洲世界地质公园</strong>环岛（唯一班船当日往返），
+      贝澳营地过夜，周日<strong style="color:var(--ink)">大东山芒草 + 日落</strong>后过关回<strong style="color:var(--ink)">后海站</strong>收工；
+      当晚深圳住宿自理。全程公共交通（无自驾），香港两晚营地费 0 元。
+    </p>
+    <div class="route-strip" aria-label="总路线">
+      <span>后海（下班）</span><span class="arrow">→</span>
+      <span>福田口岸</span><span class="arrow">→</span>
+      <span>涌背营地</span><span class="arrow">→</span>
+      <span>东平洲</span><span class="arrow">→</span>
+      <span>贝澳营地</span><span class="arrow">→</span>
+      <span>大东山</span><span class="arrow">→</span>
+      <span>后海站（收工）</span>
+    </div>
+  </header>
+
+  <main>
+    <nav class="toc" aria-label="目录">
+      <ul>
+        <li><a href="#overview">行程概览</a></li>
+        <li><a href="#route-map">路线图</a></li>
+        <li><a href="#map">交通导航段</a></li>
+        <li><a href="#d1030">10.30 涌背</a></li>
+        <li><a href="#d1031">10.31 东平洲</a></li>
+        <li><a href="#d1101">11.1 大东山</a></li>
+        <li><a href="#packing">物品清单</a></li>
+        <li><a href="#booking">行前预约</a></li>
+        <li><a href="#stay">住宿速查</a></li>
+        <li><a href="#cost">费用预估</a></li>
+        <li><a href="#fallback">预案备选</a></li>
+        <li><a href="#tips">注意事项</a></li>
+      </ul>
+    </nav>
+
+    <section class="panel" id="overview">
+      <h2>行程概览</h2>
+      <p class="sub">3 天 · 港两晚免费营地 + 周日深圳住宿自理 · 后海下班出发 / 后海站收工 · 全程公共交通 · 行前计划版（费用为预估，不含深圳酒店）</p>
+      <div class="stats">
+        <div class="stat"><div class="num">3 天</div><div class="label">10.30 – 11.1</div></div>
+        <div class="stat"><div class="num">HK$0</div><div class="label">两晚营地费</div></div>
+        <div class="stat"><div class="num">≈7km</div><div class="label">东平洲环岛</div></div>
+        <div class="stat"><div class="num">≈¥400</div><div class="label">个人总账（预估）</div></div>
+      </div>
+      <div class="table-wrap">
+        <table class="info">
+          <thead><tr><th>日期</th><th>主线</th><th>过夜</th><th>强度</th></tr></thead>
+          <tbody>
+            <tr><td>10.30 周五</td><td>后海下班 → 福田过关 → 大埔墟换乘 → 大美督夜行 3km</td><td>涌背营地（渔护署）</td><td>夜行轻松</td></tr>
+            <tr><td>10.31 周六</td><td>东平洲环岛 7km · 09:00 / 17:15 唯一班船</td><td>贝澳营地（康文署）</td><td>徒步中等</td></tr>
+            <tr><td>11.1 周日</td><td>贝澳沙滩 → 大东山日落 → 过关回后海站</td><td>深圳（住宿自理）</td><td>登山 + 夜下撤</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="route-map">
+      <h2>行程路线图（真实地理方位）</h2>
+      <p class="sub">高德底图 + Leaflet。实线为行程前往，虚线为返程。地图仅作方位示意；香港段导航以港铁/巴士/渡轮为准，导航按钮一律走高德搜索。</p>
+      <div id="real-map" role="img" aria-label="真实地图路线"></div>
+    </section>
+
+    <section class="panel" id="map">
+      <h2>交通导航段</h2>
+      <p class="sub">有明确站名/地名的路段提供高德搜索链接；营地、山顶等无准确 POI 的路段只列文字，不挂链接。</p>
+      <div class="segment-list" id="drive-segments"></div>
+    </section>
+
+    <section class="day" id="d1030">
+      <div class="day-header"><span class="date">10.30</span><span class="theme">周五 · 后海下班 → 过关 → 大埔墟换乘 → 涌背营地</span></div>
+      <div class="timeline">
+        <h3>当日时间轴（约）</h3>
+        <ol>
+          <li><span class="t">约 18:00–18:30</span><span class="drive">后海下班出发 → 地铁至福田口岸（2 号线转 4 号线，约 35–45 分钟）</span></li>
+          <li><span class="t">约 19:15–19:45</span><span>福田口岸过关 → 落马洲站（口岸 06:30–22:00；周五晚一般不堵）</span></li>
+          <li><span class="t">约 19:45–20:15</span><span class="drive">东铁 落马洲 → 大埔墟（约 30 分钟）</span></li>
+          <li><span class="t">约 20:20–21:00</span><span class="drive">75K 巴士 大埔墟 → 大美督总站（尾班约 00:00；水粮内地已带，不采购）</span></li>
+          <li><span class="t">约 21:05–21:50</span><span>沿新娘潭路步行约 3km → 涌背营地（无路灯，头灯）</span></li>
+          <li><span class="t">约 21:50</span><span>扎营 · 自带晚餐</span></li>
+        </ol>
+      </div>
+      <ol class="stops">
+        <li data-poi='{"name":"后海站","search":"后海站","city":"深圳"}'>
+          <h3 class="stop-name">后海（出发点）</h3>
+          <div class="tags"><span class="tag star">周五下班出发</span><span class="tag">水粮自带</span></div>
+          <p class="note">露营装备 + <strong>全程水粮内地备好带走</strong>（含周六东平洲 2–3L 水/人、干粮零食；香港不采购）。地铁：<strong>2 号线</strong>（后海 → 市民中心）转 <strong>4 号线</strong>（市民中心 → 福田口岸），约 35–45 分钟含换乘。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li data-poi='{"name":"福田口岸","search":"福田口岸","city":"深圳"}'>
+          <h3 class="stop-name">福田口岸</h3>
+          <div class="tags"><span class="tag">06:30–22:00</span><span class="tag">地铁直达</span></div>
+          <p class="note">过关后即<strong>落马洲站</strong>，东铁往红磡方向约 30 分钟到大埔墟换乘。回程同一口岸出关，地铁回后海。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li data-poi='{"name":"大埔墟站","search":"大埔墟站","city":"香港"}'>
+          <h3 class="stop-name">大埔墟站 · 换乘</h3>
+          <div class="tags"><span class="tag">只换乘</span><span class="tag">不采购</span></div>
+          <p class="note">出站转 <strong>75K</strong> 往大美督即可；水粮已自带，不在此吃饭/逛超市。东平洲岛上无水源、仅士多少量补给。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li data-poi='{"name":"大美督","search":"大美督","city":"香港"}'>
+          <h3 class="stop-name">大美督（75K 总站）</h3>
+          <p class="note">高德可搜「大美督」或「大尾笃」。下车后沿<strong>新娘潭路</strong>向东北步行约 3km；夜行无路灯，靠左行走。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li>
+          <h3 class="stop-name">住宿 · 涌背营地（渔护署）</h3>
+          <div class="tags"><span class="tag star">免费 · 免预约</span><span class="tag">无淋浴</span></div>
+          <p class="note">船湾淡水湖旁、新娘潭路边（涌背烧烤场一带）。标准洗手间 + 自来水（水喉在烧烤场旁），<strong>无淋浴</strong>。先到先得，周五晚到即可；帐篷扎草坪区，风绳打足。无准确 POI，见路线图。</p>
+          <p class="no-nav">涌背无准确 POI · 见路线图</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="day" id="d1031">
+      <div class="day-header"><span class="date">10.31</span><span class="theme">周六 · 东平洲环岛 → 贝澳营地</span></div>
+      <div class="timeline">
+        <h3>当日时间轴（约）</h3>
+        <ol>
+          <li><span class="t">约 06:20</span><span>起床早餐 · 收帐篷</span></li>
+          <li><span class="t">约 06:50</span><span>走到涌背烧烤场 20R 站牌候车（别卡点）</span></li>
+          <li><span class="t">07:15 班</span><span class="drive">20R 乌蛟腾开 → 涌背约 07:20–07:25 上车 → 大埔墟（下一班 08:15，错过必误 09:00 船）</span></li>
+          <li><span class="t">约 08:00–08:10</span><span class="drive">东铁 大埔墟 → 大学站（2 站）</span></li>
+          <li><span class="t">约 08:30</span><span>步行约 15 分钟 → 马料水渡轮码头候船</span></li>
+          <li><span class="t">09:00</span><span class="drive">翠华渡轮开船（当日唯一去程）→ 约 10:40 抵东平洲</span></li>
+          <li><span class="t">约 11:00–16:30</span><span>环岛徒步约 7km：更楼石 → 龙落水 → 斩颈洲 → 洲尾角海蚀平台 → 大塘湾</span></li>
+          <li><span class="t">17:15</span><span class="drive">返程船（当日唯一一班！）→ 约 18:45 回马料水</span></li>
+          <li><span class="t">约 19:15–20:15</span><span class="drive">东铁 + 屯马线 + 东涌线 → 东涌站（晚餐可选；水粮已自带）</span></li>
+          <li><span class="t">约 20:30–21:00</span><span class="drive">屿巴 3M → 贝澳泳滩站，登记处登记扎营</span></li>
+        </ol>
+      </div>
+      <div class="choice-row" aria-label="误船预案">
+        <div class="choice-card alt">
+          <span class="badge">误船预案</span>
+          <h3>SKR 快艇 / 留岛</h3>
+          <p>误 17:15 班船：SKR 快艇约 <strong>HK$380/人</strong>（约 4 人成团，WhatsApp 90128230 提前约）；或重装留岛过夜——岛上无水源、仅旱厕，一般不建议。</p>
+        </div>
+        <div class="vs">VS</div>
+        <div class="choice-card picked">
+          <span class="badge">主计划</span>
+          <h3>掐点返程</h3>
+          <p>16:30 结束环岛，<strong>16:45 回王爷角码头</strong>候 17:15 班船（当日唯一返程）。</p>
+        </div>
+      </div>
+      <ol class="stops">
+        <li>
+          <h3 class="stop-name">涌背烧烤场（20R 站）</h3>
+          <div class="tags"><span class="tag star">赶船关键班：07:15</span><span class="tag">下一班 08:15</span></div>
+          <p class="note">
+            营地沿新娘潭路步行数分钟；站名「新娘潭路, 涌背烧烤场」。时刻表按<strong>乌蛟腾总站开出</strong>（进智公交 PDF / 运输署）：往大埔墟每日
+            <strong>06:15 / 07:15 / 08:15 / 09:15 … 每小时 :15，尾班 20:15</strong>。
+            涌背是途经站，车约晚 <strong>5–10 分钟</strong>到（07:15 班约 07:20–07:25 到站）。
+            <strong>周六必须上 07:15 这一班</strong>——下一班 08:15 到大埔墟约 09:00，必误 09:00 渡轮。
+            错过：立即步行约 40 分钟回大美督转 <strong>75K</strong>（班次密），仍可能赶上船；或前一晚踩点站牌。
+          </p>
+          <p class="no-nav">路边站牌 · 不链</p>
+        </li>
+        <li data-poi='{"name":"大学站","search":"大学站","city":"香港"}'>
+          <h3 class="stop-name">大学站</h3>
+          <p class="note">东铁大埔墟 2 站即到；B 口出站往码头方向步行约 15 分钟。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li data-poi='{"name":"马料水渡轮码头","search":"马料水码头","city":"香港"}'>
+          <h3 class="stop-name">马料水渡轮码头</h3>
+          <div class="tags"><span class="tag star">09:00 唯一去程</span><span class="tag">周末来回 ≈HK$100</span></div>
+          <p class="note">高德搜「马料水码头」或「马料水渡轮码头」。<strong>08:30 前到</strong>；船票网购（traway.com.hk，周末班次周五 11:00 截止）或现场八达通/现金（不找零），周末排队有错过 09:00 的风险。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li>
+          <h3 class="stop-name">东平洲 · 王爷角码头</h3>
+          <div class="tags"><span class="tag star">世界地质公园</span><span class="tag">环岛约 7km 平路</span></div>
+          <p class="note">环岛顺/逆时针均可，3–4 小时含拍照：<strong>更楼石</strong>（海边两层石塔）→ <strong>龙落水</strong>（长百米岩脉）→ <strong>斩颈洲</strong>（连岛沙洲通道）→ <strong>洲尾角海蚀平台</strong> → <strong>大塘湾</strong>（礁石浮潜）。岛上无水源、仅士多少量补给；<strong>16:45 前回码头</strong>候 17:15 唯一返程船。</p>
+          <p class="no-nav">船班即导航 · 不链</p>
+        </li>
+        <li data-poi='{"name":"东涌站","search":"东涌站","city":"香港"}'>
+          <h3 class="stop-name">东涌站 · 转屿巴</h3>
+          <p class="note">转 3M 去贝澳。水粮已自带，不强制采购；饿了可在东荟城一带吃一顿（可选）。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li>
+          <h3 class="stop-name">住宿 · 贝澳营地（康文署）</h3>
+          <div class="tags"><span class="tag star">免费 · 先到先得</span><span class="tag">有更衣室</span></div>
+          <p class="note">3M 贝澳泳滩站下，<strong>登记处登记</strong>后扎营；标准洗手间 + 更衣室，营地旁即贝澳泳滩。夜里风大，风绳打足。若满位：退路为 3M 沿线的<strong>南山营地 / 长沙上村·下村营地</strong>（均免费）。</p>
+          <p class="no-nav">登记处现场 · 不链</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="day" id="d1101">
+      <div class="day-header"><span class="date">11.1</span><span class="theme">周日 · 贝澳沙滩 → 大东山日落 → 回后海站收工</span></div>
+      <div class="timeline">
+        <h3>当日时间轴（约）</h3>
+        <ol>
+          <li><span class="t">上午</span><span>自然醒 · 贝澳/长沙泳滩玩水休整（营地更衣室冲淡）</span></li>
+          <li><span class="t">约 11:30</span><span>拔营，3M → 东涌站，行李寄存车站储物柜（以现场为准）</span></li>
+          <li><span class="t">约 13:00–13:30</span><span class="drive">3M 原路返回 → 南山站下车（大东山登山口）</span></li>
+          <li><span class="t">约 15:00</span><span>登顶大东山（869m · 11 月芒草正季）</span></li>
+          <li><span class="t">约 16:30–17:30</span><span>山顶等日落（11 月初日落约 17:45）</span></li>
+          <li><span class="t">约 17:45</span><span>日落后头灯下撤约 1 小时 → 南山</span></li>
+          <li><span class="t">约 18:45–19:30</span><span class="drive">3M 回东涌取行李、晚餐（留意尾班约 19:00–20:00，误了可新界的士回东涌约 HK$80–100）</span></li>
+          <li><span class="t">约 19:45–21:15</span><span class="drive">东涌线 → 南昌转屯马线 → 大围转东铁 → 落马洲（福田口岸）</span></li>
+          <li><span class="t">约 21:30–22:15</span><span class="drive">过关 → 地铁回<strong>后海站</strong>（4→2 号线，约 35–45 分钟）· 路书到此结束，当晚深圳住宿自理</span></li>
+        </ol>
+      </div>
+      <div class="choice-row" aria-label="大东山日出还是日落">
+        <div class="choice-card alt">
+          <span class="badge">备选 · 摸黑早起</span>
+          <h3>日出版</h3>
+          <p>周六晚改宿<strong>南山营地</strong>（3M 南山站），周日 05:00 摸黑登顶，06:25 前后日出 + 远海。代价：两晚都没沙滩、起早摸黑。</p>
+        </div>
+        <div class="vs">VS</div>
+        <div class="choice-card picked">
+          <span class="badge">主计划 · 节奏轻松</span>
+          <h3>日落版</h3>
+          <p>周六晚住贝澳（沙滩营地），周日睡到自然醒、上午玩水，午后登大东山等 17:45 日落，头灯下撤返程。</p>
+        </div>
+      </div>
+      <ol class="stops">
+        <li data-poi='{"name":"贝澳泳滩","search":"贝澳泳滩","city":"香港"}'>
+          <h3 class="stop-name">贝澳泳滩</h3>
+          <p class="note">上午玩水休整；营地更衣室换衣。想换口味可再往西一站到长沙泳滩。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li data-poi='{"name":"东涌站","search":"东涌站","city":"香港"}'>
+          <h3 class="stop-name">东涌站 · 寄存行李</h3>
+          <p class="note">车站自助储物柜（以现场为准）；3M 往返南山从这里出发，回程也在这取行李。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li>
+          <h3 class="stop-name">南山 · 大东山登山口</h3>
+          <p class="note">3M <strong>南山站</strong>下车即登山口（南山营地/南山村旁）；爬升约 450m，石阶多，1.5–2h 登顶。</p>
+          <p class="no-nav">3M 中途站 · 不链</p>
+        </li>
+        <li>
+          <h3 class="stop-name">大东山（869m）</h3>
+          <div class="tags"><span class="tag star">芒草季</span><span class="tag">日落约 17:45</span></div>
+          <p class="note">山顶风大温差大，防风外套 + 长裤；日落前占好机位，日落后<strong>头灯下撤</strong>。无准确 POI，见路线图。</p>
+          <p class="no-nav">高德无可靠 POI · 不链</p>
+        </li>
+        <li data-poi='{"name":"落马洲站","search":"落马洲站","city":"香港"}'>
+          <h3 class="stop-name">落马洲站（福田口岸）</h3>
+          <div class="tags"><span class="tag star">口岸 22:00 关闭</span></div>
+          <p class="note"><strong>21:30 前务必过关</strong>——周日大东山日落别拖，天气突变宁可提前下撤。</p>
+          <div class="nav-actions"></div>
+        </li>
+        <li data-poi='{"name":"后海站","search":"后海站","city":"深圳"}'>
+          <h3 class="stop-name">后海站 · 路书终点</h3>
+          <div class="tags"><span class="tag star">收工</span><span class="tag">当晚深圳自理</span></div>
+          <p class="note">出关后地铁 4 号线 → 市民中心转 2 号线到<strong>后海站</strong>。到站即收工；酒店/回家其余自行安排，路书不再往下写。</p>
+          <div class="nav-actions"></div>
+        </li>
+      </ol>
+    </section>
+    <section class="panel" id="packing">
+      <h2>物品清单</h2>
+      <p class="sub">按本线路定制（露营 + 海岛徒步）。装备怎么买见 <a href="../../gear/index.html">装备选购</a>。</p>
+      <div class="pack-grid">
+        <div class="pack-card">
+          <h3>证件 / 支付</h3>
+          <ul>
+            <li class="must">港澳通行证（有效签注）</li>
+            <li class="must">身份证</li>
+            <li class="must">八达通 / 支付宝HK乘车码</li>
+            <li>港币现金少量（小巴不找零）</li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h3>露营</h3>
+          <ul>
+            <li class="must">帐篷 / 睡袋 / 防潮垫</li>
+            <li class="must">头灯（周五夜行 + 周日夜下撤都用）</li>
+            <li>营地灯（可选）</li>
+            <li class="must">垃圾袋（营地垃圾全部带走）</li>
+            <li>驱蚊液</li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h3>徒步 / 海岛</h3>
+          <ul>
+            <li class="must">登山鞋 / 防滑鞋</li>
+            <li class="must">排汗中筒袜</li>
+            <li class="must">沙滩鞋（东平洲礁石硌脚）</li>
+            <li>泳衣 + 速干衣</li>
+            <li>手机防水袋</li>
+            <li>浮潜面镜（可选）</li>
+            <li>登山杖（可选，大东山石阶陡）</li>
+            <li>墨镜 / 防晒帽 / 防晒霜</li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h3>水粮（内地自带）</h3>
+          <ul>
+            <li class="must">水 2–3L/人（周六东平洲用；岛上无水源）</li>
+            <li class="must">周五晚 + 周六午干粮 / 能量零食</li>
+            <li>营地简易晚餐（自热/冷食均可）</li>
+            <li class="tip">香港不采购，后海出发前备齐</li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h3>日用 / 药</h3>
+          <ul>
+            <li class="must">充电宝 ≥2 万 mAh</li>
+            <li class="must">雨具</li>
+            <li>水泡贴 / 创可贴 / 常用药</li>
+            <li class="must">湿巾（两营地均无淋浴）</li>
+            <li class="must">纸巾</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="booking">
+      <h2>行前预约清单</h2>
+      <ul class="checklist">
+        <li><strong>翠华船票</strong>（马料水⇄东平洲周末班次）— traway.com.hk，<strong>周末班次周五 11:00 截止</strong>，最迟周四晚下单（付款→传凭证→WhatsApp 取票）；码头现购（八达通/现金）有错过 09:00 船的风险</li>
+        <li>港澳通行证签注有效、身份证随身</li>
+        <li>营地免预约：涌背（渔护署）/ 贝澳（康文署）均免费先到先得</li>
+        <li>八达通 / 支付宝HK 乘车码开通；小巴不找零备散纸</li>
+        <li>水粮内地备齐带走（2–3L 水/人 + 干粮）；香港不采购</li>
+        <li>出发前 1–2 天：天文台 9 天预报复核（周六东平洲风浪 / 周日大东山云量）</li>
+      </ul>
+    </section>
+
+    <section class="panel" id="stay">
+      <h2>住宿速查</h2>
+      <div class="table-wrap">
+        <table class="info">
+          <thead><tr><th>夜</th><th>住宿</th><th>备注</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>10.30</td>
+              <td>涌背营地（渔护署）</td>
+              <td>免费·免预约·先到先得；标准洗手间 + 水喉，无淋浴；新娘潭路旁</td>
+            </tr>
+            <tr>
+              <td>10.31</td>
+              <td>贝澳营地（康文署）</td>
+              <td>免费·先到先得，登记处登记；洗手间 + 更衣室；满位退路 = 南山 / 长沙营地（3M 沿线）</td>
+            </tr>
+            <tr>
+              <td>11.1</td>
+              <td>深圳（后海一带）</td>
+              <td>路书只送到后海站；酒店/回家自行安排，费用不含</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="cost">
+      <h2>费用预估（个人账）</h2>
+      <p class="sub">行前计划版，均为预估：HK$ 按汇率约 0.92 折算；未含购物与汇率波动。</p>
+
+      <h3 class="cost-cat">交通 · 香港段（HK$）</h3>
+      <div class="table-wrap">
+        <table class="info">
+          <thead><tr><th>项目</th><th>说明</th><th>金额</th><th>备注</th></tr></thead>
+          <tbody>
+            <tr><td>东铁</td><td>落马洲 → 大埔墟</td><td class="amount">28.0</td><td>约价</td></tr>
+            <tr><td>75K 巴士</td><td>大埔墟 → 大美督</td><td class="amount">6.7</td><td></td></tr>
+            <tr><td>20R 小巴</td><td>涌背 → 大埔墟</td><td class="amount">11.7</td><td>乌蛟腾 :15 开；周六赶 07:15</td></tr>
+            <tr><td>东铁</td><td>大埔墟 → 大学</td><td class="amount">8.0</td><td>约价</td></tr>
+            <tr><td>翠华渡轮</td><td>马料水 ⇄ 东平洲 来回</td><td class="amount">100.0</td><td>周末即日来回价</td></tr>
+            <tr><td>港铁</td><td>大学 → 大围 → 南昌 → 东涌</td><td class="amount">30.0</td><td>约价</td></tr>
+            <tr><td>屿巴 3M</td><td>东涌⇄贝澳·南山 ×3 程</td><td class="amount">35.0</td><td>含周日假日价</td></tr>
+            <tr><td>港铁</td><td>大围 → 落马洲</td><td class="amount">40.0</td><td>约价</td></tr>
+            <tr class="subtotal"><td>小计</td><td></td><td class="amount">≈259</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="cost-cat">餐饮（HK$ · 可选堂食）</h3>
+      <div class="table-wrap">
+        <table class="info">
+          <thead><tr><th>项目</th><th>说明</th><th>金额</th><th>备注</th></tr></thead>
+          <tbody>
+            <tr><td>周五 / 周六水粮</td><td>内地自带</td><td class="amount">0</td><td>香港不采购</td></tr>
+            <tr><td>周六晚</td><td>东涌晚餐（可选）</td><td class="amount">70.0</td><td>自带则可省</td></tr>
+            <tr><td>周日</td><td>东涌一带堂食（可选）</td><td class="amount">90.0</td><td>自带则可省</td></tr>
+            <tr class="subtotal"><td>小计</td><td></td><td class="amount">≈160</td><td>全自带则 ≈0</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="cost-cat">深圳段（元）</h3>
+      <div class="table-wrap">
+        <table class="info">
+          <thead><tr><th>项目</th><th>说明</th><th>金额</th><th>备注</th></tr></thead>
+          <tbody>
+            <tr><td>地铁</td><td>后海 ⇄ 福田口岸 往返</td><td class="amount">≈12</td><td>2 号线 + 4 号线</td></tr>
+            <tr><td>水粮</td><td>内地备好带走</td><td class="amount">自理</td><td>不含在总账</td></tr>
+            <tr class="subtotal"><td>小计</td><td></td><td class="amount">≈12</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="total-line">香港段 HK$419 ≈ ¥385 ＋ 深圳地铁 ≈¥12 → <strong>全程约 ¥400/人</strong>（预估；不含内地水粮与深圳酒店）</div>
+    </section>
+
+    <section class="panel" id="fallback">
+      <h2>预案与备选</h2>
+      <div class="ideal-vs">
+        <div class="col">
+          <h3>风险与预案</h3>
+          <ol>
+            <li>周六东平洲风浪大 → 渡轮或停航：出发前一晚看天文台 + 翠华 FB；停航改西贡桥嘴岛 / 市区行程</li>
+            <li>周六晚贝澳满位 → 3M 沿线的南山营地 / 长沙上村·下村营地（均免费）</li>
+            <li>误 17:15 返程船 → SKR 快艇约 HK$380/人（4 人成团，WhatsApp 90128230）；或重装留岛（无水源仅旱厕，不建议）</li>
+            <li>周日天黑下撤 → 头灯必带；天气突变 16:00 前下撤放弃日落</li>
+            <li>周日回程误点 → 福田口岸 22:00 关闭，21:00 前必须离开东涌</li>
+          </ol>
+        </div>
+        <div class="col better">
+          <h3>备选玩法</h3>
+          <ol>
+            <li>大东山日出版：周六晚改宿南山营地，周日 05:00 摸黑登顶（11.1 日出约 06:25）</li>
+            <li>东平洲重装留岛：看星空 + 岛上营地扎营（自备全部水粮）</li>
+            <li>大东山天气差：改梅窝骑行 / 贝澳沙滩 + 独木舟</li>
+            <li>周五下班过关晚：大埔墟住一晚（约 HK$300），周六直接东平洲</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="tips" id="tips">
+      <h2>注意事项</h2>
+      <ul>
+        <li><strong>头灯</strong>：两晚都用得上（周五夜行 + 周日夜下撤），必带。</li>
+        <li><strong>东平洲船班</strong>：09:00 / 17:15 唯一往返，16:45 前回王爷角码头。</li>
+        <li><strong>20R 小巴</strong>：乌蛟腾每日 :15 开（06:15–20:15，每 60 分钟）；涌背途经约晚 5–10 分钟。周六只赶 <strong>07:15</strong> 班，误了下一班 08:15 必误船——改走大美督 75K。</li>
+        <li><strong>营地</strong>：两营地均无淋浴；涌背水喉在烧烤场旁，贝澳有更衣室；垃圾全部带走。</li>
+        <li><strong>水粮</strong>：内地自带带走（含周六东平洲 2–3L 水/人）；香港不采购。岛上无水源、仅士多少量补给。</li>
+        <li><strong>支付</strong>：小巴/渡轮备八达通或现金（不找零）；支付宝HK可刷港铁。</li>
+        <li><strong>夜行</strong>：周五 75K 尾班约 00:00，但新娘潭路夜行注意车辆；大东山下撤同。</li>
+        <li><strong>大东山</strong>：11 月芒草正季；山顶风大，防风外套 + 长裤。</li>
+        <li><strong>复核</strong>：船班票价出发前再核对（翠华船务 2272 2022 / traway.com.hk）；天文台 9 天预报。</li>
+        <li><strong>福田口岸</strong>：06:30–22:00，周日晚回程掐紧。</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    路书 · acknowledge/旅游 · 2026.10.30–11.1 · 后海出发 · 全程公共交通 · 预估约 ¥400/人
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    /* 仅用于概览地图方位示意；导航按钮一律走高德 keyword 搜索，不用此坐标 */
+    const MAP_POINTS = [
+      { name: "后海站", lat: 22.518, lon: 113.944 },
+      { name: "福田口岸", lat: 22.517, lon: 114.071 },
+      { name: "大埔墟站", lat: 22.446, lon: 114.170 },
+      { name: "大美督（75K 总站）", lat: 22.469, lon: 114.225 },
+      { name: "涌背营地", lat: 22.480, lon: 114.232 },
+      { name: "大学站", lat: 22.413, lon: 114.211 },
+      { name: "马料水渡轮码头", lat: 22.417, lon: 114.216 },
+      { name: "东平洲·王爷角码头", lat: 22.541, lon: 114.429 },
+      { name: "东涌站", lat: 22.285, lon: 113.941 },
+      { name: "贝澳营地", lat: 22.270, lon: 113.987 },
+      { name: "南山·大东山登山口", lat: 22.255, lon: 113.951 },
+      { name: "大东山（869m）", lat: 22.265, lon: 113.939 },
+    ];
+
+    const DRIVE_SEGMENTS = [
+      { label: "后海 → 福田口岸（地铁 2 号线转 4 号线 · 约 35–45 分钟）", search: "福田口岸", city: "深圳" },
+      { label: "落马洲站 → 大埔墟站（东铁线约 30 分钟）", search: "大埔墟站", city: "香港" },
+      { label: "大埔墟 → 大美督（75K 巴士约 30 分钟 · 尾班约 00:00）", search: "大美督", city: "香港" },
+      { label: "大美督 → 涌背营地（沿新娘潭路步行约 3km · 头灯）", search: null, note: "无准确 POI · 见路线图" },
+      { label: "涌背 → 大埔墟 → 大学站（20R：乌蛟腾 07:15 开 / 涌背约 07:20–07:25 · 下一班 08:15 必误船）", search: "大学站", city: "香港" },
+      { label: "大学站 → 马料水渡轮码头（步行约 15 分钟）", search: "马料水码头", city: "香港" },
+      { label: "马料水 → 东平洲（翠华渡轮 09:00 唯一去程 · 17:15 返）", search: null, note: "海上航线 · 船票另购" },
+      { label: "大学站 → 东涌站（东铁 + 屯马线 + 东涌线约 1h）", search: "东涌站", city: "香港" },
+      { label: "东涌 → 贝澳营地（屿巴 3M 约 25 分钟）", search: "贝澳泳滩", city: "香港" },
+      { label: "东涌 → 南山·大东山登山口（屿巴 3M 南山站下）", search: null, note: "南山站无准确 POI · 3M 中途站" },
+      { label: "东涌 → 落马洲站/福田口岸（东涌线 + 屯马线 + 东铁 · 口岸 22:00 关闭）", search: "落马洲站", city: "香港" },
+      { label: "福田口岸 → 后海站（地铁 4→2 号线 · 约 35–45 分钟 · 路书终点 · 当晚深圳自理）", search: "后海站", city: "深圳" },
+    ];
+
+    function encodeName(name) {
+      return encodeURIComponent(name);
+    }
+
+    function searchUrl(keyword, city) {
+      const cityPart = city ? "&city=" + encodeName(city) : "";
+      return (
+        "https://uri.amap.com/search?keyword=" +
+        encodeName(keyword) +
+        cityPart +
+        "&src=hk-roadbook-2026&callnative=1"
+      );
+    }
+
+    function markerUrl(poi) {
+      return (
+        "https://uri.amap.com/marker?position=" +
+        poi.lon + "," + poi.lat +
+        "&name=" + encodeName(poi.name) +
+        "&coordinate=gaode&src=hk-roadbook-2026&callnative=1"
+      );
+    }
+
+    function navCoordUrl(poi) {
+      return (
+        "https://uri.amap.com/navigation?to=" +
+        poi.lon + "," + poi.lat + "," + encodeName(poi.name) +
+        "&mode=car&src=hk-roadbook-2026&callnative=1"
+      );
+    }
+
+    const NAV_ICON_SVG =
+      '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<path fill="currentColor" d="M12 2.5L4.2 20.1c-.25.55.3 1.1.85.9L12 17.6l6.95 3.4c.55.2 1.1-.35.85-.9L12 2.5zm0 5.1l4.4 9.95-4.05-2-4.05 2L12 7.6z"/>' +
+      "</svg>";
+
+    function primaryNavUrl(poi) {
+      if (poi.lon != null && poi.lat != null) return navCoordUrl(poi);
+      if (poi.search) return searchUrl(poi.search, poi.city);
+      return searchUrl(poi.name, poi.city);
+    }
+
+    function createNavIcon(href) {
+      const a = document.createElement("a");
+      a.className = "nav-icon";
+      a.href = href;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.title = "高德导航";
+      a.setAttribute("aria-label", "高德导航");
+      a.innerHTML = NAV_ICON_SVG;
+      return a;
+    }
+
+    function attachNavIcon(heading, poi) {
+      if (!heading || !poi || heading.querySelector(".nav-icon")) return;
+      heading.appendChild(createNavIcon(primaryNavUrl(poi)));
+    }
+
+    function appendExtraLink(container, keyword, label, city) {
+      const a = document.createElement("a");
+      a.className = "nav-extra";
+      a.href = searchUrl(keyword, city);
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.title = "高德搜索「" + label + "」";
+      a.textContent = "搜「" + label + "」";
+      container.appendChild(a);
+    }
+
+    function renderExtraSearches(container, poi) {
+      if (!container || !poi) return;
+      const extras = poi.extraSearches || [];
+      const showPrimarySearch = poi.lon != null && poi.lat != null && poi.search;
+      if (!showPrimarySearch && !extras.length) {
+        container.remove();
+        return;
+      }
+      container.innerHTML = "";
+      if (showPrimarySearch) {
+        appendExtraLink(container, poi.search, poi.search, poi.city);
+      }
+      extras.forEach(function (item) {
+        appendExtraLink(container, item.search, item.label || item.search, poi.city);
+      });
+    }
+
+    function renderStopNav(el, poi) {
+      if (!poi) return;
+      if (el.classList.contains("nav-actions")) {
+        const heading =
+          (el.parentElement && el.parentElement.querySelector("h3")) || null;
+        attachNavIcon(heading, poi);
+        renderExtraSearches(el, poi);
+        return;
+      }
+      attachNavIcon(el.querySelector(".stop-name, h3"), poi);
+      renderExtraSearches(el.querySelector(".nav-actions"), poi);
+    }
+
+    (function initMap() {
+      if (typeof L === "undefined") return;
+      const el = document.getElementById("real-map");
+      if (!el) return;
+      const map = L.map(el, { scrollWheelZoom: false });
+      /* 高德底图：国内可访问、中文标注清晰 */
+      L.tileLayer(
+        "https://wprd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}",
+        {
+          subdomains: "1234",
+          maxZoom: 18,
+          attribution:
+            '&copy; <a href="https://lbs.amap.com/" target="_blank" rel="noopener">高德地图</a>',
+        }
+      ).addTo(map);
+
+      const outbound = MAP_POINTS.slice(0, 12);
+      const ret = [MAP_POINTS[11], MAP_POINTS[8], MAP_POINTS[1], MAP_POINTS[0]];
+      const outLatLngs = outbound.map(function (p) { return [p.lat, p.lon]; });
+      const retLatLngs = ret.map(function (p) { return [p.lat, p.lon]; });
+
+      L.polyline(outLatLngs, { color: "#c45c26", weight: 3.5, opacity: 0.9 }).addTo(map);
+      L.polyline(retLatLngs, {
+        color: "#00754a",
+        weight: 3,
+        opacity: 0.75,
+        dashArray: "8 8",
+      }).addTo(map);
+
+      outbound.forEach(function (p, i) {
+        L.circleMarker([p.lat, p.lon], {
+          radius: i === 0 || i === outbound.length - 1 ? 7 : 5,
+          color: "#1a2421",
+          weight: 1,
+          fillColor: i === 0 ? "#c45c26" : "#00754a",
+          fillOpacity: 0.95,
+        })
+          .bindPopup(p.name)
+          .bindTooltip(p.name, { direction: "top", offset: [0, -6] })
+          .addTo(map);
+      });
+
+      map.fitBounds(outLatLngs.concat(retLatLngs), { padding: [28, 28] });
+    })();
+
+    document.querySelectorAll("[data-poi]").forEach(function (el) {
+      renderStopNav(el, JSON.parse(el.getAttribute("data-poi")));
+    });
+
+    const segRoot = document.getElementById("drive-segments");
+    DRIVE_SEGMENTS.forEach(function (seg) {
+      const row = document.createElement("div");
+      row.className = "segment";
+      const label = document.createElement("div");
+      label.className = "segment-label";
+      const text = document.createElement("span");
+      text.textContent = seg.label + (seg.note ? " · " + seg.note : "");
+      label.appendChild(text);
+      if (seg.lon != null && seg.lat != null) {
+        label.appendChild(
+          createNavIcon(
+            navCoordUrl({
+              lon: seg.lon,
+              lat: seg.lat,
+              name: seg.name || seg.search || seg.label,
+            })
+          )
+        );
+      } else if (seg.search) {
+        label.appendChild(createNavIcon(searchUrl(seg.search, seg.city)));
+      } else {
+        const skip = document.createElement("span");
+        skip.className = "no-nav";
+        skip.textContent = "无明确终点";
+        label.appendChild(skip);
+      }
+      row.appendChild(label);
+      segRoot.appendChild(row);
+    });
+  </script>
+</body>
+</html>
